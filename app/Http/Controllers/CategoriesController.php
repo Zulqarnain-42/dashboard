@@ -136,4 +136,9 @@ class CategoriesController extends Controller
     {
         return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
     }
+
+    public function destroy(Request $request)
+    {
+        dd($request);
+    }
 }

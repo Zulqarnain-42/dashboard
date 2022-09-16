@@ -191,6 +191,9 @@
                         console.log('Image could not be removed');
                     });
                 },
+                init: function() {
+
+            }
             });
         </script>
     @endsection

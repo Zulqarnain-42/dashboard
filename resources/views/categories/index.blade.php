@@ -104,20 +104,28 @@
                                         @endif
                                     </td>
                                 <td>
-                                    <div class="dropdown d-inline-block">
-                                        <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-more-fill align-middle"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            {{-- <li><a href="#!" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a></li> --}}
-                                            <li><a href="{{ route('categories.edit',$category->id) }}" class="dropdown-item edit-item-btn"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                            <li>
-                                                <a class="dropdown-item remove-item-btn">
-                                                    <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <ul class="list-inline hstack gap-2 mb-0">
+                                        <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                            data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                            <a href="{{ route('categories.edit',$category->id) }}"
+                                                class="text-primary d-inline-block edit-item-btn">
+                                                <i class="ri-pencil-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item" data-bs-toggle="tooltip"
+                                            data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                            <form action="{{ route('categories.destroy',$category->id) }}" method="POST">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+                                                <button class="text-danger d-inline-block remove-item-btn" type="submit" data-bs-toggle="modal" href="#deleteRecordModal">
+                                                    <i class="ri-delete-bin-5-fill fs-16"></i></ut>
+                                            </form>
+                                            {{-- <a class="text-danger d-inline-block remove-item-btn"
+                                                data-bs-toggle="modal" href="#deleteRecordModal">
+                                                <i class="ri-delete-bin-5-fill fs-16"></i>
+                                            </a> --}}
+                                        </li>
+                                    </ul>
                                 </td>
                             </tr>
                             @endforeach

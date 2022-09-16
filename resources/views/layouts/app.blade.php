@@ -40,6 +40,7 @@
     <script src="{{ URL::asset('assets/js/plugins.js') }}"></script>
     <script src="{{ URL::asset('assets/libs/choices.js/public/assets/scripts/choices.min.js') }}"></script>
     <script src="{{ URL::asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
+    @include('modals.deletealert')
     @yield('scripts')
     <script src="{{ URL::asset('assets/js/app.js') }}"></script>
 </body>
