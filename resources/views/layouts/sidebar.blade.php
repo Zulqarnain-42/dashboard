@@ -1,0 +1,188 @@
+        <!-- ========== App Menu ========== -->
+        <div class="app-menu navbar-menu">
+            <!-- LOGO -->
+            <div class="navbar-brand-box">
+                <!-- Dark Logo-->
+                <a href="/" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="{{ URL::asset('fa-bt/logo/FABT-Logo.png') }}" alt="" height="17">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="{{ URL::asset('fa-bt/logo/FABT-Logo.png') }}" alt="" height="60">
+                    </span>
+                </a>
+                <!-- Light Logo-->
+                <a href="/" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="{{ URL::asset('fa-bt/logo/FABT-Logo.png') }}" alt="" height="17">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="{{ URL::asset('fa-bt/logo/FABT-Logo.png') }}" alt="" height="60">
+                    </span>
+                </a>
+                <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
+                    id="vertical-hover">
+                    <i class="ri-record-circle-line"></i>
+                </button>
+            </div>
+
+            <div id="scrollbar">
+                <div class="container-fluid">
+
+                    <div id="two-column-menu">
+                    </div>
+                    <ul class="navbar-nav" id="navbar-nav">
+                        <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/">
+                                <i class="mdi mdi-speedometer"></i> <span data-key="t-dashboards">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse"
+                                role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                <i class="mdi mdi-cube-outline"></i> <span data-key="t-design">Design</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarDashboards">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{ route('slider.index') }}" class="nav-link" data-key="t-slider">
+                                            Slider </a>
+                                    </li>
+                                    {{-- <li class="nav-item">
+                                        <a href="" class="nav-link" data-key="t-crm"> Menu </a>
+                                    </li> --}}
+                                </ul>
+                            </div>
+                        </li> <!-- end Dashboard Menu -->
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="sidebarApps">
+                                <i class="mdi mdi-view-grid-plus-outline"></i> <span data-key="t-catalogs">Catalogs</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarApps">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{ route('brand.index') }}" class="nav-link" data-key="t-brand"> Brands </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('categories.index') }}" class="nav-link" data-key="t-categories"> Categories
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('product.index') }}" class="nav-link" data-key="t-product"> Products </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarorders" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="sidebarApps">
+                                <i class="mdi mdi-bank-plus"></i> <span data-key="t-catalogs">Orders</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarorders">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{ route('orders') }}" class="nav-link" data-key="t-brand"> Orders </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link" data-key="t-categories"> Completed </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarinventory" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="sidebarApps">
+                                <i class="mdi mdi-store"></i> <span data-key="t-catalogs">Inventory</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarinventory">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{ route('inventory.warehouse') }}" class="nav-link" data-key="t-brand"> Warehouse </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('inventory.booking') }}" class="nav-link" data-key="t-categories"> Booking
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link" data-key="t-product"> Sales </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarservices" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="sidebarApps">
+                                <i class="mdi mdi-wrench-clock"></i> <span data-key="t-catalogs">Services</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarservices">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{ route('services') }}" class="nav-link" data-key="t-brand"> Services </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link" data-key="t-categories"> Completed </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarwebsite" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="sidebarApps">
+                                <i class="mdi mdi-earth"></i> <span data-key="t-catalogs">Website</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarwebsite">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{ route('mainslider.index') }}" class="nav-link" data-key="t-brand"> Website Slider </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link" data-key="t-categories"> Our Works </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarusers" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="sidebarApps">
+                                <i class="mdi mdi-shield-account-outline"></i> <span data-key="t-catalogs">User</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarusers">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link" data-key="t-brand"> User </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link" data-key="t-categories"> Permissions
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link" data-key="t-product"> Roles </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="{{ route('customer.index') }}">
+                                <i class="mdi mdi-face-man-profile"></i> <span data-key="t-customer">Customer</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="mdi mdi-exit-to-app"></i><span data-key="t-logout">Logout</span>
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Sidebar -->
+            </div>
+
+            <div class="sidebar-background"></div>
+        </div>
+        <!-- Left Sidebar End -->
+        <!-- Vertical Overlay-->
+        <div class="vertical-overlay"></div>
