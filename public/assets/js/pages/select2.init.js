@@ -11,6 +11,7 @@ function formatState(e){
 
     $(document).ready(function(){
         $(".js-example-basic-single").select2(),
+        $(".js-example-basic").select2(),
         $(".js-example-basic-multiple").select2();
         $(".js-example-basic-multiple1").select2();
         $(".js-example-data-array").select2({

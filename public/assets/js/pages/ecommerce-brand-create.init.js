@@ -7,6 +7,7 @@ itemid = 13,
                 function (e) {
                     console.error(e)
                 });
+
 var dropzonePreviewNode = document.querySelector("#dropzone-preview-list");
 dropzonePreviewNode.itemid = "";
 var previewTemplate = dropzonePreviewNode.parentNode.innerHTML;

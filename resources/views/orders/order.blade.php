@@ -1,178 +1,160 @@
 <x-app-layout>
-                        <!-- start page title -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Orders</h4>
-
-                                    <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                                            <li class="breadcrumb-item active">Orders</li>
-                                        </ol>
-                                    </div>
-
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card" id="orderList">
+                <div class="card-header  border-0">
+                    <div class="d-flex align-items-center">
+                        <h5 class="card-title mb-0 flex-grow-1">Order History</h5>
+                        <div class="flex-shrink-0">
+                            <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal">
+                                <i class="ri-add-line align-bottom me-1"></i> Create Order
+                            </button>
+                            <button type="button" class="btn btn-info">
+                                <i class="ri-file-download-line align-bottom me-1"></i> Import
+                            </button>
+                            <button class="btn btn-soft-danger" onClick="deleteMultiple()">
+                                <i class="ri-delete-bin-2-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body border border-dashed border-end-0 border-start-0">
+                    <form>
+                        <div class="row g-3">
+                            <div class="col-xxl-5 col-sm-6">
+                                <div class="search-box">
+                                    <input type="text" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
+                                    <i class="ri-search-line search-icon"></i>
+                                </div>
+                            </div>
+                            <div class="col-xxl-2 col-sm-6">
+                                <div>
+                                    <input type="text" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" id="demo-datepicker" placeholder="Select date">
+                                </div>
+                            </div>
+                            <div class="col-xxl-2 col-sm-4">
+                                <div>
+                                    <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
+                                        <option value="">Status</option>
+                                        <option value="all" selected>All</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Inprogress">Inprogress</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                        <option value="Pickups">Pickups</option>
+                                        <option value="Returns">Returns</option>
+                                        <option value="Delivered">Delivered</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xxl-2 col-sm-4">
+                                <div>
+                                    <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idPayment">
+                                        <option value="">Select Payment</option>
+                                        <option value="all" selected>All</option>
+                                        <option value="Mastercard">Mastercard</option>
+                                        <option value="Paypal">Paypal</option>
+                                        <option value="Visa">Visa</option>
+                                        <option value="COD">COD</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xxl-1 col-sm-4">
+                                <div>
+                                    <button type="button" class="btn btn-primary w-100" onclick="SearchData();">
+                                        <i class="ri-equalizer-fill me-1 align-bottom"></i>Filters
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <!-- end page title -->
-
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="card" id="orderList">
-                                    <div class="card-header  border-0">
-                                        <div class="d-flex align-items-center">
-                                            <h5 class="card-title mb-0 flex-grow-1">Order History</h5>
-                                            <div class="flex-shrink-0">
-                                                <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create Order</button>
-                                                <button type="button" class="btn btn-info"><i class="ri-file-download-line align-bottom me-1"></i> Import</button>
-                                                <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
+                    </form>
+                </div>
+                <div class="card-body pt-0">
+                    <div>
+                        <ul class="nav nav-tabs nav-tabs-custom nav-success mb-3" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active All py-3" data-bs-toggle="tab" id="All" href="#home1" role="tab" aria-selected="true">
+                                    <i class="ri-store-2-fill me-1 align-bottom"></i> All Orders
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-3 Delivered" data-bs-toggle="tab" id="Delivered" href="#delivered" role="tab" aria-selected="false">
+                                    <i class="ri-checkbox-circle-line me-1 align-bottom"></i> Delivered
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-3 Pickups" data-bs-toggle="tab" id="Pickups" href="#pickups" role="tab" aria-selected="false">
+                                    <i class="ri-truck-line me-1 align-bottom"></i> Pickups <span class="badge bg-danger align-middle ms-1">2</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-3 Returns" data-bs-toggle="tab" id="Returns" href="#returns" role="tab" aria-selected="false">
+                                    <i class="ri-arrow-left-right-fill me-1 align-bottom"></i> Returns
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-3 Cancelled" data-bs-toggle="tab" id="Cancelled" href="#cancelled" role="tab" aria-selected="false">
+                                    <i class="ri-close-circle-line me-1 align-bottom"></i> Cancelled
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="table-responsive table-card mb-1">
+                            <table class="table table-nowrap align-middle" id="orderTable">
+                                <thead class="text-muted table-light">
+                                    <tr class="text-uppercase">
+                                        <th scope="col" style="width: 25px;">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="checkAll" value="option">
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body border border-dashed border-end-0 border-start-0">
-                                        <form>
-                                            <div class="row g-3">
-                                                <div class="col-xxl-5 col-sm-6">
-                                                    <div class="search-box">
-                                                        <input type="text" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
-                                                        <i class="ri-search-line search-icon"></i>
-                                                    </div>
-                                                </div>
-                                                <!--end col-->
-                                                <div class="col-xxl-2 col-sm-6">
-                                                    <div>
-                                                        <input type="text" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" id="demo-datepicker" placeholder="Select date">
-                                                    </div>
-                                                </div>
-                                                <!--end col-->
-                                                <div class="col-xxl-2 col-sm-4">
-                                                    <div>
-                                                        <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
-                                                            <option value="">Status</option>
-                                                            <option value="all" selected>All</option>
-                                                            <option value="Pending">Pending</option>
-                                                            <option value="Inprogress">Inprogress</option>
-                                                            <option value="Cancelled">Cancelled</option>
-                                                            <option value="Pickups">Pickups</option>
-                                                            <option value="Returns">Returns</option>
-                                                            <option value="Delivered">Delivered</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <!--end col-->
-                                                <div class="col-xxl-2 col-sm-4">
-                                                    <div>
-                                                        <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idPayment">
-                                                            <option value="">Select Payment</option>
-                                                            <option value="all" selected>All</option>
-                                                            <option value="Mastercard">Mastercard</option>
-                                                            <option value="Paypal">Paypal</option>
-                                                            <option value="Visa">Visa</option>
-                                                            <option value="COD">COD</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <!--end col-->
-                                                <div class="col-xxl-1 col-sm-4">
-                                                    <div>
-                                                        <button type="button" class="btn btn-primary w-100" onclick="SearchData();"> <i class="ri-equalizer-fill me-1 align-bottom"></i>
-                                                            Filters
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <!--end col-->
+                                        </th>
+                                        <th class="sort" data-sort="id">Order ID</th>
+                                        <th class="sort" data-sort="customer_name">Customer</th>
+                                        <th class="sort" data-sort="product_name">Product</th>
+                                        <th class="sort" data-sort="date">Order Date</th>
+                                        <th class="sort" data-sort="amount">Amount</th>
+                                        <th class="sort" data-sort="payment">Payment Method</th>
+                                        <th class="sort" data-sort="status">Delivery Status</th>
+                                        <th class="sort" data-sort="city">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list form-check-all">
+                                    <tr>
+                                        <th scope="row">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="checkAll" value="option1">
                                             </div>
-                                            <!--end row-->
-                                        </form>
-                                    </div>
-                                    <div class="card-body pt-0">
-                                        <div>
-                                            <ul class="nav nav-tabs nav-tabs-custom nav-success mb-3" role="tablist">
-                                                <li class="nav-item">
-                                                    <a class="nav-link active All py-3" data-bs-toggle="tab" id="All" href="#home1" role="tab" aria-selected="true">
-                                                        <i class="ri-store-2-fill me-1 align-bottom"></i> All Orders
+                                        </th>
+                                        <td class="id">
+                                            <a href="{{ route('orderdetails') }}" class="fw-medium link-primary">#VZ2101</a>
+                                        </td>
+                                        <td class="customer_name">Frank Hook</td>
+                                        <td class="product_name">Puma Tshirt</td>
+                                        <td class="date">20 Dec, 2021, <small class="text-muted">02:21 AM</small></td>
+                                        <td class="amount">$654</td>
+                                        <td class="payment">Mastercard</td>
+                                        <td class="status"><span class="badge badge-soft-warning text-uppercase">Pending</span></td>
+                                        <td>
+                                            <ul class="list-inline hstack gap-2 mb-0">
+                                                <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
+                                                    <a href="{{ route('orderdetails') }}" class="text-primary d-inline-block">
+                                                        <i class="ri-eye-fill fs-16"></i>
                                                     </a>
                                                 </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link py-3 Delivered" data-bs-toggle="tab" id="Delivered" href="#delivered" role="tab" aria-selected="false">
-                                                        <i class="ri-checkbox-circle-line me-1 align-bottom"></i> Delivered
+                                                <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                                    <a href="#showModal" data-bs-toggle="modal" class="text-primary d-inline-block edit-item-btn">
+                                                        <i class="ri-pencil-fill fs-16"></i>
                                                     </a>
                                                 </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link py-3 Pickups" data-bs-toggle="tab" id="Pickups" href="#pickups" role="tab" aria-selected="false">
-                                                        <i class="ri-truck-line me-1 align-bottom"></i> Pickups <span class="badge bg-danger align-middle ms-1">2</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link py-3 Returns" data-bs-toggle="tab" id="Returns" href="#returns" role="tab" aria-selected="false">
-                                                        <i class="ri-arrow-left-right-fill me-1 align-bottom"></i> Returns
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link py-3 Cancelled" data-bs-toggle="tab" id="Cancelled" href="#cancelled" role="tab" aria-selected="false">
-                                                        <i class="ri-close-circle-line me-1 align-bottom"></i> Cancelled
+                                                <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                                    <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" href="#deleteOrder">
+                                                        <i class="ri-delete-bin-5-fill fs-16"></i>
                                                     </a>
                                                 </li>
                                             </ul>
-
-                                            <div class="table-responsive table-card mb-1">
-                                                <table class="table table-nowrap align-middle" id="orderTable">
-                                                    <thead class="text-muted table-light">
-                                                        <tr class="text-uppercase">
-                                                            <th scope="col" style="width: 25px;">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" id="checkAll" value="option">
-                                                                </div>
-                                                            </th>
-                                                            <th class="sort" data-sort="id">Order ID</th>
-                                                            <th class="sort" data-sort="customer_name">Customer</th>
-                                                            <th class="sort" data-sort="product_name">Product</th>
-                                                            <th class="sort" data-sort="date">Order Date</th>
-                                                            <th class="sort" data-sort="amount">Amount</th>
-                                                            <th class="sort" data-sort="payment">Payment Method</th>
-                                                            <th class="sort" data-sort="status">Delivery Status</th>
-                                                            <th class="sort" data-sort="city">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="list form-check-all">
-                                                        <tr>
-                                                            <th scope="row">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" name="checkAll" value="option1">
-                                                                </div>
-                                                            </th>
-                                                            <td class="id"><a href="{{ route('orderdetails') }}" class="fw-medium link-primary">#VZ2101</a></td>
-                                                            <td class="customer_name">Frank Hook</td>
-                                                            <td class="product_name">Puma Tshirt</td>
-                                                            <td class="date">20 Dec, 2021, <small class="text-muted">02:21 AM</small></td>
-                                                            <td class="amount">$654</td>
-                                                            <td class="payment">Mastercard</td>
-                                                            <td class="status"><span class="badge badge-soft-warning text-uppercase">Pending</span>
-                                                            </td>
-                                                            <td>
-                                                                <ul class="list-inline hstack gap-2 mb-0">
-                                                                    <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
-                                                                        <a href="{{ route('orderdetails') }}" class="text-primary d-inline-block">
-                                                                            <i class="ri-eye-fill fs-16"></i>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                                        <a href="#showModal" data-bs-toggle="modal" class="text-primary d-inline-block edit-item-btn">
-                                                                            <i class="ri-pencil-fill fs-16"></i>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
-                                                                        <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" href="#deleteOrder">
-                                                                            <i class="ri-delete-bin-5-fill fs-16"></i>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                <div class="noresult" style="display: none">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="noresult" style="display: none">
                                                     <div class="text-center">
                                                         <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#405189,secondary:#0ab39c" style="width:75px;height:75px"></lord-icon>
                                                         <h5 class="mt-2">Sorry! No Result Found</h5>
@@ -310,13 +292,8 @@
                         </div>
                         <!--end row-->
 @section('scripts')
-    <!-- list.js min js -->
     <script src="{{ URL::asset('assets/libs/list.js/list.min.js') }}"></script>
-
-    <!--list pagination js-->
     <script src="{{ URL::asset('assets/libs/list.pagination.js/list.pagination.min.js') }}"></script>
-
-    <!-- ecommerce-order init js -->
     <script src="{{ URL::asset('assets/js/pages/ecommerce-order.init.js') }}"></script>
 @endsection
 </x-app-layout>

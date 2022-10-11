@@ -8,6 +8,11 @@ use App\Models\ProductImages;
 use App\Models\ProductTags;
 use App\Models\RelatedProducts;
 use App\Models\ProductCategories;
+use App\Models\Inventory;
+use App\Models\Brand;
+use App\Models\Warehouse;
+use Illuminate\Support\Str;
+use App\Models\Availability;
 
 class Product extends Model
 {
@@ -21,6 +26,11 @@ class Product extends Model
         return $this->hasMany(ProductImages::class,'productid','id');
     }
 
+    public function brands()
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
     public function producttags()
     {
         return $this->hasMany(ProductTags::class,'productid','id');
@@ -29,5 +39,50 @@ class Product extends Model
     public function relatedproducts()
     {
         return $this->hasMany(RelatedProducts::class,'productid','id');
+    }
+
+    public function inventories()
+    {
+        return $this->hasMany(Inventory::class,'product_id','id');
+    }
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
+    public function availability()
+    {
+        return $this->belongsTo(Availability::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($product) {
+
+            $product->slug = $product->createSlug($product->title);
+
+            $product->save();
+        });
+    }
+
+    private function createSlug($title)
+    {
+        if (static::whereSlug($slug = Str::slug($title))->exists()) {
+
+            $max = static::whereTitle($title)->latest('id')->skip(1)->value('slug');
+
+            if (isset($max[-1]) && is_numeric($max[-1])) {
+
+                return preg_replace_callback('/(\d+)$/', function ($mathces) {
+
+                    return $mathces[1] + 1;
+                }, $max);
+            }
+            return "{$slug}-2";
+        }
+        return $slug;
     }
 }

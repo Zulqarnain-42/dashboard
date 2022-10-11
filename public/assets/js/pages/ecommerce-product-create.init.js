@@ -32,11 +32,6 @@ ClassicEditor.create(
                 console.error(e)
             });
 
-
-
-var dropzonePreviewNode = document.querySelector("#dropzone-preview-list");
-dropzonePreviewNode.itemid = "";
-var previewTemplate = dropzonePreviewNode.parentNode.innerHTML;
-dropzonePreviewNode.parentNode.removeChild(dropzonePreviewNode);
+            document.querySelector("#product-image-input").addEventListener("change",function(){var e=document.querySelector("#product-img"),t=document.querySelector("#product-image-input").files[0],o=new FileReader;o.addEventListener("load",function(){e.src=o.result},!1),t&&o.readAsDataURL(t)});document.querySelector("#product-image-input").addEventListener("change",function(){var e=document.querySelector("#product-img"),t=document.querySelector("#product-image-input").files[0],o=new FileReader;o.addEventListener("load",function(){e.src=o.result},!1),t&&o.readAsDataURL(t)});
 
 

@@ -14,33 +14,21 @@
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label class="form-label" for="mainslider-title-input">Slider Heading</label>
-                                <input type="hidden" class="form-control" id="formAction" name="formAction" value="add">
-                                <input type="text" class="form-control d-none" id="mainslider-id-input">
                                 <input type="text" class="form-control" name="mainsliderheading" id="mainslider-title-input" value="{{ isset($mainslider) ? $mainslider->heading : old('mainsliderheading') }}" placeholder="Enter Slider Heading" required>
-                                <div class="invalid-feedback">Please Enter a Slider title.</div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="mainslider-text-input">Slider Text</label>
-                                <input type="hidden" class="form-control" id="formAction" name="formAction" value="add">
-                                <input type="text" class="form-control d-none" id="mainslider-id-input">
                                 <input type="text" class="form-control" name="mainslidertext" id="mainslider-title-input" value="{{ isset($mainslider) ? $mainslider->text : old('mainslidertext') }}" placeholder="Enter Slider text" required>
-                                <div class="invalid-feedback">Please Enter a Slider Text.</div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label class="form-label" for="mainslider-title-input">Slider Text 2</label>
-                                <input type="hidden" class="form-control" id="formAction" name="formAction" value="add">
-                                <input type="text" class="form-control d-none" id="mainslider-id-input">
                                 <input type="text" class="form-control" name="mainslidertext2" id="mainslider-title-input" value="{{ isset($mainslider) ? $mainslider->text2 : old('mainslidertext2') }}" placeholder="Enter slider text" required>
-                                <div class="invalid-feedback">Please Enter a Category title.</div>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label class="form-label" for="mainslider-title-input">Slider Slug</label>
-                                <input type="hidden" class="form-control" id="formAction" name="formAction" value="add">
-                                <input type="text" class="form-control d-none" id="mainslider-id-input">
                                 <input type="text" class="form-control" name="mainsliderslug" id="mainslider-title-input" value="{{ isset($mainslider) ? $mainslider->slug : old('mainsliderslug') }}" placeholder="Enter slider slug" required>
-                                <div class="invalid-feedback">Please Enter a Category title.</div>
                             </div>
                         </div>
                     </div>
@@ -119,8 +107,7 @@
     </form>
 @section('scripts')
     <script src="{{ URL::asset('assets/libs/dropzone/dropzone-min.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="{{ URL::asset('assets/js/pages/ecommerce-mainslider-create.init.js') }}"></script>
     <script>
         var uploadedDocumentMap = {}

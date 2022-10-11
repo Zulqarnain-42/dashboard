@@ -28,11 +28,11 @@ return new class extends Migration
             $table->string('width')->nullable();
             $table->string('height')->nullable();
             $table->string('weight')->nullable();
-            $table->bigInteger('orignalprice');
-            $table->bigInteger('price');
+            $table->decimal('price', 10, 2);
             $table->boolean('status')->default(0);
             $table->boolean('visibility')->default(0);
             $table->foreignId('brandid')->unsigned();
+            $table->foreignId('availabilityid')->unsigned();
             $table->longText('inthebox')->nullable();
             $table->longText('specifications')->nullable();
             $table->string('lensmounttype')->nullable();
@@ -43,6 +43,8 @@ return new class extends Migration
             $table->string('metatitle')->nullable();
             $table->string('metakeywords')->nullable();
             $table->string('metadescription')->nullable();
+            $table->string('isfeaturedvideo')->default(0);
+            $table->string('isfeaturedphoto')->default(0);
             $table->timestamps();
         });
     }

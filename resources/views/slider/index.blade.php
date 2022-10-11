@@ -4,20 +4,6 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
     @endsection
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Dashboard</h4>
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a>
-                        </li>
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="row mb-3 pb-1">
         <div class="col-12">
             <div class="d-flex align-items-lg-center flex-lg-row flex-column">
@@ -41,13 +27,26 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
+                    @if (session('alert'))
+                    <div class="alert alert-warning alert-dismissible shadow fade show" role="alert">
+                        {{ session('alert') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    @endif
+                    @if (session('success'))
+                    <div class="alert alert-success alert-dismissible shadow fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
                 </div>
                 <div class="card-body">
                     <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle" style="width:100%">
                         <thead>
                             <tr>
-                                <th>SR No.</th>
-                                <th>ID</th>
+                                <th>#</th>
+                                <th>Code</th>
                                 <th>Title</th>
                                 <th>Text</th>
                                 <th>Slug</th>
@@ -60,14 +59,14 @@
                         <tbody>
                             @foreach ($collectionslider as $slider)
                             <tr>
-                                <td>01</td>
-                                <td>{{ $slider->id }}</td>
+                                <td>0{{ $loop->iteration }}</td>
+                                <td>{{ strtoupper($slider->slidercode) }}</td>
                                 <td>{{ $slider->heading }}</td>
                                 <td>{{ $slider->text }}</td>
                                 <td>{{ $slider->slug }}</td>
-                                <td><img src="{{ URL::asset('storage/images/slider/') }}{{ '/'.$slider->image }}" height="50px"></td>
+                                <td><img src="{{ $slider->image }}" height="50px"></td>
                                 <td>
-                                    @if ($slider->staus == 1)
+                                    @if ($slider->status == 1)
                                         <span class="badge badge-soft-info">Published</span>
                                     @else
                                         <span class="badge bg-danger">Draft</span>
@@ -90,12 +89,18 @@
                                             </a>
                                         </li>
                                         <li class="list-inline-item" data-bs-toggle="tooltip"
-                                            data-bs-trigger="hover" data-bs-placement="top" title="Remove">
-                                            <a class="text-danger d-inline-block remove-item-btn"
-                                                data-bs-toggle="modal" href="#deleteRecordModal">
+                                        data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+
+                                        <form action="{{ route('slider.destroy',$slider->id) }}"
+                                            method="POST">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                            <button type="submit"
+                                                class="text-danger d-inline-block remove-item-btn">
                                                 <i class="ri-delete-bin-5-fill fs-16"></i>
-                                            </a>
-                                        </li>
+                                            </button>
+                                        </form>
+                                    </li>
                                     </ul>
                                 </td>
                             </tr>

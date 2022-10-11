@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->string('inventorycode')->nullable();
             $table->integer('sharjahquantity')->default(0);
             $table->integer('officequantity')->default(0);
             $table->integer('fromofficetosharjah')->default(0);
@@ -29,7 +28,8 @@ return new class extends Migration
             $table->bigInteger('userid')->nullable();
             $table->string('bookedby')->nullable();
             $table->string('receipt')->nullable();
-            $table->date('addedat');
+            $table->date('addedat')->nullable();
+            $table->string('customer')->nullable();
             $table->foreignId('product_id')->unsigned();
             $table->timestamps();
         });

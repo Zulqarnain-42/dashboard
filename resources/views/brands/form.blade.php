@@ -1,7 +1,4 @@
 <x-app-layout>
-    @section('styles')
-        <link href="{{ URL::asset('assets/libs/dropzone/dropzone.css') }}" rel="stylesheet" type="text/css" />
-    @endsection
     <form method="POST" action="{{ isset($brand) ? route('brand.update', $brand->id) : route('brand.store') }}"
         id="createproduct-form" autocomplete="off" class="needs-validation" enctype="multipart/form-data" novalidate>
         @csrf
@@ -14,16 +11,10 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="brand-title-input">Brand Title</label>
-                            <input type="hidden" class="form-control" id="formAction" name="formAction" value="add">
-                            <input type="text" class="form-control d-none" id="brand-id-input">
-                            <input type="text" class="form-control" id="brand-title-input" name="title"
-                                value="{{ isset($brand) ? $brand->title : old('title') }}"
-                                placeholder="Enter Brand title" required>
-                            <div class="invalid-feedback">Please Enter a Brand title.</div>
+                            <input type="text" class="form-control" id="title" name="title" value="{{ isset($brand) ? $brand->title : old('title') }}" placeholder="Enter Brand Title" required>
                         </div>
                         <div>
                             <label>Brand Description</label>
-
                             <textarea name="description" id="ckeditor-classic">{{ isset($brand) ? $brand->description : old('description') }}</textarea>
                         </div>
                     </div>
@@ -32,8 +23,7 @@
                     <div class="card-header">
                         <ul class="nav nav-tabs-custom card-header-tabs border-bottom-0" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-bs-toggle="tab" href="#addproduct-metadata"
-                                    role="tab">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#addproduct-metadata" role="tab">
                                     Meta Data
                                 </a>
                             </li>
@@ -46,25 +36,19 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="meta-title-input">Meta title</label>
-                                            <input type="text" class="form-control" name="metatitle"
-                                                value="{{ isset($brand) ? $brand->metatitle : old('metatitle') }}"
-                                                placeholder="Enter meta title" id="meta-title-input">
+                                            <input type="text" class="form-control" name="metatitle" value="{{ isset($brand) ? $brand->metatitle : old('metatitle') }}" placeholder="Enter meta title" id="metatitle">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="meta-keywords-input">Meta Keywords</label>
-                                            <input type="text" class="form-control" name="metakeyword"
-                                                value="{{ isset($brand) ? $brand->metakeywords : old('metakeyword') }}"
-                                                placeholder="Enter meta keywords" id="meta-keywords-input">
+                                            <input type="text" class="form-control" name="metakeyword" value="{{ isset($brand) ? $brand->metakeywords : old('metakeyword') }}" placeholder="Enter meta keywords" id="metakeyword">
                                         </div>
                                     </div>
                                 </div>
                                 <div>
                                     <label class="form-label" for="meta-description-input">Meta Description</label>
-                                    <textarea class="form-control" id="meta-description-input" name="metadescription"
-                                        value="{{ isset($brand) ? $brand->metadescription : old('metadescription') }}"
-                                        placeholder="Enter meta description" rows="3"></textarea>
+                                    <textarea class="form-control" id="metadescription" name="metadescription" value="{{ isset($brand) ? $brand->metadescription : old('metadescription') }}" placeholder="Enter meta description" rows="3"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -82,18 +66,18 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="choices-publish-status-input" class="form-label">Status</label>
-                            <select class="form-select" name="status" id="choices-publish-status-input" data-choices
-                                data-choices-search-false>
-                                <option value="1" selected>Published</option>
-                                <option value="0">Draft</option>
+                            <select class="form-select" name="status" id="status" data-choices data-choices-search-false>
+                                @foreach ($collectionstatus as $status)
+                                <option value="{{ $status->id }}" {{ (isset($brand) && $brand->status == $status->id) ? 'selected' : '' }}>{{ $status->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div>
                             <label for="choices-publish-visibility-input" class="form-label">Visibility</label>
-                            <select class="form-select" name="visibility" id="choices-publish-visibility-input"
-                                data-choices data-choices-search-false>
-                                <option value="1" selected>Public</option>
-                                <option value="0">Hidden</option>
+                            <select class="form-select" name="visibility" id="visibility" data-choices data-choices-search-false>
+                                @foreach ($collectionvisibility as $visibilty)
+                                    <option value="{{ $visibilty->id }}" {{ (isset($brand) && $brand->visibility == $visibilty->id) ? 'selected' : '' }}>{{ $visibilty->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -103,43 +87,7 @@
                         <h5 class="card-title mb-0">Brand Gallery</h5>
                     </div>
                     <div class="card-body">
-                        <div>
-                            <div class="dropzone">
-                                <div class="fallback">
-                                    <input name="brandfiles" type="file" multiple="multiple">
-                                </div>
-                                <div class="dz-message needsclick">
-                                    <div class="mb-3">
-                                        <i class="display-4 text-muted ri-upload-cloud-2-fill"></i>
-                                    </div>
-                                    <h5>Drop files here or click to upload.</h5>
-                                </div>
-                            </div>
-                            <ul class="list-unstyled mb-0" id="dropzone-preview">
-                                <li class="mt-2" id="dropzone-preview-list">
-                                    <div class="border rounded">
-                                        <div class="d-flex p-2">
-                                            <div class="flex-shrink-0 me-3">
-                                                <div class="avatar-sm bg-light rounded">
-                                                    <img data-dz-thumbnail class="img-fluid rounded d-block"
-                                                        name="brandfile" src="#" alt="Product-Image" />
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <div class="pt-1">
-                                                    <h5 class="fs-14 mb-1" data-dz-name>&nbsp;</h5>
-                                                    <p class="fs-13 text-muted mb-0" data-dz-size></p>
-                                                    <strong class="error text-danger" data-dz-errormessage></strong>
-                                                </div>
-                                            </div>
-                                            <div class="flex-shrink-0 ms-3">
-                                                <button data-dz-remove class="btn btn-sm btn-danger">Delete</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                        <input type="file" name="BrandUploadFilePond" id="BrandUploadFilePond" accept="image/*">
                     </div>
                 </div>
             </div>
@@ -147,53 +95,19 @@
     </form>
     @section('scripts')
         <script src="{{ URL::asset('assets/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
-        <script src="{{ URL::asset('assets/libs/dropzone/dropzone-min.js') }}"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="{{ URL::asset('assets/js/pages/ecommerce-brand-create.init.js') }}"></script>
         <script>
-            var uploadedDocumentMap = {}
-            var dropzone = new Dropzone(".dropzone", {
-                url: "{{ route('uploadbrand') }}",
-                method: "post",
-                maxFiles: 1,
-                previewTemplate: previewTemplate,
-                previewsContainer: "#dropzone-preview",
-                headers: {
-                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                },
-                success: function(file, response) {
-                    $('form').append('<input type="hidden" name="brandfiles" value="' + response.name + '">')
-                    console.log(response);
-                    uploadedDocumentMap[file.name] = response.name
-                },
-                removedfile: function(file) {
-                    var name = ''
-                    if (typeof file.file_name !== 'undefined') {
-                        name = file.file_name
-                    } else {
-                        name = uploadedDocumentMap[file.name]
+            FilePond.registerPlugin(FilePondPluginImagePreview);
+            FilePond.registerPlugin(FilePondPluginFileValidateType);
+            const inputElement = document.querySelector('#BrandUploadFilePond');
+            const pond = FilePond.create(inputElement,{
+                server:{
+                    url:'/uploadbrand',
+                    headers:{
+                        'X-CSRF-TOKEN':'{{ csrf_token() }}'
                     }
-                    var url = '{{ route('removebrand') }}';
-
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: {
-                            name: name,
-                            "_token": "{{ csrf_token() }}",
-                        }
-                    }).done(function(data) {
-                        file.previewElement.remove();
-                        delete uploadedDocumentMap[file.name];
-                        $('form').find('input[name="brandfiles[]"][value="' + name + '"]').remove();
-                    }).fail(function() {
-                        console.log('Image could not be removed');
-                    });
-                },
-                init: function() {
-
-            }
+                }
             });
         </script>
     @endsection

@@ -1,22 +1,63 @@
-<div id="zoomInModal" class="modal fade zoomIn" tabindex="-1" aria-labelledby="zoomInModalLabel" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog modal-dialog-centered">
+<div id="zoomInModal" class="modal fade zoomIn" tabindex="-1" aria-labelledby="zoomInModalLabel" aria-hidden="true"
+    style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="zoomInModalLabel">Modal Heading</h5>
+                <h5 class="modal-title" id="zoomInModalLabel">Add Booking</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <h5 class="fs-16">
-                    Overflowing text to show scroll behavior
-                </h5>
-                <p class="text-muted">One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.</p>
-                <p class="text-muted">The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. "What's happened to me?" he thought.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary ">Save Changes</button>
-            </div>
-
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+            <form method="POST" action="{{ route('inventory.bookitem') }}">
+                @csrf
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="mt-2 pb-2">
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="warehouse" id="" value="0">
+                                <label class="form-check-label" for="">For Warehouse</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="warehouse" id="" value="1">
+                                <label for="" class="form-check-label">For Office</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="">Model</label>
+                            <select class="js-example-basic" name="productmodel">
+                                <option>Select a Model</option>
+                                @foreach ($collectionproduct as $product)
+                                    <option value="{{ $product->id }}">{{ $product->mfr }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">Booked Quantity</label>
+                            <input type="text" class="form-control" name="bookedquantity" id="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="">Booked By</label>
+                            <input type="text" class="form-control" name="bookedby" id="">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">To Date</label>
+                            <input type="date" class="form-control" name="bookedtilldate" id="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="">Customer</label>
+                            <input type="text" class="form-control" name="customername" id="">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary ">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
