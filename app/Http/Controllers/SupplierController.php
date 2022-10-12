@@ -16,8 +16,7 @@ class SupplierController extends Controller
     {
         $collectionsupplier = Supplier::get();
         $collectionstatus = Status::get();
-        $collectionvisibility = Visibilty::get();
-        return view('supplier.index')->with(compact('collectionsupplier','collectionstatus','collectionvisibility'));
+        return view('supplier.index')->with(compact('collectionsupplier','collectionstatus'));
     }
 
     public function store(StoreSupplierRequest $request)

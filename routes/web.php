@@ -47,16 +47,14 @@ Route::resource('warehouse', WarehouseController::class)->middleware(['auth','ve
 Route::resource('supplier', SupplierController::class)->middleware(['auth','verified']);
 Route::resource('booking', BookingController::class)->middleware(['auth','verified']);
 
+Route::post('updatework',[ServicesController::class,'updateworkstatus'])->middleware(['auth','verified'])->name('service.updateworkhistory');
 
 Route::post('uploadslider',[SliderController::class,'uploadslider'])->middleware(['auth','verified'])->name('uploadslider');
 Route::post('uploadbrand',[BrandController::class,'uploadbrand'])->middleware(['auth','verified'])->name('uploadbrand');
 Route::post('uploadcategoryslider',[CategoriesController::class,'uploadcategoryslider'])->middleware(['auth','verified'])->name('uploadcategoryslider');
 Route::post('uploadproducts',[ProductController::class,'uploadproducts'])->middleware(['auth','verified'])->name('uploadproducts');
 Route::post('uploadmainslider',[MainSliderController::class,'uploadmainslider'])->middleware(['auth','verified'])->name('uploadmainslider');
-// Route::get('warehouse',[InventoryController::class,'warehouse'])->middleware(['auth','verified'])->name('inventory.warehouse');
-// Route::get('booking',[InventoryController::class,'booking'])->middleware(['auth','verified'])->name('inventory.booking');
 Route::post('bookitem',[InventoryController::class,'bookitems'])->middleware(['auth','verified'])->name('inventory.bookitem');
-// Route::get('sales',[InventoryController::class,'sales'])->middleware(['auth','verified'])->name('inventory.sales');
 Route::post('storesales',[InventoryController::class,'storesales'])->middleware(['auth','verified'])->name('inventory.storesales');
 Route::post('storeinventory',[InventoryController::class,'store'])->middleware(['auth','verified'])->name('inventory.store');
 

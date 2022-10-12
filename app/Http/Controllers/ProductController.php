@@ -38,7 +38,7 @@ class ProductController extends Controller
         $collectionproducts = Product::where([['status', true], ['visibility', true]])->get();
         $collectionstatus = Status::get();
         $collectionvisibility = Visibilty::get();
-        $collectionavailability = Availability::where([['status', true], ['visibility', true]])->get();
+        $collectionavailability = Availability::where([['status', true]])->get();
 
         return view('products.form')->with(compact('collectionbrand',
         'collectioncategory',
@@ -169,7 +169,7 @@ class ProductController extends Controller
         $productimages = $product::find($product->id)->productimages;
         $collectionstatus = Status::get();
         $collectionvisibility = Visibilty::get();
-        $collectionavailability = Availability::where([['status', true], ['visibility', true]])->get();
+        $collectionavailability = Availability::where([['status', true]])->get();
 
         return view('products.form')->with(compact(
             'product',

@@ -19,7 +19,8 @@ class ServicesController extends Controller
     public function index()
     {
         $collectionservices = Services::get();
-        return view('services.service')->with(compact('collectionservices'));
+        $collectionservicesStatus = ServicesStatuses::get();
+        return view('services.service')->with(compact('collectionservices','collectionservicesStatus'));
     }
 
     public function create()
@@ -31,36 +32,43 @@ class ServicesController extends Controller
     public function store(StoreServiceRequest $request)
     {
         $this->validate($request, [
-            'model' => 'required',
-            'brandid' => 'required',
-            'item' => 'required',
+            'customername' => 'required',
+            'productmodel' => 'required',
+            'brand' => 'required',
+            'productitem' => 'required',
             'serialno' => 'required',
         ]);
 
         $newservice = new Services();
         $newservice->joborder = $this->generateUniqueCode();
         $newservice->arrivingdate = Carbon::now();
+        $newservice->customername = $request->customername;
+        $newservice->email = $request->email;
+        $newservice->phone = $request->mobile;
+        $newservice->comments = $request->comments;
+        $newservice->includes = $request->includes;
+        $newservice->userid = Auth()->user()->id;
         $newservice->save();
-
-        $brand = Brand::findOrFail($request->brandid);
 
         $newservicesdetails = new ServicesDetails();
 
-        if($request->item){
-            for($i = 0; $i < count($request->item) ; $i++){
+        if($request->productitem){
+            for($i = 0; $i < count($request->productitem) ; $i++){
                 $service_details[] = [
-                    'Item' => $request->item[$i],
-                    'model' => $request->model[$i],
-                    'brandid' => $request->brandid[$i],
+                    'Item' => $request->productitem[$i],
+                    'model' => $request->productmodel[$i],
+                    'brandid' => $request->brand[$i],
                     'serialno' => $request->serialno[$i],
-                    'comments' => $request->comments[$i],
-                    'includes' => $request->includes[$i],
                     'servicesid' => $newservice->id,
                 ];
             }
         }
 
         DB::table('services_details')->insert($service_details);
+        $newserviceworkhistory = new ServiceWorkHistory();
+        $newserviceworkhistory->serviceid = $newservice->id;
+        $newserviceworkhistory->servicestatusid = 1;
+        $newserviceworkhistory->save();
 
         return redirect()->route('services.index');
     }
@@ -69,80 +77,83 @@ class ServicesController extends Controller
     {
         $collectionbrand = Brand::where([['status', true], ['visibility', true]])->get();
         $collectionservicesdetails = ServicesDetails::where('servicesid',$service->id)->get();
-        $collectionservicesStatus = ServicesStatuses::get();
-        return view('services.form')->with(compact('service','collectionbrand','collectionservicesdetails','collectionservicesStatus'));
+        return view('services.form')->with(compact('service','collectionbrand','collectionservicesdetails'));
     }
 
-    public function update(UpdateServicesRequest $request)
+    public function update(UpdateServicesRequest $request,Services $service)
     {
         $this->validate($request, [
-            'model' => 'required',
-            'brandid' => 'required',
-            'item' => 'required',
+            'customername' => 'required',
+            'productmodel' => 'required',
+            'brand' => 'required',
+            'productitem' => 'required',
             'serialno' => 'required',
         ]);
 
-        if($request->item){
-            $servicesdetails = ServicesDetails::where('servicesid', $request->servicesid)->delete();
+        $service->customername = $request->customername;
+        $service->email = $request->email;
+        $service->phone = $request->mobile;
+        $service->comments = $request->comments;
+        $service->includes = $request->includes;
+        $service->userid = Auth()->user()->id;
+        $service->update();
+
+        if($request->productitem){
+            $servicesdetails = ServicesDetails::where('servicesid', $request->id)->delete();
             if($servicesdetails > 1){
-                for($i = 0; $i < count($request->item) ; $i++){
+                for($i = 0; $i < count($request->productitem) ; $i++){
                     $service_details[] = [
-                        'Item' => $request->item[$i],
-                        'model' => $request->model[$i],
-                        'brandid' => $request->brandid[$i],
+                        'Item' => $request->productitem[$i],
+                        'model' => $request->productmodel[$i],
+                        'brandid' => $request->brand[$i],
                         'serialno' => $request->serialno[$i],
-                        'comments' => $request->comments[$i],
-                        'includes' => $request->includes[$i],
-                        'servicesid' => $request->servicesid
+                        'servicesid' => $request->id,
                     ];
                 }
             }
         }
-
-        DB::table('services_details')->insert($service_details);
-
-        $newworkstatuses = new ServiceWorkHistory();
-        $newworkstatuses->servicestatusid = $request->workstatus;
-        $newworkstatuses->serviceid = $request->servicesid;
-        $newworkstatuses->save();
-
         return redirect()->route('services.index');
     }
 
     public function destroy(Services $service)
     {
         Services::where('id', $service->id)->delete();
+        ServicesDetails::where('servicesid',$service->id)->delete();
         return back();
     }
 
     public function generateUniqueCode()
     {
-
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersNumber = strlen($characters);
         $codeLength = 6;
-
         $code = '';
-
         while (strlen($code) < 6) {
             $position = rand(0, $charactersNumber - 1);
             $character = $characters[$position];
             $code = $code.$character;
         }
-
         if (Services::where('joborder', $code)->exists()) {
             $this->generateUniqueCode();
         }
-
         return $code;
-
     }
 
     public function servicesdetails($id)
     {
         $service = Services::where('id',$id)->get();
-        $collectionservicesdetails = DB::select("CALL 	fetchservices('".$id."')");
-        $collectionworkhistory = DB::select("CALL 	fetchworkhistory('".$id."')");
+        $collectionservicesdetails = DB::select("CALL fetchservices('".$id."')");
+        $collectionworkhistory = DB::select("CALL fetchworkhistory('".$id."')");
         return view('services.servicesdetails')->with(compact('collectionservicesdetails','service','collectionworkhistory'));
+    }
+
+    public function updateworkstatus(Request $request)
+    {
+        $newserviceworkhistory = new ServiceWorkHistory();
+        $newserviceworkhistory->serviceid = $request->serviceid;
+        $newserviceworkhistory->servicestatusid = $request->servicestatus;
+        $newserviceworkhistory->comments = $request->comments;
+        $newserviceworkhistory->save();
+        return back();
     }
 }

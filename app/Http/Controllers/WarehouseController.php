@@ -15,8 +15,7 @@ class WarehouseController extends Controller
     {
         $collectionwarehouse = Warehouse::get();
         $collectionstatus = Status::get();
-        $collectionvisibility = Visibilty::get();
-        return view('warehouse.index')->with(compact('collectionwarehouse','collectionvisibility','collectionstatus'));
+        return view('warehouse.index')->with(compact('collectionwarehouse','collectionstatus'));
     }
 
     public function store(StoreWarehouseRequest $request)

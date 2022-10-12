@@ -1,6 +1,5 @@
 <x-app-layout>
-    <form method="POST" action="{{ isset($brand) ? route('brand.update', $brand->id) : route('brand.store') }}"
-        id="createproduct-form" autocomplete="off" class="needs-validation" enctype="multipart/form-data" novalidate>
+    <form method="POST" action="{{ isset($brand) ? route('brand.update', $brand->id) : route('brand.store') }}" id="createproduct-form" autocomplete="off" class="needs-validation" enctype="multipart/form-data" novalidate>
         @csrf
         @if (isset($brand))
             @method('PUT')

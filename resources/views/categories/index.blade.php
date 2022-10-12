@@ -8,28 +8,23 @@
     <div class="row mb-3 pb-1">
         <div class="col-12">
             <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                <div class="flex-grow-1">
-                </div>
+                <div class="flex-grow-1"></div>
                 <div class="mt-3 mt-lg-0">
                     <form action="javascript:void(0);">
                         <div class="row g-3 mb-0 align-items-center">
-                            <!--end col-->
                             <div class="col-auto">
-                                <a href="{{ route('categories.create') }}" type="button"
-                                    class="btn btn-soft-success shadow-none"><i
-                                        class="ri-add-circle-line align-middle me-1"></i>
-                                    Add Category</a>
+                                <a href="{{ route('categories.create') }}" type="button" class="btn btn-soft-success shadow-none">
+                                    <i class="ri-add-circle-line align-middle me-1"></i>
+                                    Add Category
+                                </a>
                             </div>
-                            <!--end col-->
                         </div>
-                        <!--end row-->
                     </form>
                 </div>
-            </div><!-- end card header -->
+            </div>
         </div>
-        <!--end col-->
     </div>
-    <!--end row-->
+
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -49,8 +44,7 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle"
-                        style="width:100%">
+                    <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle" style="width:100%">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -69,10 +63,8 @@
                                     <td>0{{ $loop->iteration }}</td>
                                     <td>{{ strtoupper($category->categorycode) }}</td>
                                     <td>{{ $category->title }}</td>
-                                    <td><img src="{{ $category->image }}"
-                                            height="50px"></td>
-                                    <td><img src="{{ $category->slider }}"
-                                            height="35px"></td>
+                                    <td><img src="{{ $category->image }}" height="50px"></td>
+                                    <td><img src="{{ $category->slider }}" height="35px"></td>
                                     <td>
                                         @if ($category->status == 1)
                                             <span class="badge badge-soft-info">Published</span>
@@ -89,22 +81,17 @@
                                     </td>
                                     <td>
                                         <ul class="list-inline hstack gap-2 mb-0">
-                                            <li class="list-inline-item edit" data-bs-toggle="tooltip"
-                                                data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                <a href="{{ route('categories.edit', $category->id) }}"
-                                                    class="text-primary d-inline-block edit-item-btn">
+                                            <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                                <a href="{{ route('categories.edit', $category->id) }}" class="text-primary d-inline-block edit-item-btn">
                                                     <i class="ri-pencil-fill fs-16"></i>
                                                 </a>
                                             </li>
-                                            <li class="list-inline-item" data-bs-toggle="tooltip"
-                                                data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                            <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
 
-                                                <form action="{{ route('categories.destroy', $category->id) }}"
-                                                    method="POST">
+                                                <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
                                                     {{ csrf_field() }}
                                                     {{ method_field('DELETE') }}
-                                                    <button type="submit"
-                                                        class="text-danger d-inline-block remove-item-btn">
+                                                    <button type="submit" class="text-danger d-inline-block remove-item-btn datatable-btn">
                                                         <i class="ri-delete-bin-5-fill fs-16"></i>
                                                     </button>
                                                 </form>

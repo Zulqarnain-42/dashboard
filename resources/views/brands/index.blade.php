@@ -7,16 +7,15 @@
     <div class="row mb-3 pb-1">
         <div class="col-12">
             <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                <div class="flex-grow-1">
-                </div>
+                <div class="flex-grow-1"></div>
                 <div class="mt-3 mt-lg-0">
                     <form action="javascript:void(0);">
                         <div class="row g-3 mb-0 align-items-center">
                             <div class="col-auto">
-                                <a href="{{ route('brand.create') }}" type="button"
-                                    class="btn btn-soft-success shadow-none"><i
-                                        class="ri-add-circle-line align-middle me-1"></i>
-                                    Add Brand</a>
+                                <a href="{{ route('brand.create') }}" type="button" class="btn btn-soft-success shadow-none">
+                                    <i class="ri-add-circle-line align-middle me-1"></i>
+                                    Add Brand
+                                </a>
                             </div>
                         </div>
                     </form>
@@ -43,8 +42,7 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle"
-                        style="width:100%">
+                    <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle" style="width:100%">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -62,8 +60,7 @@
                                     <td>0{{ $loop->iteration }}</td>
                                     <td>{{ strtoupper($brand->brandcode) }}</td>
                                     <td>{{ $brand->title }}</td>
-                                    <td><img src="{{ $brand->image }}"
-                                            height="35px"></td>
+                                    <td><img src="{{ $brand->image }}" height="35px"></td>
                                     <td>
                                         @if ($brand->status == 1)
                                             <span class="badge badge-soft-info">Published</span>
@@ -80,22 +77,17 @@
                                     </td>
                                     <td>
                                         <ul class="list-inline hstack gap-2 mb-0">
-                                            <li class="list-inline-item edit" data-bs-toggle="tooltip"
-                                                data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                <a href="{{ route('brand.edit', $brand->id) }}"
-                                                    class="text-primary d-inline-block edit-item-btn">
+                                            <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                                <a href="{{ route('brand.edit', $brand->id) }}" class="text-primary d-inline-block edit-item-btn">
                                                     <i class="ri-pencil-fill fs-16"></i>
                                                 </a>
                                             </li>
-                                            <li class="list-inline-item" data-bs-toggle="tooltip"
-                                            data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                            <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
 
-                                            <form action="{{ route('brand.destroy', $brand->id) }}"
-                                                method="POST">
+                                            <form action="{{ route('brand.destroy', $brand->id) }}" method="POST">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
-                                                <button type="submit"
-                                                    class="text-danger d-inline-block remove-item-btn">
+                                                <button type="submit" class="text-danger d-inline-block remove-item-btn datatable-btn">
                                                     <i class="ri-delete-bin-5-fill fs-16"></i>
                                                 </button>
                                             </form>
@@ -111,10 +103,8 @@
         </div>
     </div>
     @section('scripts')
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-        <!--datatable js-->
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
         <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>

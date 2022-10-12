@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('serviceid');
             $table->bigInteger('servicestatusid');
+            $table->string('comments')->nullable();
             $table->timestamps();
         });
     }

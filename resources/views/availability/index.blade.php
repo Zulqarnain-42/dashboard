@@ -7,17 +7,16 @@
     <div class="row mb-3 pb-1">
         <div class="col-12">
             <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                <div class="flex-grow-1">
-                </div>
+                <div class="flex-grow-1"></div>
                 <div class="mt-3 mt-lg-0">
-                        <div class="row g-3 mb-0 align-items-center">
-                            <div class="col-auto">
-                                <button type="button" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"
-                                    class="btn btn-soft-success shadow-none"><i
-                                        class="ri-add-circle-line align-middle me-1"></i>
-                                    Add Availability</button>
-                            </div>
+                    <div class="row g-3 mb-0 align-items-center">
+                        <div class="col-auto">
+                            <button type="button" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal" class="btn btn-soft-success shadow-none">
+                                <i class="ri-add-circle-line align-middle me-1"></i>
+                                Add Availability
+                            </button>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,8 +40,7 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle"
-                        style="width:100%">
+                    <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle" style="width:100%">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -77,22 +75,16 @@
                                     </td>
                                     <td>
                                         <ul class="list-inline hstack gap-2 mb-0">
-                                            <li class="list-inline-item edit" data-bs-toggle="tooltip"
-                                                data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                <a href="{{ route('availability.edit', $availability->id) }}"
-                                                    class="text-primary d-inline-block edit-item-btn">
+                                            <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                                <a href="{{ route('availability.edit', $availability->id) }}" class="text-primary d-inline-block edit-item-btn">
                                                     <i class="ri-pencil-fill fs-16"></i>
                                                 </a>
                                             </li>
-                                            <li class="list-inline-item" data-bs-toggle="tooltip"
-                                            data-bs-trigger="hover" data-bs-placement="top" title="Remove">
-
-                                            <form action="{{ route('availability.destroy', $availability->id) }}"
-                                                method="POST">
+                                            <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                            <form action="{{ route('availability.destroy', $availability->id) }}" method="POST">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
-                                                <button type="submit"
-                                                    class="text-danger d-inline-block remove-item-btn">
+                                                <button type="submit" class="text-danger d-inline-block remove-item-btn">
                                                     <i class="ri-delete-bin-5-fill fs-16"></i>
                                                 </button>
                                             </form>
@@ -123,8 +115,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="choices-publish-status-input" class="form-label">Status</label>
-                            <select class="form-select" name="status" id="choices-publish-status-input" data-choices
-                                data-choices-search-false>
+                            <select class="form-select" name="status" id="choices-publish-status-input" data-choices data-choices-search-false>
                                 @foreach ($collectionstatus as $status)
                                 <option value="{{ $status->id }}" {{ (isset($brand) && $brand->status == $status->id) ? 'selected' : '' }}>{{ $status->name }}</option>
                                 @endforeach

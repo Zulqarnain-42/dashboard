@@ -7,16 +7,15 @@
 <div class="row mb-3 pb-1">
     <div class="col-12">
         <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-            <div class="flex-grow-1">
-            </div>
+            <div class="flex-grow-1"></div>
             <div class="mt-3 mt-lg-0">
                 <form action="javascript:void(0);">
                     <div class="row g-3 mb-0 align-items-center">
                         <div class="col-auto">
-                            <button type="button" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"
-                            class="btn btn-soft-success shadow-none"><i
-                                class="ri-add-circle-line align-middle me-1"></i>
-                            Add Currency</button>
+                            <button type="button" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal" class="btn btn-soft-success shadow-none">
+                                <i class="ri-add-circle-line align-middle me-1"></i>
+                                Add Currency
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -43,8 +42,7 @@
                 @endif
             </div>
             <div class="card-body">
-                <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle"
-                    style="width:100%">
+                <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle" style="width:100%">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -77,22 +75,17 @@
                                 </td>
                                 <td>
                                     <ul class="list-inline hstack gap-2 mb-0">
-                                        <li class="list-inline-item edit" data-bs-toggle="tooltip"
-                                            data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                            <a href="{{ route('currency.edit', $currency->id) }}"
-                                                class="text-primary d-inline-block edit-item-btn">
+                                        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                            <a href="{{ route('currency.edit', $currency->id) }}" class="text-primary d-inline-block edit-item-btn">
                                                 <i class="ri-pencil-fill fs-16"></i>
                                             </a>
                                         </li>
-                                        <li class="list-inline-item" data-bs-toggle="tooltip"
-                                        data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
 
-                                        <form action="{{ route('currency.destroy', $currency->id) }}"
-                                            method="POST">
+                                        <form action="{{ route('currency.destroy', $currency->id) }}" method="POST">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
-                                            <button type="submit"
-                                                class="text-danger d-inline-block remove-item-btn">
+                                            <button type="submit" class="text-danger d-inline-block remove-item-btn">
                                                 <i class="ri-delete-bin-5-fill fs-16"></i>
                                             </button>
                                         </form>

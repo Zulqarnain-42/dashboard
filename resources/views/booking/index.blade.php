@@ -13,10 +13,10 @@
                     <form action="javascript:void(0);">
                         <div class="row g-3 mb-0 align-items-center">
                             <div class="col-auto">
-                                <button type="button" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"
-                                class="btn btn-soft-success shadow-none"><i
-                                    class="ri-add-circle-line align-middle me-1"></i>
-                                Add Booking</button>
+                                <button type="button" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal" class="btn btn-soft-success shadow-none">
+                                    <i class="ri-add-circle-line align-middle me-1"></i>
+                                    Add Booking
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -43,8 +43,7 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle"
-                        style="width:100%">
+                    <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle" style="width:100%">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -65,22 +64,17 @@
                                     <td></td>
                                     <td>
                                         <ul class="list-inline hstack gap-2 mb-0">
-                                            <li class="list-inline-item edit" data-bs-toggle="tooltip"
-                                                data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                <a href="{{ route('booking.edit', $booking->id) }}"
-                                                    class="text-primary d-inline-block edit-item-btn">
+                                            <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                                <a href="{{ route('booking.edit', $booking->id) }}" class="text-primary d-inline-block edit-item-btn">
                                                     <i class="ri-pencil-fill fs-16"></i>
                                                 </a>
                                             </li>
-                                            <li class="list-inline-item" data-bs-toggle="tooltip"
-                                            data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                            <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
 
-                                            <form action="{{ route('booking.destroy', $booking->id) }}"
-                                                method="POST">
+                                            <form action="{{ route('booking.destroy', $booking->id) }}" method="POST">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
-                                                <button type="submit"
-                                                    class="text-danger d-inline-block remove-item-btn">
+                                                <button type="submit" class="text-danger d-inline-block remove-item-btn">
                                                     <i class="ri-delete-bin-5-fill fs-16"></i>
                                                 </button>
                                             </form>
