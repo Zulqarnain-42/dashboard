@@ -1,4 +1,4 @@
-<div id="zoomInModal" class="modal fade zoomIn" tabindex="-1" aria-labelledby="zoomInModalLabel" aria-hidden="true"
+<div id="zoomInModal" class="modal fade zoomIn" aria-labelledby="zoomInModalLabel" aria-hidden="true"
     style="display: none;">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -15,15 +15,19 @@
                             <input type="text" class="form-control" style="text-transform:uppercase" name="productmodel" required>
                         </div>
                         <div class="col-md-4">
+                            <label for="ean">EAN</label>
+                            <input type="text" class="form-control" name="productean">
+                        </div>
+                        <div class="col-md-4">
                             <label for="upc">UPC</label>
                             <input type="text" class="form-control" name="productupc">
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <label for="sharjahwarehousequantity">Warehouse Quantity</label>
                             <input type="text" class="form-control" name="warehousequnatity">
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-4">
                             <label for="officequantity">Office Qunatity</label>
                             <input type="text" class="form-control" name="officequnatity">
@@ -32,6 +36,8 @@
                             <label for="location">Location</label>
                             <input type="text" class="form-control" name="location">
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <label for="brnad">Brand</label>
                             <select class="js-example-basic-single" name="brand">
@@ -41,8 +47,6 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-4">
                             <label for="length">Length</label>
                             <input type="text" class="form-control" name="length">
@@ -51,12 +55,12 @@
                             <label for="width">Width</label>
                             <input type="text" class="form-control" name="width">
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <label for="height">Height</label>
                             <input type="text" class="form-control" name="heihgt">
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-4">
                             <label for="weight">Weight</label>
                             <input type="text" class="form-control" name="weight">

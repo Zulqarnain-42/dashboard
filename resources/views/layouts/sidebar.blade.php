@@ -96,26 +96,25 @@
                             <div class="collapse menu-dropdown" id="sidebarinventory">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
+                                        <a href="{{ route('stock.opening') }}" class="nav-link" data-key="t-brand"> Opening Stock </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('inventory.stock_adjustment') }}" class="nav-link" data-key="t-brand"> Stock Adjustment </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('inventory.purchaseinventory') }}" class="nav-link" data-key="t-brand"> Purchase </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('inventory.salesinventory') }}" class="nav-link" data-key="t-brand"> Sales </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('inventory.warehouse') }}" class="nav-link" data-key="t-brand"> Inventory </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="{{ route('availability.index') }}" class="nav-link" data-key="t-brand"> Stock Status </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{ route('supplier.index') }}" class="nav-link" data-key="t-brand"> Supplier </a>
-                                    </li>
-                                    <li class="nav-item">
                                         <a href="{{ route('warehouse.index') }}" class="nav-link" data-key="t-brand"> Warehouse </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('booking.index') }}" class="nav-link" data-key="t-categories"> Booking
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('sales.index') }}" class="nav-link" data-key="t-product"> Sales </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('purchase.index') }}" class="nav-link" data-key="t-product"> Purchase </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link" data-key="t-product"> Inventory Details </a>
                                     </li>
                                 </ul>
                             </div>
@@ -157,23 +156,23 @@
                             <div class="collapse menu-dropdown" id="sidebarusers">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="" class="nav-link" data-key="t-brand"> User </a>
+                                        <a href="{{ route('users.index') }}" class="nav-link" data-key="t-brand"> User </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="" class="nav-link" data-key="t-categories"> Permissions
+                                        <a href="{{ route('permissions.index') }}" class="nav-link" data-key="t-categories"> Permissions
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="" class="nav-link" data-key="t-product"> Roles </a>
+                                        <a href="{{ route('roles.index') }}" class="nav-link" data-key="t-product"> Roles </a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('customer.index') }}">
                                 <i class="mdi mdi-face-man-profile"></i> <span data-key="t-customer">Customer</span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarsetting" data-bs-toggle="collapse" role="button"
                                 aria-expanded="false" aria-controls="sidebarApps">

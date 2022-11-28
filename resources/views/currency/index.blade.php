@@ -40,6 +40,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 @endif
+
             </div>
             <div class="card-body">
                 <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle" style="width:100%">
@@ -49,7 +50,6 @@
                             <th>Name</th>
                             <th>Symbol</th>
                             <th>Default</th>
-                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -57,20 +57,13 @@
                         @foreach ($collectionsupportedcurreny as $currency)
                             <tr>
                                 <td>0{{ $loop->iteration }}</td>
-                                <td>{{ $currency->brandcode }}</td>
-                                <td>{{ $currency->title }}</td>
+                                <td>{{ $currency->name }}</td>
+                                <td>{{ $currency->symbol }}</td>
                                 <td>
                                     @if ($currency->status == 1)
-                                        <span class="badge badge-soft-info">Published</span>
+                                        <span class="badge badge-soft-info">Default</span>
                                     @else
-                                        <span class="badge bg-danger">Draft</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($currency->visibility == 1)
-                                        <span class="badge badge-soft-info">Public</span>
-                                    @else
-                                        <span class="badge bg-danger">Hidden</span>
+                                        <span class="badge bg-danger">InActive</span>
                                     @endif
                                 </td>
                                 <td>
@@ -104,7 +97,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-    <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>

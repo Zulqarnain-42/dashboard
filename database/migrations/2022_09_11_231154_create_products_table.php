@@ -22,12 +22,14 @@ return new class extends Migration
             $table->longText('shortdescription')->nullable();
             $table->string('thumbnail')->nullable();
             $table->string('mfr')->nullable();
+            $table->string('ean')->nullable();
             $table->string('upc')->nullable();
             $table->string('sku')->nullable();
             $table->string('length')->nullable();
             $table->string('width')->nullable();
             $table->string('height')->nullable();
             $table->string('weight')->nullable();
+            $table->decimal('retailprice', 10, 2);
             $table->decimal('price', 10, 2);
             $table->boolean('status')->default(0);
             $table->boolean('visibility')->default(0);
@@ -45,6 +47,8 @@ return new class extends Migration
             $table->string('metadescription')->nullable();
             $table->string('isfeaturedvideo')->default(0);
             $table->string('isfeaturedphoto')->default(0);
+            $table->string('office_opening')->nullable();
+            $table->string('warehouse_opening')->nullable();
             $table->timestamps();
         });
     }

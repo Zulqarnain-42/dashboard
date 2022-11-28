@@ -136,6 +136,7 @@ class ServicesController extends Controller
         if (Services::where('joborder', $code)->exists()) {
             $this->generateUniqueCode();
         }
+
         return $code;
     }
 

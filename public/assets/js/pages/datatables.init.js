@@ -54,18 +54,22 @@ document.addEventListener(
 
 document.addEventListener(
     "DOMContentLoaded",
-    function(){new DataTable("#model-datatables",{
-        responsive:{
-            details:{
-                display:$.fn.dataTable.Responsive.display.modal({header:function(e){
-                    e=e.data();
-                    return"Details for "+e[0]+" "+e[1]
+    function () {
+        new DataTable("#model-datatables", {
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.modal({
+                        header: function (e) {
+                            e = e.data();
+                            return "Details for " + e[0] + " " + e[1]
+                        }
+                    }),
+                    renderer: $.fn.dataTable.Responsive.renderer.tableAll({ tableClass: "table" })
                 }
-            }),
-            renderer:$.fn.dataTable.Responsive.renderer.tableAll({tableClass:"table"})
-        }
+            }
+        })
     }
-})}),
+),
 
 document.addEventListener(
     "DOMContentLoaded",

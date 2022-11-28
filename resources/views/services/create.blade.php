@@ -22,16 +22,6 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="mb-3 col-md-6">
-                        <label for="">Comments</label>
-                        <textarea class="form-control" name="comments" rows="6" style="resize: none;" required></textarea>
-                    </div>
-                    <div class="mb-3 col-md-6">
-                        <label for="">Includes</label>
-                        <textarea class="form-control" name="includes" rows="6" style="resize: none;" required></textarea>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-md-11">
                         <div class="row">
                             <div class="mb-3 col-md-3">
@@ -48,12 +38,13 @@
                             </div>
                             <div class="mb-3 col-md-3">
                                 <label for="lblbrand">Brand</label>
-                                <select class="js-example-basic-single" name="brand[]">
-                                    <option>Select a Brand</option>
-                                    @foreach ($collectionbrand as $brand)
-                                    <option value="{{ $brand->id }}">{{ $brand->title }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="brandname[]" style="text-transform: uppercase">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="itemdescription">Description</label>
+                                <textarea class="form-control" name="itemdescription[]" rows="6" style="resize: none;" required></textarea>
                             </div>
                         </div>
                     </div>
@@ -78,29 +69,28 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ URL::asset('assets/js/pages/select2.init.js') }}"></script>
     <script>
-        $(document).ready(function() {
-    var max_fields = 10;
-    var wrapper = $(".new-form");
-    var add_button = $(".add_form_field");
+    $(document).ready(function() {
+        var max_fields = 10;
+        var wrapper = $(".new-form");
+        var add_button = $(".add_form_field");
+        var x = 1;
+        $(add_button).click(function(e) {
+            e.preventDefault();
+            if (x < max_fields) {
+                x++;
+                console.log(x);
+                $(wrapper).append('<div class="remove-div"><div class="row"><div class="col-md-11"><div class="row"><div class="mb-3 col-md-3"><label for="itemlbl">Item</label><input type="text" class="form-control" name="productitem[]"></div><div class="mb-3 col-md-3"><label for="lblmodel">Model</label><input type="text" class="form-control" name="productmodel[]" style="text-transform:uppercase"></div><div class="mb-3 col-md-3"><label for="lblserialno">Serial No</label><input type="text" class="form-control" name="serialno[]" style="text-transform:uppercase"></div><div class="mb-3 col-md-3"><label for="lblbrand">Brand</label><input type="text" class="form-control" name="brandname[]" style="text-transform: uppercase"></div></div><div class="row"><div class="col-md-12"><label for="itemdescription">Description</label><textarea class="form-control" name="itemdescription[]" rows="6" style="resize: none;" required></textarea></div></div></div><div class="col-md-1"><button class="btn btn-danger delete form-control">Delete</button></div></div></div>'); //add input box
+            } else {
+                alert('You Reached the limits')
+            }
+        });
 
-    var x = 1;
-    $(add_button).click(function(e) {
-        e.preventDefault();
-        if (x < max_fields) {
-            x++;
-            console.log(x);
-            $(wrapper).append('<div class="remove-div"><div class="row"><div class="col-md-11"><div class="row"><div class="mb-3 col-md-3"><input type="text" class="form-control" name="productitem[]"></div><div class="mb-3 col-md-3"><input type="text" class="form-control" name="productmodel[]"></div><div class="mb-3 col-md-3"><input type="text" class="form-control" name="serialno[]"></div><div class="mb-3 col-md-3"><select class="js-example-basic-single form-control" name="brand[]"><option>Select a Brand</option>@foreach ($collectionbrand as $brand)<option value="{{ $brand->id }}">{{ $brand->title }}</option>@endforeach</select></div></div></div><div class="col-md-1"><button class="btn btn-danger delete form-control">Delete</button></div></div></div>'); //add input box
-        } else {
-            alert('You Reached the limits')
-        }
+        $(wrapper).on("click", ".delete", function(e) {
+            e.preventDefault();
+            $(this).parent().parent('div').remove();
+            x--;
+        })
     });
-
-    $(wrapper).on("click", ".delete", function(e) {
-        e.preventDefault();
-        $(this).parent().parent('div').remove();
-        x--;
-    })
-});
     </script>
     @endsection
 </x-app-layout>

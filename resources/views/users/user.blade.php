@@ -9,14 +9,16 @@
             <div class="d-flex align-items-lg-center flex-lg-row flex-column">
                 <div class="flex-grow-1"></div>
                 <div class="mt-3 mt-lg-0">
-                    <div class="row g-3 mb-0 align-items-center">
-                        <div class="col-auto">
-                            <button type="button" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal" class="btn btn-soft-success shadow-none">
-                                <i class="ri-add-circle-line align-middle me-1"></i>
-                                Add Availability
-                            </button>
+                    <form action="javascript:void(0);">
+                        <div class="row g-3 mb-0 align-items-center">
+                            <div class="col-auto">
+                                <a href="{{ route('brand.create') }}" type="button" class="btn btn-soft-success shadow-none">
+                                    <i class="ri-add-circle-line align-middle me-1"></i>
+                                    Add User
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -44,28 +46,30 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Code</th>
-                                <th>Name</th>
-                                <th>Status</th>
-                                <th>Visibility</th>
+                                <th>Firstname</th>
+                                <th>Lastname</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($collectionavailability as $availability)
+                            {{-- @foreach ($collectionbrand as $brand)
                                 <tr>
                                     <td>0{{ $loop->iteration }}</td>
-                                    <td>{{ strtoupper($availability->availabilitycode) }}</td>
-                                    <td>{{ $availability->name }}</td>
+                                    <td>{{ strtoupper($brand->brandcode) }}</td>
+                                    <td>{{ $brand->title }}</td>
+                                    <td><img src="{{ $brand->image }}" height="35px"></td>
                                     <td>
-                                        @if ($availability->status == 1)
+                                        @if ($brand->status == 1)
                                             <span class="badge badge-soft-info">Published</span>
                                         @else
                                             <span class="badge bg-danger">Draft</span>
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($availability->visibility == 1)
+                                        @if ($brand->visibility == 1)
                                             <span class="badge badge-soft-info">Public</span>
                                         @else
                                             <span class="badge bg-danger">Hidden</span>
@@ -74,15 +78,16 @@
                                     <td>
                                         <ul class="list-inline hstack gap-2 mb-0">
                                             <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                <a href="{{ route('availability.edit', $availability->id) }}" class="text-primary d-inline-block edit-item-btn">
+                                                <a href="{{ route('brand.edit', $brand->id) }}" class="text-primary d-inline-block edit-item-btn">
                                                     <i class="ri-pencil-fill fs-16"></i>
                                                 </a>
                                             </li>
                                             <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
-                                            <form action="{{ route('availability.destroy', $availability->id) }}" method="POST">
+
+                                            <form action="{{ route('brand.destroy', $brand->id) }}" method="POST">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
-                                                <button type="submit" class="text-danger d-inline-block remove-item-btn">
+                                                <button type="submit" class="text-danger d-inline-block remove-item-btn datatable-btn">
                                                     <i class="ri-delete-bin-5-fill fs-16"></i>
                                                 </button>
                                             </form>
@@ -90,53 +95,16 @@
                                         </ul>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @endforeach --}}
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-
-
-    <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <form method="POST" action="{{ route('availability.store') }}">
-                    @csrf
-                    <div class="modal-body">
-                        <input type="hidden" id="id-field" />
-
-                        <div class="mb-3">
-                            <label for="availabilitytitle" class="form-label">Availability Title</label>
-                            <input type="text" id="availabilitytitle" class="form-control" name="availabilitytitle" placeholder="Title" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="choices-publish-status-input" class="form-label">Status</label>
-                            <select class="form-select" name="status" id="choices-publish-status-input" data-choices data-choices-search-false>
-                                @foreach ($collectionstatus as $status)
-                                <option value="{{ $status->id }}" {{ (isset($brand) && $brand->status == $status->id) ? 'selected' : '' }}>{{ $status->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="hstack gap-2 justify-content-end">
-                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-success" id="add-btn">Add Order</button>
-                            <button type="button" class="btn btn-success" id="edit-btn">Update</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
     @section('scripts')
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-        <!--datatable js-->
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
         <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
@@ -147,28 +115,5 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
         <script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script>
-        <script>
-        jQuery(document).ready(function(){
-            jQuery('#ajaxSubmit').click(function(e){
-                e.preventDefault();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    }
-                });
-                jQuery.ajax({
-                    url: "{{ url('/grocery/post') }}",
-                    method: 'post',
-                    data: {
-                        name: jQuery('#name').val(),
-                        type: jQuery('#type').val(),
-                        price: jQuery('#price').val()
-                    },
-                    success: function(result){
-                        console.log(result);
-                    }});
-                });
-            });
-        </script>
     @endsection
 </x-app-layout>

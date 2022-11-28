@@ -12,8 +12,8 @@ class Category extends Model
     use HasFactory;
     use NodeTrait;
     protected $guarded = [];
-
     protected $table = 'categories';
+    protected $fillable = ['title'];
 
     protected static function boot()
     {

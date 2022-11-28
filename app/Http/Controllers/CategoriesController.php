@@ -41,12 +41,10 @@ class CategoriesController extends Controller
             ]);
             $category = new Category();
 
-            if ($request->hasFile('categoryimage')) {
-                $destination_path = 'public/images/categories';
-                $image = $request->file('categoryimage');
-                $image_name = date('YmdHi') . $image->getClientOriginalName();
-                $path = $request->file('categoryimage')->storeAs($destination_path, $image_name);
-                $category->image = "storage/images/categories/$image_name";
+            if($request->CategoryImageUploadFilePond){
+                $newfilename = Str::after($request->CategoryImageUploadFilePond,'tmp/');
+                Storage::disk('public')->move($request->CategoryImageUploadFilePond,"images/categories/$newfilename");
+                $category->image = "storage/images/categories/$newfilename";
             }
 
             $category->categorycode = $this->generateUniqueCode();
@@ -94,16 +92,10 @@ class CategoriesController extends Controller
             'visibility' => 'required',
         ]);
 
-        if ($request->hasFile('categoryimage')) {
-            $destination = 'storage/images/categories/' . $category->image;
-            if (File::exists($destination)) {
-                File::delete($destination);
-            }
-            $destination_path = 'public/images/categories';
-            $image = $request->file('categoryimage');
-            $image_name = date('YmdHi') . $image->getClientOriginalName();
-            $path = $request->file('categoryimage')->storeAs($destination_path, $image_name);
-            $category->image = "storage/images/categories/$image_name";
+        if($request->CategoryImageUploadFilePond){
+            $newfilename = Str::after($request->CategoryImageUploadFilePond,'tmp/');
+            Storage::disk('public')->move($request->CategoryImageUploadFilePond,"images/categories/$newfilename");
+            $category->image = "storage/images/categories/$newfilename";
         }
 
         if($category->categorycode === null){
@@ -138,6 +130,16 @@ class CategoriesController extends Controller
     {
         if($request->CategorySliderUploadFilePond){
             $path = $request->file('CategorySliderUploadFilePond')->store('tmp','public');
+        }
+
+        return $path;
+    }
+
+    public function uploadcategoryimage(Request $request)
+    {
+
+         if($request->CategoryImageUploadFilePond){
+            $path = $request->file('CategoryImageUploadFilePond')->store('tmp','public');
         }
 
         return $path;

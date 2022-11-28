@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('model')->nullable();
             $table->bigInteger('brandid')->nullable();
             $table->string('serialno')->nullable();
+            $table->longText('comments')->nullable();
             $table->bigInteger('servicesid')->nullable();
             $table->timestamps();
         });

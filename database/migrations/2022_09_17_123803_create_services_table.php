@@ -21,8 +21,6 @@ return new class extends Migration
             $table->string('customername')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
-            $table->longText('comments')->nullable();
-            $table->longText('includes')->nullable();
             $table->timestamps();
         });
     }

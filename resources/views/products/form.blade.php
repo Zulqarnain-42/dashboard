@@ -2,12 +2,11 @@
     @section('styles')
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @endsection
-    <form method="POST" action="{{ isset($product) ? route('product.update', $product->id) : route('product.store') }}" id="createproduct-form" autocomplete="off" enctype="multipart/form-data" class="needs-validation" novalidate>
+    <form method="POST" name="productform" action="{{ isset($product) ? route('product.update', $product->id) : route('product.store') }}" id="createproduct-form" autocomplete="off" enctype="multipart/form-data" class="needs-validation" onsubmit="return validateForm()" novalidate>
         @csrf
         @if (isset($product))
             @method('PUT')
         @endif
-
         <div class="row">
             <div class="col-lg-8">
                 <div class="card">
@@ -40,24 +39,16 @@
                     <div class="card-header">
                         <ul class="nav nav-tabs-custom card-header-tabs border-bottom-0" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-bs-toggle="tab" href="#addproduct-general-info" role="tab">
-                                    General Info
-                                </a>
+                                <a class="nav-link active" data-bs-toggle="tab" href="#addproduct-general-info" role="tab">General Info</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#addproduct-inthebox" role="tab">
-                                    In The Box
-                                </a>
+                                <a class="nav-link" data-bs-toggle="tab" href="#addproduct-inthebox" role="tab">In The Box</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#addproduct-specification" role="tab">
-                                    Specifications
-                                </a>
+                                <a class="nav-link" data-bs-toggle="tab" href="#addproduct-specification" role="tab">Specifications</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#addproduct-metadata" role="tab">
-                                    Meta Data
-                                </a>
+                                <a class="nav-link" data-bs-toggle="tab" href="#addproduct-metadata" role="tab">Meta Data</a>
                             </li>
                         </ul>
                     </div>
@@ -68,7 +59,8 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="manufacturer-name-input">MFR</label>
-                                            <input type="text" class="form-control" name="mfr" value="{{ isset($product) ? $product->mfr : old('mfr') }}" id="mfr" placeholder="Enter manufacturer model">
+                                            <input type="text" class="form-control" style="text-transform:uppercase" name="mfr" value="{{ isset($product) ? $product->mfr : old('mfr') }}" id="mfr" placeholder="model">
+                                            <span id="promodel"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -137,11 +129,20 @@
                                             <input type="text" class="form-control" name="digitalinterface" value="{{ isset($product) ? $product->digitalinterface : old('digitalinterface') }}" id="digitalinterface" placeholder="Digital Interface" required>
                                         </div>
                                     </div>
+                                     <div class="col-lg-3 col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="retail-price">Retail Price</label>
+                                            <div class="input-group has-validation mb-3">
+                                                <span class="input-group-text" id="retail-price">$</span>
+                                                <input type="text" class="form-control" name="retailprice" id="retailprice" placeholder="Retail price" value="{{ isset($product) ? $product->retailprice : old('retailprice') }}" aria-label="Retail Price" aria-describedby="retailprice-addon" required>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="product-price-input">Sale Price</label>
                                             <div class="input-group has-validation mb-3">
-                                                <span class="input-group-text" id="product-price-addon">AED</span>
+                                                <span class="input-group-text" id="product-price-addon">$</span>
                                                 <input type="text" class="form-control" name="saleprice" id="saleprice" placeholder="Enter price" value="{{ isset($product) ? $product->price : old('saleprice') }}" aria-label="Price" aria-describedby="product-price-addon" required>
                                             </div>
                                         </div>
@@ -199,7 +200,9 @@
                             <label for="choices-publish-status-input" class="form-label">Status</label>
                             <select class="form-select" name="status" id="status" data-choices data-choices-search-false>
                                 @foreach ($collectionstatus as $status)
-                                    <option value="{{ $status->id }}" {{ isset($product) && $product->status == $status->id ? 'selected' : '' }}>{{ $status->name }}</option>
+                                    <option value="{{ $status->id }}"
+                                        {{ isset($product) && $product->status == $status->id ? 'selected' : '' }}>
+                                        {{ $status->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -207,7 +210,9 @@
                             <label for="choices-publish-visibility-input" class="form-label">Visibility</label>
                             <select class="form-select" name="visibility" id="visibility" data-choices data-choices-search-false>
                                 @foreach ($collectionvisibility as $visibilty)
-                                    <option value="{{ $visibilty->id }}" {{ isset($product) && $product->visibility == $visibilty->id ? 'selected' : '' }}>{{ $visibilty->name }}</option>
+                                    <option value="{{ $visibilty->id }}"
+                                        {{ isset($product) && $product->visibility == $visibilty->id ? 'selected' : '' }}>
+                                        {{ $visibilty->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -224,7 +229,9 @@
                         </p>
                         <select class="js-example-basic-multiple" name="productcategories[]" multiple="multiple">
                             @foreach ($collectioncategory as $category)
-                                <option value="{{ $category->id }}" @if (isset($selectedproductcategories)) @foreach ($selectedproductcategories as $categories) {{ $categories->categoryid == $category->id ? 'selected' : '' }} @endforeach @endif>{{ $category->title }}</option>
+                                <option value="{{ $category->id }}"
+                                    @if (isset($selectedproductcategories)) @foreach ($selectedproductcategories as $categories) {{ $categories->category_id == $category->id ? 'selected' : '' }} @endforeach @endif>
+                                    {{ $category->title }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -235,13 +242,16 @@
                     </div>
                     <div class="card-body">
                         <p class="text-muted mb-2">
-                            <a href="{{ route('brand.create') }}" class="float-end text-decoration-underline">Add New</a>
+                            <a href="{{ route('brand.create') }}" class="float-end text-decoration-underline">Add
+                                New</a>
                             Select product Brand
                         </p>
                         <select class="js-example-basic-single" name="brand">
                             <option>Select a Brand</option>
                             @foreach ($collectionbrand as $brand)
-                                <option value="{{ $brand->id }}" {{ isset($product) && $product->brandid == $brand->id ? 'selected' : '' }}>{{ $brand->title }}</option>
+                                <option value="{{ $brand->id }}"
+                                    {{ isset($product) && $product->brandid == $brand->id ? 'selected' : '' }}>
+                                    {{ $brand->title }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -251,32 +261,7 @@
                         <h5 class="card-title mb-0">Product Thumbnail</h5>
                     </div>
                     <div class="card-body">
-                        <div class="mb-4">
-                            <div class="text-center">
-                                <div class="position-relative d-inline-block">
-                                    <div class="position-absolute top-100 start-100 translate-middle">
-                                        <label for="product-image-input" class="mb-0" data-bs-toggle="tooltip" data-bs-placement="right" title="Select Image">
-                                            <div class="avatar-xs">
-                                                <div class="avatar-title bg-light border rounded-circle text-muted cursor-pointer">
-                                                    <i class="ri-image-fill"></i>
-                                                </div>
-                                            </div>
-                                        </label>
-                                        <input class="form-control d-none" name="thumbnail" value="" id="product-image-input" type="file" accept="image/png, image/gif, image/jpeg">
-                                    </div>
-                                    <div class="avatar-lg">
-                                        <div class="avatar-title bg-light rounded">
-                                            @if (isset($product->thumbnail))
-                                                <img src="{{ URL::asset($product->thumbnail) }}" id="product-img" class="avatar-md h-auto" />
-                                            @else
-                                                <img src="{{ URL::asset('fa-bt/upload.jpg') }}" id="product-img" class="avatar-md h-auto" />
-                                            @endif
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <input type="file" name="ProductsThumbnailFilePond" id="ProductsThumbnailFilePond" accept="image/*">
                     </div>
                 </div>
                 <div class="card">
@@ -287,7 +272,9 @@
                         <p class="text-muted mb-2">Select Related Products</p>
                         <select class="js-example-basic-multiple1" name="relatedproducts[]" multiple="multiple">
                             @foreach ($collectionproducts as $product)
-                                <option @if (isset($relatedproducts)) @foreach ($relatedproducts as $relprod) {{ $relprod->relatedproductsid == $product->id ? 'selected' : '' }} @endforeach @endif value="{{ $product->id }}">{{ $product->title }}</option>
+                                <option
+                                    @if (isset($relatedproducts)) @foreach ($relatedproducts as $relprod) {{ $relprod->relatedproductsid == $product->id ? 'selected' : '' }} @endforeach @endif
+                                    value="{{ $product->id }}">{{ $product->title }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -301,7 +288,9 @@
                         <select class="js-example-basic-single" name="availability">
                             <option>Select a Availability</option>
                             @foreach ($collectionavailability as $availability)
-                                <option value="{{ $availability->id }}" {{ isset($product) && $product->availabilityid == $availability->id ? 'selected' : '' }}>{{ $availability->name }}</option>
+                                <option value="{{ $availability->id }}"
+                                    {{ isset($product) && $product->availabilityid == $availability->id ? 'selected' : '' }}>
+                                    {{ $availability->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -312,22 +301,10 @@
     </form>
     @section('scripts')
         <script src="{{ URL::asset('assets/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="{{ URL::asset('assets/js/pages/select2.init.js') }}"></script>
         <script src="{{ URL::asset('assets/js/pages/ecommerce-product-create.init.js') }}"></script>
-        <script>
-            FilePond.registerPlugin(FilePondPluginImagePreview);
-            FilePond.registerPlugin(FilePondPluginFileValidateType);
-            const inputElement = document.querySelector('#ProductsUploadFilePond');
-            const pond = FilePond.create(inputElement,{
-                server:{
-                    url:'/uploadproducts',
-                    headers:{
-                        'X-CSRF-TOKEN':'{{ csrf_token() }}'
-                    }
-                }
-            });
-        </script>
     @endsection
 </x-app-layout>

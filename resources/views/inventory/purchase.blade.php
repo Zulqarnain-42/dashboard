@@ -15,7 +15,7 @@
                     <form action="javascript:void(0);">
                         <div class="row g-3 mb-0 align-items-center">
                             <div class="col-auto">
-                                <a href="{{route('inventory.storeadjustment')}}" type="button" class="btn btn-soft-success shadow-none"><i class="ri-add-circle-line align-middle me-1"></i>Add Sales</a>
+                                <a href="{{route('inventory.storeadjustment')}}" type="button" class="btn btn-soft-success shadow-none"><i class="ri-add-circle-line align-middle me-1"></i>Add Purchase</a>
                             </div>
                         </div>
                     </form>

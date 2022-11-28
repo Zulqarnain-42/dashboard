@@ -11,6 +11,8 @@ use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Session;
 
 class InventoryController extends Controller
 {
@@ -59,22 +61,22 @@ class InventoryController extends Controller
             $inventory->addedat = Carbon::now();
             $inventory->save();
 
-            return redirect()->route('inventory.warehouse');
+            return redirect()->route('inventory.warehouse')->with('success','Product Added Successfully!');
         } else {
-            return redirect()->route('inventory.warehouse');
+            return redirect()->route('inventory.warehouse')->with('alert','Product Already Exist!');
         }
     }
 
     public function quantity(Request $request)
     {
         $inventory = new Inventory();
-        $inventory->sharjahquantity = $request->sharjahquantity;
+        $inventory->officequantity = $request->officequnatity;
         $inventory->product_id = $request->productid;
         $inventory->userid = Auth::user()->id;
         $inventory->addedat = Carbon::now();
         $inventory->save();
 
-        return redirect()->route('app.inventory.index');
+        return redirect()->route('inventory.warehouse')->with('success','Quantity Updated Successfully!');
     }
 
     public function officequantity(Request $request)
@@ -172,6 +174,7 @@ class InventoryController extends Controller
                 if (($request->soldquantity) > (($totalsharjah + $totalfromofficetosharjah) - $totalfromsharjahtooffice - $totalsalequantityfromwarehouse - $totalbookedquantityfromwarehouse)) {
                     return redirect()->route('inventory.sales');
                 }
+
                 $inventory = new Inventory();
                 $inventory->salequantityfromwarehouse = $request->salequantity;
                 $inventory->receipt = $request->salereceipt;
@@ -183,6 +186,7 @@ class InventoryController extends Controller
                 if (($request->soldquantity) > (($totaloffice + $totalfromsharjahtooffice) - $totalsharjah - $totalsalequantityfromoffice - $totalbookedquantityfromoffice)) {
                     return redirect()->route('inventory.sales');
                 }
+
                 $inventory = new Inventory();
                 $inventory->salequantityfromoffice = $request->salequantity;
                 $inventory->receipt = $request->salereceipt;
@@ -203,5 +207,39 @@ class InventoryController extends Controller
         $productdetails = Product::where('id', $id)->first();
         $inventorydetail = Inventory::where('product_id', $id)->get();
         return view('backend.inventory.productdetails')->with(compact('productdetails', 'inventorydetail'));
+    }
+
+    public function opening()
+    {
+        $collectionbrand = Brand::get();
+        return view('inventory.opening_stock')->with(compact('collectionbrand'));
+    }
+
+    public function brandopening($brandid = 0)
+    {
+        Session::put('brandid',$brandid);
+        $collectionstock = Product::where('brandid',$brandid)->get();
+        Session::put('product_data',$collectionstock);
+        return response()->json(['session successfully saved']);
+    }
+
+    public function adjustment()
+    {
+        return view('inventory.stock-adjustment');
+    }
+
+    public function storeadjustment()
+    {
+        return view('inventory.add-adjustment');
+    }
+
+    public function purchases()
+    {
+        return view('inventory.purchase');
+    }
+
+    public function salesinventory()
+    {
+        return view('inventory.sales');
     }
 }

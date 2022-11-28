@@ -20,6 +20,16 @@ class Product extends Model
 
     protected $table = 'products';
     protected $guarded = [];
+    protected $fillable = ['producttitle',
+                            'mfr',
+                            'length',
+                            'width',
+                            'height',
+                            'weight',
+                            'retailprice',
+                            'saleprice',
+                            'productcategories',
+                            'brand'];
 
     public function productimages()
     {

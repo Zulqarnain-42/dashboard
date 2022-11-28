@@ -8,7 +8,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImages;
-use App\Models\ProductCategories;
+use App\Models\CategoryProduct;
 use App\Models\ProductTags;
 use App\Models\RelatedProducts;
 use Carbon\Carbon;
@@ -50,6 +50,7 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
+
         $dbcheck = Product::where([['title', '=', $request->producttitle],['mfr','=',$request->mfr],['brandid','=',$request->brand]])->first();
 
         if($dbcheck === null){
@@ -63,45 +64,42 @@ class ProductController extends Controller
             ]);
 
             $brand = Brand::findOrFail($request->brand);
+            $product = new Product();
 
-            $productcode = $this->generateUniqueCode();
-
-            $image_name = null;
-            if ($request->hasFile('thumbnail')) {
-                $destination_path = 'public/images/thumbnail';
-                $image = $request->file('thumbnail');
-                $image_name = date('YmdHi') . $image->getClientOriginalName();
-                $path = $request->file('thumbnail')->storeAs($destination_path, $image_name);
+            if($request->ProductsThumbnailFilePond){
+                $newfilename = Str::after($request->ProductsThumbnailFilePond,'tmp/');
+                Storage::disk('public')->move($request->ProductsThumbnailFilePond,"images/thumbnail/$newfilename");
+                $product->thumbnail = "storage/images/thumbnail/$newfilename";
             }
 
-            $product = $brand->product()->create([
-                'productcode' => $productcode,
-                'title' => $request->producttitle,
-                'longdescription' => $request->longdescription,
-                'shortdescription' => $request->shortdes,
-                'mfr' => $request->mfr,
-                'upc' => $request->upc,
-                'length' => $request->length,
-                'width' => $request->width,
-                'height' => $request->height,
-                'weight' => $request->weight,
-                'price' => $request->saleprice,
-                'status' => $request->status,
-                'visibility' => $request->visibility,
-                'inthebox' => $request->inthebox,
-                'specifications' => $request->specifications,
-                'metatitle' => $request->metatitle,
-                'metakeywords' => $request->metakeywords,
-                'metadescription' => $request->metadescription,
-                'brandid' => $request->brand,
-                'availabilityid' => $request->availability,
-                'thumbnail' => "storage/images/thumbnail/$image_name",
-                'lensmounttype' => $request->lensmount,
-                'displaysize' => $request->displaysize,
-                'videoresolution' => $request->videoresolution,
-                'cardtype' => $request->cardtype,
-                'digitalinterface' => $request->digitalinterface,
-            ]);
+            $product->productcode = $this->generateUniqueCode();
+            $product->title = $request->producttitle;
+            $product->longdescription = $request->longdescription;
+            $product->shortdescription = $request->shortdes;
+            $product->mfr = strtoupper($request->mfr);
+            $product->upc = $request->upc;
+            $product->length = $request->length;
+            $product->width = $request->width;
+            $product->height = $request->height;
+            $product->weight = $request->weight;
+            $product->price = $request->saleprice;
+            $product->status = $request->status;
+            $product->visibility = $request->visibility;
+            $product->inthebox = $request->inthebox;
+            $product->specifications = $request->specifications;
+            $product->metatitle = $request->metatitle;
+            $product->metakeywords = $request->metakeywords;
+            $product->metadescription = $request->metadescription;
+            $product->brandid = $brand->id;
+            $product->slug = $request->producttitle;
+            $product->retailprice = $request->retailprice;
+            $product->availabilityid = $request->availability;
+            $product->lensmounttype = $request->lensmount;
+            $product->displaysize = $request->displaysize;
+            $product->videoresolution = $request->videoresolution;
+            $product->cardtype = $request->cardtype;
+            $product->digitalinterface = $request->digitalinterface;
+            $product->save();
 
             if ($request->ProductsUploadFilePond) {
                 foreach ($request->ProductsUploadFilePond as $productimage) {
@@ -142,20 +140,22 @@ class ProductController extends Controller
             }
 
             if ($request->productcategories) {
-                $productcategories = new ProductCategories();
+                $productcategories = new CategoryProduct();
                 foreach ($request->productcategories as $categories) {
                     $category = Category::findOrFail($categories);
                     $productcategories->create([
-                        'productid' => $product->id,
-                        'categoryid' => $category->id,
+                        'product_id' => $product->id,
+                        'category_id' => $category->id,
                     ]);
                 }
             }
-        }else{
+
+            return redirect()->route('product.index')->with('success','Product Added Successfully!');
+        }
+        else
+        {
             return redirect()->route('product.index')->with('alert','Product Already Exist!');
         }
-
-        return redirect()->route('product.index')->with('success','Product Added Successfully!');
     }
 
     public function edit(Product $product)
@@ -165,7 +165,7 @@ class ProductController extends Controller
         $collectionproducts = Product::where([['status', true], ['visibility', true]])->get();
         $relatedproducts = $product::find($product->id)->relatedproducts;
         $selectedproducttags = $product::find($product->id)->producttags;
-        $selectedproductcategories = ProductCategories::where('productid', $product->id)->get();
+        $selectedproductcategories = CategoryProduct::where('product_id', $product->id)->get();
         $productimages = $product::find($product->id)->productimages;
         $collectionstatus = Status::get();
         $collectionvisibility = Visibilty::get();
@@ -188,6 +188,7 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, Product $product)
     {
+
         $request->validate([
             'producttitle' => 'required',
             'mfr' => 'required',
@@ -196,22 +197,21 @@ class ProductController extends Controller
             'visibility' => 'required',
         ]);
 
-
-        if ($request->hasFile('thumbnail')) {
-            $destination_path = 'public/images/thumbnail/';
-            $image = $request->file('thumbnail');
-            $image_name = date('YmdHi') . $image->getClientOriginalName();
-            $path = $request->file('thumbnail')->storeAs($destination_path, $image_name);
-            $product->thumbnail = "storage/images/thumbnail/$image_name";
+        if($request->ProductsThumbnailFilePond){
+            $newfilename = Str::after($request->ProductsThumbnailFilePond,'tmp/');
+            Storage::disk('public')->move($request->ProductsThumbnailFilePond,"images/thumbnail/$newfilename");
+            $product->thumbnail = "storage/images/thumbnail/$newfilename";
         }
 
         if($product->productcode === null){
             $product->productcode = $this->generateUniqueCode();
         }
+
+
         $product->title = $request->producttitle;
         $product->longdescription = $request->longdescription;
         $product->shortdescription = $request->shortdes;
-        $product->mfr = $request->mfr;
+        $product->mfr = strtoupper($request->mfr);
         $product->upc = $request->upc;
         $product->length = $request->length;
         $product->width = $request->width;
@@ -226,6 +226,8 @@ class ProductController extends Controller
         $product->metakeywords = $request->metakeywords;
         $product->metadescription = $request->metadescription;
         $product->brandid = $request->brand;
+        $product->slug = $request->producttitle;
+        $product->retailprice = $request->retailprice;
         $product->availabilityid = $request->availability;
         $product->lensmounttype = $request->lensmount;
         $product->displaysize = $request->displaysize;
@@ -234,6 +236,7 @@ class ProductController extends Controller
         $product->digitalinterface = $request->digitalinterface;
 
         $product->update();
+
 
         if ($request->ProductsUploadFilePond) {
             $productimages = $product->productimages()->delete();
@@ -269,7 +272,8 @@ class ProductController extends Controller
                         'tags' => $tags,
                     ]);
                 }
-            } else if($request->producttags != null) {
+            }
+            else if($request->producttags != null) {
                 foreach ($request->producttags as $tags) {
                     $product->producttags()->create([
                         'productid' => $product->id,
@@ -283,6 +287,7 @@ class ProductController extends Controller
                 $product->producttags()->delete();
             }
         }
+
 
         if ($request->relatedproducts) {
             $relatedprod = RelatedProducts::where('productid', $product->id)->delete();
@@ -302,6 +307,7 @@ class ProductController extends Controller
                 }
             }
         }else{
+
             $findrelatedproducts = RelatedProducts::where('productid', $product->id)->get();
             if($findrelatedproducts){
                 RelatedProducts::where('productid', $product->id)->delete();
@@ -309,33 +315,32 @@ class ProductController extends Controller
         }
 
         if ($request->productcategories) {
-            $categories = ProductCategories::where('productid', $product->id)->delete();
+            $categories = CategoryProduct::where('product_id', $product->id)->delete();
             if ($categories > 1) {
-                $productcategories = new ProductCategories();
+                $productcategories = new CategoryProduct();
                 foreach ($request->productcategories as $categories) {
                     $category = Category::findOrFail($categories);
                     $productcategories->create([
-                        'productid' => $product->id,
-                        'categoryid' => $category->id,
+                        'product_id' => $product->id,
+                        'category_id' => $category->id,
                     ]);
                 }
             } else {
-                $productcategories = new ProductCategories();
+                $productcategories = new CategoryProduct();
                 foreach ($request->productcategories as $categories) {
                     $category = Category::findOrFail($categories);
                     $productcategories->create([
-                        'productid' => $product->id,
-                        'categoryid' => $category->id,
+                        'product_id' => $product->id,
+                        'category_id' => $category->id,
                     ]);
                 }
             }
         }else{
-            $findproductcategories = ProductCategories::where('productid', $product->id)->get();
+            $findproductcategories = CategoryProduct::where('product_id', $product->id)->get();
             if($findproductcategories){
-                ProductCategories::where('productid', $product->id)->delete();
+                CategoryProduct::where('product_id', $product->id)->delete();
             }
         }
-
         return redirect()->route('product.index')->with('success','Product Updated Successfully!');
     }
 
@@ -347,6 +352,16 @@ class ProductController extends Controller
             foreach ($files as $file) {
                 $path = $file->store('tmp','public');
             }
+        }
+
+        return $path;
+    }
+
+    public function uploadthumbnail(Request $request)
+    {
+
+        if($request->ProductsThumbnailFilePond){
+            $path = $request->file('ProductsThumbnailFilePond')->store('tmp','public');
         }
 
         return $path;
@@ -378,10 +393,22 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         Product::where('id',$product->id)->delete();
-        ProductCategories::where('productid',$product->id)->delete();
+        CategoryProduct::where('product_id',$product->id)->delete();
         ProductImages::where('productid',$product->id)->delete();
         ProductTags::where('productid',$product->id)->delete();
         RelatedProducts::where('productid',$product->id)->delete();
         return back();
+    }
+
+    public function checkmodel(Request $request)
+    {
+
+        $data = $request->all();
+        $modelcheck = Product::where('mfr',$data['model'])->first();
+        if($modelcheck === null){
+            echo "true";
+        }else{
+            echo "false";
+        }
     }
 }

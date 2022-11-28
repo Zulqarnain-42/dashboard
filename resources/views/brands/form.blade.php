@@ -96,18 +96,5 @@
         <script src="{{ URL::asset('assets/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="{{ URL::asset('assets/js/pages/ecommerce-brand-create.init.js') }}"></script>
-        <script>
-            FilePond.registerPlugin(FilePondPluginImagePreview);
-            FilePond.registerPlugin(FilePondPluginFileValidateType);
-            const inputElement = document.querySelector('#BrandUploadFilePond');
-            const pond = FilePond.create(inputElement,{
-                server:{
-                    url:'/uploadbrand',
-                    headers:{
-                        'X-CSRF-TOKEN':'{{ csrf_token() }}'
-                    }
-                }
-            });
-        </script>
     @endsection
 </x-app-layout>

@@ -97,31 +97,7 @@
                         <h5 class="card-title mb-0">Category Image</h5>
                     </div>
                     <div class="card-body">
-                        <div class="mb-4">
-                            <div class="text-center">
-                                <div class="position-relative d-inline-block">
-                                    <div class="position-absolute top-100 start-100 translate-middle">
-                                        <label for="product-image-input" class="mb-0" data-bs-toggle="tooltip" data-bs-placement="right" title="Select Image">
-                                            <div class="avatar-xs">
-                                                <div class="avatar-title bg-light border rounded-circle text-muted cursor-pointer">
-                                                    <i class="ri-image-fill"></i>
-                                                </div>
-                                            </div>
-                                        </label>
-                                        <input class="form-control d-none" value="" name="categoryimage" id="product-image-input" type="file" accept="image/png, image/gif, image/jpeg">
-                                    </div>
-                                    <div class="avatar-lg">
-                                        <div class="avatar-title bg-light rounded">
-                                            @if (isset($category))
-                                            <img src="{{ URL::asset($category->image) }}" id="product-img" class="avatar-md h-auto" />
-                                            @else
-                                            <img src="{{ URL::asset('fa-bt/upload.jpg') }}" id="product-img" class="avatar-md h-auto" />
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <input type="file" name="CategoryImageUploadFilePond" id="CategoryImageUploadFilePond" accept="image/*">
                     </div>
                 </div>
                 <div class="card">
@@ -147,18 +123,5 @@
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="{{ URL::asset('assets/js/pages/select2.init.js') }}"></script>
         <script src="{{ URL::asset('assets/js/pages/ecommerce-category-create.init.js') }}"></script>
-        <script>
-            FilePond.registerPlugin(FilePondPluginImagePreview);
-            FilePond.registerPlugin(FilePondPluginFileValidateType);
-            const inputElement = document.querySelector('#CategorySliderUploadFilePond');
-            const pond = FilePond.create(inputElement,{
-                server:{
-                    url:'/uploadcategoryslider',
-                    headers:{
-                        'X-CSRF-TOKEN':'{{ csrf_token() }}'
-                    }
-                }
-            });
-        </script>
     @endsection
 </x-app-layout>
