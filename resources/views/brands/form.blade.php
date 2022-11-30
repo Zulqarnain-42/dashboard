@@ -1,5 +1,5 @@
 <x-app-layout>
-    <form method="POST" action="{{ isset($brand) ? route('brand.update', $brand->id) : route('brand.store') }}" id="createproduct-form" autocomplete="off" class="needs-validation" enctype="multipart/form-data" novalidate>
+    <form method="POST" action="{{ isset($brand) ? route('brand.update', $brand->id) : route('brand.store') }}" id="brand-form" autocomplete="off" class="needs-validation" enctype="multipart/form-data" novalidate>
         @csrf
         @if (isset($brand))
             @method('PUT')
@@ -67,7 +67,8 @@
                             <label for="choices-publish-status-input" class="form-label">Status</label>
                             <select class="form-select" name="status" id="status" data-choices data-choices-search-false>
                                 @foreach ($collectionstatus as $status)
-                                <option value="{{ $status->id }}" {{ (isset($brand) && $brand->status == $status->id) ? 'selected' : '' }}>{{ $status->name }}</option>
+                                <option value="{{ $status->id }}" {{ (isset($brand) && $brand->status == $status->id) ? 'selected' : '' }}
+                                    {{ (old("status") == $status->id ? "selected":"") }}>{{ $status->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -75,7 +76,8 @@
                             <label for="choices-publish-visibility-input" class="form-label">Visibility</label>
                             <select class="form-select" name="visibility" id="visibility" data-choices data-choices-search-false>
                                 @foreach ($collectionvisibility as $visibilty)
-                                    <option value="{{ $visibilty->id }}" {{ (isset($brand) && $brand->visibility == $visibilty->id) ? 'selected' : '' }}>{{ $visibilty->name }}</option>
+                                    <option value="{{ $visibilty->id }}" {{ (isset($brand) && $brand->visibility == $visibilty->id) ? 'selected' : '' }}
+                                        {{ (old("visibility") == $visibilty->id ? "selected":"") }}>{{ $visibilty->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -95,6 +97,7 @@
     @section('scripts')
         <script src="{{ URL::asset('assets/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
         <script src="{{ URL::asset('assets/js/pages/ecommerce-brand-create.init.js') }}"></script>
     @endsection
 </x-app-layout>

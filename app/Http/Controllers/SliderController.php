@@ -34,8 +34,6 @@ class SliderController extends Controller
         if($dbcheck === null){
             $request->validate([
                 'sliderslug' => 'required',
-                'status' => 'required',
-                'visibility' => 'required'
             ]);
 
             $slider = new Slider();
@@ -72,8 +70,6 @@ class SliderController extends Controller
     {
         $request->validate([
             'sliderslug' => 'required',
-            'status' => 'required',
-            'visibility' => 'required'
         ]);
 
         if($slider->slidercode === null){

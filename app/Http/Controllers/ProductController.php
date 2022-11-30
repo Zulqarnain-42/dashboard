@@ -50,7 +50,6 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-
         $dbcheck = Product::where([['title', '=', $request->producttitle],['mfr','=',$request->mfr],['brandid','=',$request->brand]])->first();
 
         if($dbcheck === null){
@@ -72,11 +71,12 @@ class ProductController extends Controller
                 $product->thumbnail = "storage/images/thumbnail/$newfilename";
             }
 
-            $product->productcode = $this->generateUniqueCode();
+            $product->productcode = $this->generateUniqueCode().''.$request->mfr;
             $product->title = $request->producttitle;
             $product->longdescription = $request->longdescription;
             $product->shortdescription = $request->shortdes;
             $product->mfr = strtoupper($request->mfr);
+            $product->sku = strtoupper($request->sku);
             $product->upc = $request->upc;
             $product->length = $request->length;
             $product->width = $request->width;
@@ -204,7 +204,7 @@ class ProductController extends Controller
         }
 
         if($product->productcode === null){
-            $product->productcode = $this->generateUniqueCode();
+            $product->productcode = $this->generateUniqueCode().''.$request->mfr;
         }
 
 
@@ -212,6 +212,7 @@ class ProductController extends Controller
         $product->longdescription = $request->longdescription;
         $product->shortdescription = $request->shortdes;
         $product->mfr = strtoupper($request->mfr);
+        $product->sku = strtoupper($request->sku);
         $product->upc = $request->upc;
         $product->length = $request->length;
         $product->width = $request->width;
@@ -372,11 +373,11 @@ class ProductController extends Controller
 
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersNumber = strlen($characters);
-        $codeLength = 8;
+        $codeLength = 4;
 
         $code = '';
 
-        while (strlen($code) < 8) {
+        while (strlen($code) < 4) {
             $position = rand(0, $charactersNumber - 1);
             $character = $characters[$position];
             $code = $code.$character;
@@ -403,12 +404,19 @@ class ProductController extends Controller
     public function checkmodel(Request $request)
     {
 
-        $data = $request->all();
-        $modelcheck = Product::where('mfr',$data['model'])->first();
-        if($modelcheck === null){
-            echo "true";
-        }else{
-            echo "false";
+        $productmodels = Product::select('mfr')->where([['mfr','like',$request->model.'%']])->take(5)->get();
+        if(count($productmodels)>0){
+            $output = '<ul class="list-group" style="display:block;position:absolute;z-index:1;">';
+            foreach($productmodels as $row){
+                $output .= '<li class="list-group-item" style="background-color:red;color:black;">'.$row->mfr.'</li>';
+            }
+            $output .='</ul>';
         }
+        else
+        {
+            $output = null;
+        }
+
+        echo $output;
     }
 }

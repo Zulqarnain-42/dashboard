@@ -9,9 +9,19 @@ ClassicEditor.create(
                 });
 
 
+
 $(document).ready(function () {
     $("#title").keyup(function () {
         $("#metatitle").val($(this).val());
+    });
+
+
+    $('#category-form').validate({
+        rules: {
+            title: {
+                required: true
+            },
+        },
     });
 });
 

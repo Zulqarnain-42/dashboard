@@ -10,4 +10,30 @@ class CustomerController extends Controller
     {
         return view('customer.index');
     }
+
+
+    public function create()
+    {
+        return view();
+    }
+
+    public function store()
+    {
+        return view();
+    }
+
+    public function edit()
+    {
+        return view();
+    }
+
+    public function update()
+    {
+        return view();
+    }
+
+    public function destroy()
+    {
+        return view();
+    }
 }

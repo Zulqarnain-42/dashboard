@@ -60,11 +60,12 @@ Route::post('uploadslider',[SliderController::class,'uploadslider'])->middleware
 Route::post('uploadbrand',[BrandController::class,'uploadbrand'])->middleware(['auth','verified'])->name('uploadbrand');
 Route::post('uploadcategoryslider',[CategoriesController::class,'uploadcategoryslider'])->middleware(['auth','verified'])->name('uploadcategoryslider');
 Route::post('uploadcategoryimage',[CategoriesController::class,'uploadcategoryimage'])->middleware(['auth','verified'])->name('uploadcategoryimage');
-Route::post('check-model',[ProductController::class,'checkmodel'])->middleware(['auth','verified'])->name('checkmodel');
 Route::post('uploadproducts',[ProductController::class,'uploadproducts'])->middleware(['auth','verified'])->name('uploadproducts');
 Route::post('uploadthumbnail',[ProductController::class,'uploadthumbnail'])->middleware(['auth','verified'])->name('uploadthumbnail');
 Route::post('uploadmainslider',[MainSliderController::class,'uploadmainslider'])->middleware(['auth','verified'])->name('uploadmainslider');
 Route::post('storeinventory',[InventoryController::class,'store'])->middleware(['auth','verified'])->name('inventory.store');
+
+Route::get('check-model',[ProductController::class,'checkmodel'])->middleware(['auth','verified'])->name('product.check-model');
 
 Route::get('productmedia',[ProductController::class,'productmedia'])->middleware(['auth'],['verified'])->name('getmedia');
 Route::get('orders',[OrderController::class,'orders'])->middleware(['auth','verified'])->name('orders');

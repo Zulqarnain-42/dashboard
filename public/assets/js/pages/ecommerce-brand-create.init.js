@@ -10,6 +10,15 @@ $(document).ready(function () {
     $("#title").keyup(function () {
         $("#metatitle").val($(this).val());
     });
+
+
+    $('#brand-form').validate({
+        rules: {
+            title: {
+                required: true
+            },
+        },
+    });
 });
 
 

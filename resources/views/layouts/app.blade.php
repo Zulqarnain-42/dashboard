@@ -18,6 +18,11 @@
     <link href="{{ URL::asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ URL::asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ URL::asset('assets/css/style.css') }}" rel="stylesheet" type="text/css"/>
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
@@ -42,6 +47,8 @@
             </div>
         </div>
     </div>
+
+
     <script src="{{ URL::asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ URL::asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
     <script src="{{ URL::asset('assets/libs/node-waves/waves.min.js') }}"></script>
@@ -58,6 +65,7 @@
     <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
     <script src="{{ URL::asset('assets/libs/choices.js/public/assets/scripts/choices.min.js') }}"></script>
     <script src="{{ URL::asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
+
     @yield('scripts')
     <script src="{{ URL::asset('assets/js/app.js') }}"></script>
 </body>

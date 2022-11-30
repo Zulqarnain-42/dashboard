@@ -2,7 +2,7 @@
     @section('styles')
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @endsection
-    <form method="POST" action="{{ isset($category) ? route('categories.update', $category->id) : route('categories.store') }}" id="createproduct-form" autocomplete="off" enctype="multipart/form-data" class="needs-validation" novalidate>
+    <form method="POST" action="{{ isset($category) ? route('categories.update', $category->id) : route('categories.store') }}" id="category-form" autocomplete="off" enctype="multipart/form-data" class="needs-validation" novalidate>
         @csrf
         @if (isset($category))
             @method('PUT')
@@ -78,7 +78,8 @@
                             <label for="choices-publish-status-input" class="form-label">Status</label>
                             <select class="form-select" name="status" id="status" data-choices data-choices-search-false>
                                 @foreach ($collectionstatus as $status)
-                                    <option value="{{ $status->id }}" {{ (isset($category) && $category->status == $status->id) ? 'selected' : '' }}>{{ $status->name }}</option>
+                                    <option value="{{ $status->id }}" {{ (isset($category) && $category->status == $status->id) ? 'selected' : '' }}
+                                        {{ (old("status") == $status->id ? "selected":"") }}>{{ $status->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -86,7 +87,8 @@
                             <label for="choices-publish-visibility-input" class="form-label">Visibility</label>
                             <select class="form-select" name="visibility" id="visibility" data-choices data-choices-search-false>
                                 @foreach ($collectionvisibility as $visibilty)
-                                    <option value="{{ $visibilty->id }}" {{ (isset($category) && $category->visibility == $visibilty->id) ? 'selected' : '' }}>{{ $visibilty->name }}</option>
+                                    <option value="{{ $visibilty->id }}" {{ (isset($category) && $category->visibility == $visibilty->id) ? 'selected' : '' }}
+                                        {{ (old("visibility") == $visibilty->id ? "selected":"") }}>{{ $visibilty->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -109,7 +111,8 @@
                         <select class="js-example-basic-single" id="maincategory" name="maincategory">
                             <option value="none">Select a Sub Category</option>
                             @foreach ($collectionmaincategory as $maincategory)
-                                <option value="{{ $maincategory->id }}" {{ (isset($category) && $category->parent_id == $maincategory->id) ? 'selected' : '' }}>{{ $maincategory->title }}</option>
+                                <option value="{{ $maincategory->id }}" {{ (isset($category) && $category->parent_id == $maincategory->id) ? 'selected' : '' }}
+                                    {{ (old("maincategory") == $maincategory->id ? "selected":"") }}>{{ $maincategory->title }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -122,6 +125,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="{{ URL::asset('assets/js/pages/select2.init.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
         <script src="{{ URL::asset('assets/js/pages/ecommerce-category-create.init.js') }}"></script>
     @endsection
 </x-app-layout>

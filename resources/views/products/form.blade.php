@@ -2,7 +2,7 @@
     @section('styles')
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @endsection
-    <form method="POST" name="productform" action="{{ isset($product) ? route('product.update', $product->id) : route('product.store') }}" id="createproduct-form" autocomplete="off" enctype="multipart/form-data" class="needs-validation" onsubmit="return validateForm()" novalidate>
+    <form method="POST" name="productform" action="{{ isset($product) ? route('product.update', $product->id) : route('product.store') }}" id="createproduct-form" autocomplete="off" enctype="multipart/form-data" class="needs-validation" novalidate>
         @csrf
         @if (isset($product))
             @method('PUT')
@@ -56,14 +56,20 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="addproduct-general-info" role="tabpanel">
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label class="form-label" for="manufacturer-name-input">MFR</label>
                                             <input type="text" class="form-control" style="text-transform:uppercase" name="mfr" value="{{ isset($product) ? $product->mfr : old('mfr') }}" id="mfr" placeholder="model">
-                                            <span id="promodel"></span>
+                                            <div id="model-suggestions"></div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="sku-input">SKU</label>
+                                            <input type="text" class="form-control" style="text-transform:uppercase" name="sku" value="{{ isset($product) ? $product->sku : old('sku') }}" id="sku" placeholder="sku">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label class="form-label" for="manufacturer-brand-input">UPC</label>
                                             <input type="text" class="form-control" name="upc" value="{{ isset($product) ? $product->upc : old('upc') }}" id="upc" placeholder="Enter universal product code">
@@ -74,25 +80,25 @@
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="stocks-input">Length</label>
-                                            <input type="text" class="form-control" name="length" value="{{ isset($product) ? $product->length : old('length') }}" id="length" placeholder="Length" required>
+                                            <input type="text" class="form-control" name="length" value="{{ isset($product) ? $product->length : old('length') }}" id="length" placeholder="Length">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="orders-input">Width</label>
-                                            <input type="text" class="form-control" name="width" value="{{ isset($product) ? $product->width : old('width') }}" id="width" placeholder="Width" required>
+                                            <input type="text" class="form-control" name="width" value="{{ isset($product) ? $product->width : old('width') }}" id="width" placeholder="Width">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="orders-input">Height</label>
-                                            <input type="text" class="form-control" name="height" value="{{ isset($product) ? $product->height : old('height') }}" id="height" placeholder="Height" required>
+                                            <input type="text" class="form-control" name="height" value="{{ isset($product) ? $product->height : old('height') }}" id="height" placeholder="Height">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="orders-input">Weight</label>
-                                            <input type="text" class="form-control" name="weight" value="{{ isset($product) ? $product->weight : old('weight') }}" id="weight" placeholder="Weight" required>
+                                            <input type="text" class="form-control" name="weight" value="{{ isset($product) ? $product->weight : old('weight') }}" id="weight" placeholder="Weight">
                                         </div>
                                     </div>
                                 </div>
@@ -100,25 +106,25 @@
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="stocks-input">Lens Mount Type</label>
-                                            <input type="text" class="form-control" name="lensmount" value="{{ isset($product) ? $product->lensmounttype : old('lensmount') }}" id="lensmount" placeholder="Lens Mount" required>
+                                            <input type="text" class="form-control" name="lensmount" value="{{ isset($product) ? $product->lensmounttype : old('lensmount') }}" id="lensmount" placeholder="Lens Mount">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="orders-input">Display Size</label>
-                                            <input type="text" class="form-control" name="displaysize" value="{{ isset($product) ? $product->displaysize : old('displaysize') }}" id="displaysize" placeholder="Display Size" required>
+                                            <input type="text" class="form-control" name="displaysize" value="{{ isset($product) ? $product->displaysize : old('displaysize') }}" id="displaysize" placeholder="Display Size">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="orders-input">Video Resolution</label>
-                                            <input type="text" class="form-control" name="videoresolution" value="{{ isset($product) ? $product->videoresolution : old('videoresolution') }}" id="videoresolution" placeholder="Video Resolution" required>
+                                            <input type="text" class="form-control" name="videoresolution" value="{{ isset($product) ? $product->videoresolution : old('videoresolution') }}" id="videoresolution" placeholder="Video Resolution">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="orders-input">Card Type</label>
-                                            <input type="text" class="form-control" name="cardtype" value="{{ isset($product) ? $product->cardtype : old('cardtype') }}" id="cardtype" placeholder="Card Type" required>
+                                            <input type="text" class="form-control" name="cardtype" value="{{ isset($product) ? $product->cardtype : old('cardtype') }}" id="cardtype" placeholder="Card Type">
                                         </div>
                                     </div>
                                 </div>
@@ -126,7 +132,7 @@
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="orders-input">Digital Interface</label>
-                                            <input type="text" class="form-control" name="digitalinterface" value="{{ isset($product) ? $product->digitalinterface : old('digitalinterface') }}" id="digitalinterface" placeholder="Digital Interface" required>
+                                            <input type="text" class="form-control" name="digitalinterface" value="{{ isset($product) ? $product->digitalinterface : old('digitalinterface') }}" id="digitalinterface" placeholder="Digital Interface">
                                         </div>
                                     </div>
                                      <div class="col-lg-3 col-sm-6">
@@ -134,7 +140,7 @@
                                             <label class="form-label" for="retail-price">Retail Price</label>
                                             <div class="input-group has-validation mb-3">
                                                 <span class="input-group-text" id="retail-price">$</span>
-                                                <input type="text" class="form-control" name="retailprice" id="retailprice" placeholder="Retail price" value="{{ isset($product) ? $product->retailprice : old('retailprice') }}" aria-label="Retail Price" aria-describedby="retailprice-addon" required>
+                                                <input type="text" class="form-control" name="retailprice" id="retailprice" placeholder="Retail price" value="{{ isset($product) ? $product->retailprice : old('retailprice') }}" aria-label="Retail Price" aria-describedby="retailprice-addon">
                                             </div>
                                         </div>
                                     </div>
@@ -143,7 +149,7 @@
                                             <label class="form-label" for="product-price-input">Sale Price</label>
                                             <div class="input-group has-validation mb-3">
                                                 <span class="input-group-text" id="product-price-addon">$</span>
-                                                <input type="text" class="form-control" name="saleprice" id="saleprice" placeholder="Enter price" value="{{ isset($product) ? $product->price : old('saleprice') }}" aria-label="Price" aria-describedby="product-price-addon" required>
+                                                <input type="text" class="form-control" name="saleprice" id="saleprice" placeholder="Enter price" value="{{ isset($product) ? $product->price : old('saleprice') }}" aria-label="Price" aria-describedby="product-price-addon">
                                             </div>
                                         </div>
                                     </div>
@@ -201,7 +207,8 @@
                             <select class="form-select" name="status" id="status" data-choices data-choices-search-false>
                                 @foreach ($collectionstatus as $status)
                                     <option value="{{ $status->id }}"
-                                        {{ isset($product) && $product->status == $status->id ? 'selected' : '' }}>
+                                        {{ isset($product) && $product->status == $status->id ? 'selected' : '' }}
+                                        {{ (old("status") == $status->id ? "selected":"") }}>
                                         {{ $status->name }}</option>
                                 @endforeach
                             </select>
@@ -211,7 +218,8 @@
                             <select class="form-select" name="visibility" id="visibility" data-choices data-choices-search-false>
                                 @foreach ($collectionvisibility as $visibilty)
                                     <option value="{{ $visibilty->id }}"
-                                        {{ isset($product) && $product->visibility == $visibilty->id ? 'selected' : '' }}>
+                                        {{ isset($product) && $product->visibility == $visibilty->id ? 'selected' : '' }}
+                                        {{ (old("visibility") == $visibilty->id ? "selected":"") }}>
                                         {{ $visibilty->name }}</option>
                                 @endforeach
                             </select>
@@ -227,7 +235,7 @@
                             <a href="{{ route('categories.create') }}" class="float-end text-decoration-underline">Add New</a>
                             Select product category
                         </p>
-                        <select class="js-example-basic-multiple" name="productcategories[]" multiple="multiple">
+                        <select class="js-example-basic-multiple" name="productcategories[]" multiple="multiple" required>
                             @foreach ($collectioncategory as $category)
                                 <option value="{{ $category->id }}"
                                     @if (isset($selectedproductcategories)) @foreach ($selectedproductcategories as $categories) {{ $categories->category_id == $category->id ? 'selected' : '' }} @endforeach @endif>
@@ -247,10 +255,11 @@
                             Select product Brand
                         </p>
                         <select class="js-example-basic-single" name="brand">
-                            <option>Select a Brand</option>
+                            <option value="">Select a Brand</option>
                             @foreach ($collectionbrand as $brand)
                                 <option value="{{ $brand->id }}"
-                                    {{ isset($product) && $product->brandid == $brand->id ? 'selected' : '' }}>
+                                    {{ isset($product) && $product->brandid == $brand->id ? 'selected' : '' }}
+                                    {{ (old("brand") == $brand->id ? "selected":"") }}>
                                     {{ $brand->title }}</option>
                             @endforeach
                         </select>
@@ -289,7 +298,8 @@
                             <option>Select a Availability</option>
                             @foreach ($collectionavailability as $availability)
                                 <option value="{{ $availability->id }}"
-                                    {{ isset($product) && $product->availabilityid == $availability->id ? 'selected' : '' }}>
+                                    {{ isset($product) && $product->availabilityid == $availability->id ? 'selected' : '' }}
+                                    {{ (old("availability") == $availability->id ? "selected":"") }}>
                                     {{ $availability->name }}</option>
                             @endforeach
                         </select>
@@ -305,6 +315,8 @@
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="{{ URL::asset('assets/js/pages/select2.init.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
         <script src="{{ URL::asset('assets/js/pages/ecommerce-product-create.init.js') }}"></script>
     @endsection
 </x-app-layout>

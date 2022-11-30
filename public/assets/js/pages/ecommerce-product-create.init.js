@@ -32,6 +32,7 @@ ClassicEditor.create(
 });
 
 $(document).ready(function () {
+
     $("#producttitle").keyup(function () {
         $("#metatitle").val($(this).val());
     });
@@ -39,28 +40,56 @@ $(document).ready(function () {
 
     $("#mfr").keyup(function () {
         var productmodel = $("#mfr").val();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '/check-model',
-            data: { model: productmodel },
-            success: function (resp) {
-                if (resp == "false") {
-                    $("#mfr").css("border-color", "red");
-                    $("#promodel").html("<font color=red>Model Already Exist</font>");
-                } else {
-                    $("#mfr").css("border-color", "");
-                    $("#promodel").html("");
+        if (productmodel == "") {
+            $('#model-suggestions').html("");
+        } else {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
+            });
+
+            $.ajax({
+                type: 'get',
+                url: '/check-model',
+                data: { model: productmodel },
+                success: function (resp) {
+                    $("#model-suggestions").html(resp);
+                },
+                error: function () {
+                    console.log("Error");
+                }
+            });
+        }
+    });
+
+    $(document).on('click', 'li', function () {
+        var value = $(this).text();
+        $('#mfr').val(value);
+        $('#model-suggestions').html("");
+    })
+
+    $('#createproduct-form').validate({
+        rules: {
+            producttitle: {
+                required: true
             },
-            error: function () {
-                console.log("Error");
+            mfr: {
+                required: true
+            },
+            retailprice: {
+                required: true
+            },
+            saleprice: {
+                required: true
+            },
+            productcategories: {
+                required: true
+            },
+            brand: {
+                required: true
             }
-        });
+        },
     });
 });
 
@@ -74,7 +103,7 @@ const pond = FilePond.create(inputElement, {
     server: {
         url: '/uploadproducts',
         headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     }
 });
@@ -83,7 +112,7 @@ const secondpond = FilePond.create(inputSecondElement, {
     server: {
         url: '/uploadthumbnail',
         headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     }
 });
