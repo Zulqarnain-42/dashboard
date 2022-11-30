@@ -9,7 +9,6 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ServicesController;
-use App\Http\Controllers\MainSliderController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
@@ -39,7 +38,6 @@ Route::resource('categories', CategoriesController::class)->middleware(['auth','
 Route::resource('product', ProductController::class)->middleware(['auth','verified']);
 Route::resource('brand', BrandController::class)->middleware(['auth','verified']);
 Route::resource('customer', CustomerController::class)->middleware(['auth','verified']);
-Route::resource('mainslider', MainSliderController::class)->middleware(['auth','verified']);
 Route::resource('currency', CurrencyController::class)->middleware(['auth','verified']);
 Route::resource('services', ServicesController::class)->middleware(['auth','verified']);
 Route::resource('profile', ProfileController::class)->middleware(['auth','verified']);
@@ -62,7 +60,6 @@ Route::post('uploadcategoryslider',[CategoriesController::class,'uploadcategorys
 Route::post('uploadcategoryimage',[CategoriesController::class,'uploadcategoryimage'])->middleware(['auth','verified'])->name('uploadcategoryimage');
 Route::post('uploadproducts',[ProductController::class,'uploadproducts'])->middleware(['auth','verified'])->name('uploadproducts');
 Route::post('uploadthumbnail',[ProductController::class,'uploadthumbnail'])->middleware(['auth','verified'])->name('uploadthumbnail');
-Route::post('uploadmainslider',[MainSliderController::class,'uploadmainslider'])->middleware(['auth','verified'])->name('uploadmainslider');
 Route::post('storeinventory',[InventoryController::class,'store'])->middleware(['auth','verified'])->name('inventory.store');
 
 Route::get('check-model',[ProductController::class,'checkmodel'])->middleware(['auth','verified'])->name('product.check-model');
