@@ -66,6 +66,11 @@ class Product extends Model
         return $this->belongsTo(Availability::class);
     }
 
+    public function history()
+    {
+        return $this->hasMany(ProductHistory::class,'product_id','id');
+    }
+
     protected static function boot()
     {
         parent::boot();

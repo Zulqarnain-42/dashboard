@@ -38,8 +38,8 @@ $(document).ready(function () {
     });
 
 
-    $("#mfr").keyup(function () {
-        var productmodel = $("#mfr").val();
+    $("#mfrmodel").keyup(function () {
+        var productmodel = $("#mfrmodel").val();
         if (productmodel == "") {
             $('#model-suggestions').html("");
         } else {
@@ -65,7 +65,7 @@ $(document).ready(function () {
 
     $(document).on('click', 'li', function () {
         var value = $(this).text();
-        $('#mfr').val(value);
+        $('#mfrmodel').val(value);
         $('#model-suggestions').html("");
     })
 

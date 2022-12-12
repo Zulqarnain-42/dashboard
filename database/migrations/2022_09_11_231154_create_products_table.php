@@ -37,18 +37,12 @@ return new class extends Migration
             $table->foreignId('availabilityid')->unsigned();
             $table->longText('inthebox')->nullable();
             $table->longText('specifications')->nullable();
-            $table->string('lensmounttype')->nullable();
-            $table->string('displaysize')->nullable();
-            $table->string('videoresolution')->nullable();
-            $table->string('cardtype')->nullable();
-            $table->string('digitalinterface')->nullable();
             $table->string('metatitle')->nullable();
             $table->string('metakeywords')->nullable();
             $table->string('metadescription')->nullable();
-            $table->string('isfeaturedvideo')->default(0);
-            $table->string('isfeaturedphoto')->default(0);
             $table->string('office_opening')->nullable();
             $table->string('warehouse_opening')->nullable();
+            $table->bigInteger('addedby')->nullable();
             $table->timestamps();
         });
     }

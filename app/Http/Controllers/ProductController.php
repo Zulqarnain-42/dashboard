@@ -10,7 +10,6 @@ use App\Models\Product;
 use App\Models\ProductImages;
 use App\Models\CategoryProduct;
 use App\Models\ProductTags;
-use App\Models\RelatedProducts;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,23 +38,27 @@ class ProductController extends Controller
         $collectionstatus = Status::get();
         $collectionvisibility = Visibilty::get();
         $collectionavailability = Availability::where([['status', true]])->get();
+        $selectedproducttags = [];
 
         return view('products.form')->with(compact('collectionbrand',
-        'collectioncategory',
-        'collectionproducts',
-        'collectionstatus',
-        'collectionvisibility',
-        'collectionavailability'));
+                                                    'collectioncategory',
+                                                    'collectionproducts',
+                                                    'collectionstatus',
+                                                    'collectionvisibility',
+                                                    'collectionavailability',
+                                                    'selectedproducttags'));
     }
 
     public function store(StoreProductRequest $request)
     {
-        $dbcheck = Product::where([['title', '=', $request->producttitle],['mfr','=',$request->mfr],['brandid','=',$request->brand]])->first();
+        $dbcheck = Product::where([['title', '=', $request->producttitle],
+                                    ['mfr','=',$request->mfrmodel],
+                                    ['brandid','=',$request->brand]])->first();
 
         if($dbcheck === null){
             $request->validate([
                 'producttitle' => 'required',
-                'mfr' => 'required',
+                'mfrmodel' => 'required',
                 'saleprice' => 'required',
                 'status' => 'required',
                 'visibility' => 'required',
@@ -71,11 +74,11 @@ class ProductController extends Controller
                 $product->thumbnail = "storage/images/thumbnail/$newfilename";
             }
 
-            $product->productcode = $this->generateUniqueCode().''.$request->mfr;
+            $product->productcode = $this->generateUniqueCode().''.$request->mfrmodel;
             $product->title = $request->producttitle;
             $product->longdescription = $request->longdescription;
             $product->shortdescription = $request->shortdes;
-            $product->mfr = strtoupper($request->mfr);
+            $product->mfr = strtoupper($request->mfrmodel);
             $product->sku = strtoupper($request->sku);
             $product->upc = $request->upc;
             $product->length = $request->length;
@@ -94,11 +97,7 @@ class ProductController extends Controller
             $product->slug = $request->producttitle;
             $product->retailprice = $request->retailprice;
             $product->availabilityid = $request->availability;
-            $product->lensmounttype = $request->lensmount;
-            $product->displaysize = $request->displaysize;
-            $product->videoresolution = $request->videoresolution;
-            $product->cardtype = $request->cardtype;
-            $product->digitalinterface = $request->digitalinterface;
+            $product->addedby = Auth()->user()->id;
             $product->save();
 
             if ($request->ProductsUploadFilePond) {
@@ -121,20 +120,18 @@ class ProductController extends Controller
                 'addedat' => Carbon::now(),
             ]);
 
-            if ($request->producttags) {
-                foreach ($request->producttags as $tags) {
+            $product->history()->create([
+                'product_id' => $product->id,
+                'description' => "product created",
+                'userid' => Auth()->user()->id
+            ]);
+
+            if ($request->producttages) {
+                $tagsproduct = explode(',',$request->producttages);
+                foreach ($tagsproduct as $tags) {
                     $product->producttags()->create([
                         'productid' => $product->id,
                         'tags' => $tags,
-                    ]);
-                }
-            }
-
-            if ($request->relatedproducts) {
-                foreach ($request->relatedproducts as $related) {
-                    $product->relatedproducts()->create([
-                        'productid' => $product->id,
-                        'relatedproductsid' => $related,
                     ]);
                 }
             }
@@ -163,7 +160,6 @@ class ProductController extends Controller
         $collectionbrand = Brand::where([['status', true], ['visibility', true]])->get();
         $collectioncategory = Category::where([['status', true], ['visibility', true]])->get();
         $collectionproducts = Product::where([['status', true], ['visibility', true]])->get();
-        $relatedproducts = $product::find($product->id)->relatedproducts;
         $selectedproducttags = $product::find($product->id)->producttags;
         $selectedproductcategories = CategoryProduct::where('product_id', $product->id)->get();
         $productimages = $product::find($product->id)->productimages;
@@ -176,7 +172,6 @@ class ProductController extends Controller
             'collectionbrand',
             'collectioncategory',
             'collectionproducts',
-            'relatedproducts',
             'selectedproducttags',
             'selectedproductcategories',
             'productimages',
@@ -191,7 +186,7 @@ class ProductController extends Controller
 
         $request->validate([
             'producttitle' => 'required',
-            'mfr' => 'required',
+            'mfrmodel' => 'required',
             'saleprice' => 'required',
             'status' => 'required',
             'visibility' => 'required',
@@ -203,15 +198,29 @@ class ProductController extends Controller
             $product->thumbnail = "storage/images/thumbnail/$newfilename";
         }
 
+        if($request->saleprice !== $product->price){
+            $product->history()->create([
+                'product_id' => $product->id,
+                'description' => "price updated",
+                'userid' => Auth()->user()->id
+            ]);
+        }else{
+            $product->history()->create([
+                'product_id' => $product->id,
+                'description' => "product updated",
+                'userid' => Auth()->user()->id
+            ]);
+        }
+
         if($product->productcode === null){
-            $product->productcode = $this->generateUniqueCode().''.$request->mfr;
+            $product->productcode = $this->generateUniqueCode().''.$request->mfrmodel;
         }
 
 
         $product->title = $request->producttitle;
         $product->longdescription = $request->longdescription;
         $product->shortdescription = $request->shortdes;
-        $product->mfr = strtoupper($request->mfr);
+        $product->mfr = strtoupper($request->mfrmodel);
         $product->sku = strtoupper($request->sku);
         $product->upc = $request->upc;
         $product->length = $request->length;
@@ -230,14 +239,8 @@ class ProductController extends Controller
         $product->slug = $request->producttitle;
         $product->retailprice = $request->retailprice;
         $product->availabilityid = $request->availability;
-        $product->lensmounttype = $request->lensmount;
-        $product->displaysize = $request->displaysize;
-        $product->videoresolution = $request->videoresolution;
-        $product->cardtype = $request->cardtype;
-        $product->digitalinterface = $request->digitalinterface;
 
         $product->update();
-
 
         if ($request->ProductsUploadFilePond) {
             $productimages = $product->productimages()->delete();
@@ -264,18 +267,20 @@ class ProductController extends Controller
             }
         }
 
-        if ($request->producttags) {
+        if ($request->producttages) {
             $prodtags = $product->producttags()->delete();
             if ($prodtags > 1) {
-                foreach ($request->producttags as $tags) {
+                $tagsproduct = explode(',',$request->producttages);
+                foreach ($tagsproduct as $tags) {
                     $product->producttags()->create([
                         'productid' => $product->id,
                         'tags' => $tags,
                     ]);
                 }
             }
-            else if($request->producttags != null) {
-                foreach ($request->producttags as $tags) {
+            else if($request->producttages != null) {
+                $tagsproduct = explode(',',$request->producttages);
+                foreach ($tagsproduct as $tags) {
                     $product->producttags()->create([
                         'productid' => $product->id,
                         'tags' => $tags,
@@ -286,32 +291,6 @@ class ProductController extends Controller
             $findproducttags = $product::find($product->id)->producttags;
             if($findproducttags){
                 $product->producttags()->delete();
-            }
-        }
-
-
-        if ($request->relatedproducts) {
-            $relatedprod = RelatedProducts::where('productid', $product->id)->delete();
-            if ($relatedprod > 1) {
-                foreach ($request->relatedproducts as $related) {
-                    $product->relatedproducts()->create([
-                        'productid' => $product->id,
-                        'relatedproductsid' => $related,
-                    ]);
-                }
-            } else {
-                foreach ($request->relatedproducts as $related) {
-                    $product->relatedproducts()->create([
-                        'productid' => $product->id,
-                        'relatedproductsid' => $related,
-                    ]);
-                }
-            }
-        }else{
-
-            $findrelatedproducts = RelatedProducts::where('productid', $product->id)->get();
-            if($findrelatedproducts){
-                RelatedProducts::where('productid', $product->id)->delete();
             }
         }
 
@@ -347,48 +326,38 @@ class ProductController extends Controller
 
     public function uploadproducts(Request $request)
     {
-
         if($request->ProductsUploadFilePond){
             $files = $request->file('ProductsUploadFilePond');
             foreach ($files as $file) {
                 $path = $file->store('tmp','public');
             }
         }
-
         return $path;
     }
 
     public function uploadthumbnail(Request $request)
     {
-
         if($request->ProductsThumbnailFilePond){
             $path = $request->file('ProductsThumbnailFilePond')->store('tmp','public');
         }
-
         return $path;
     }
 
     public function generateUniqueCode()
     {
-
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersNumber = strlen($characters);
         $codeLength = 4;
-
         $code = '';
-
-        while (strlen($code) < 4) {
+        while (strlen($code) < $codeLength) {
             $position = rand(0, $charactersNumber - 1);
             $character = $characters[$position];
             $code = $code.$character;
         }
-
         if (Product::where('productcode', $code)->exists()) {
             $this->generateUniqueCode();
         }
-
         return $code;
-
     }
 
     public function destroy(Product $product)
@@ -397,13 +366,16 @@ class ProductController extends Controller
         CategoryProduct::where('product_id',$product->id)->delete();
         ProductImages::where('productid',$product->id)->delete();
         ProductTags::where('productid',$product->id)->delete();
-        RelatedProducts::where('productid',$product->id)->delete();
         return back();
+    }
+
+    public function show(Product $product)
+    {
+        return view('products.productdetails')->with(compact('product'));
     }
 
     public function checkmodel(Request $request)
     {
-
         $productmodels = Product::select('mfr')->where([['mfr','like',$request->model.'%']])->take(5)->get();
         if(count($productmodels)>0){
             $output = '<ul class="list-group" style="display:block;position:absolute;z-index:1;">';
@@ -416,7 +388,6 @@ class ProductController extends Controller
         {
             $output = null;
         }
-
         echo $output;
     }
 }

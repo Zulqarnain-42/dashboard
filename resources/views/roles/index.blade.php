@@ -12,7 +12,7 @@
                     <form action="javascript:void(0);">
                         <div class="row g-3 mb-0 align-items-center">
                             <div class="col-auto">
-                                <a href="{{ route('brand.create') }}" type="button" class="btn btn-soft-success shadow-none">
+                                <a href="{{ route('roles.create') }}" type="button" class="btn btn-soft-success shadow-none">
                                     <i class="ri-add-circle-line align-middle me-1"></i>
                                     Add Roles
                                 </a>
@@ -52,36 +52,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($collectionbrand as $brand)
+                            @foreach ($roles as $role)
                                 <tr>
                                     <td>0{{ $loop->iteration }}</td>
-                                    <td>{{ strtoupper($brand->brandcode) }}</td>
-                                    <td>{{ $brand->title }}</td>
-                                    <td><img src="{{ $brand->image }}" height="35px"></td>
+                                    <td>{{ $role->name }}</td>
                                     <td>
-                                        @if ($brand->status == 1)
-                                            <span class="badge badge-soft-info">Published</span>
-                                        @else
-                                            <span class="badge bg-danger">Draft</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($brand->visibility == 1)
-                                            <span class="badge badge-soft-info">Public</span>
-                                        @else
-                                            <span class="badge bg-danger">Hidden</span>
-                                        @endif
+                                        @foreach ($role->permissions as $permission)
+                                            <button class="btn btn-warning btn-sm" role="button">{{$permission->name}}</button>
+                                        @endforeach
                                     </td>
                                     <td>
                                         <ul class="list-inline hstack gap-2 mb-0">
                                             <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                <a href="{{ route('brand.edit', $brand->id) }}" class="text-primary d-inline-block edit-item-btn">
+                                                <a href="{{ route('roles.edit', $role->id) }}" class="text-primary d-inline-block edit-item-btn">
                                                     <i class="ri-pencil-fill fs-16"></i>
                                                 </a>
                                             </li>
                                             <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
 
-                                            <form action="{{ route('brand.destroy', $brand->id) }}" method="POST">
+                                            <form action="{{ route('roles.destroy', $role->id) }}" method="POST">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                                 <button type="submit" class="text-danger d-inline-block remove-item-btn datatable-btn">
@@ -92,7 +81,7 @@
                                         </ul>
                                     </td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

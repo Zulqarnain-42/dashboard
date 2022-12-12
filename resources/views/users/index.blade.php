@@ -12,7 +12,7 @@
                     <form action="javascript:void(0);">
                         <div class="row g-3 mb-0 align-items-center">
                             <div class="col-auto">
-                                <a href="{{ route('brand.create') }}" type="button" class="btn btn-soft-success shadow-none">
+                                <a href="{{ route('users.create') }}" type="button" class="btn btn-soft-success shadow-none">
                                     <i class="ri-add-circle-line align-middle me-1"></i>
                                     Add User
                                 </a>
@@ -46,45 +46,46 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Image</th>
                                 <th>Firstname</th>
                                 <th>Lastname</th>
                                 <th>Username</th>
                                 <th>Email</th>
                                 <th>Mobile</th>
+                                <th>Role</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($collectionbrand as $brand)
+                            @foreach ($users as $user)
                                 <tr>
                                     <td>0{{ $loop->iteration }}</td>
-                                    <td>{{ strtoupper($brand->brandcode) }}</td>
-                                    <td>{{ $brand->title }}</td>
-                                    <td><img src="{{ $brand->image }}" height="35px"></td>
                                     <td>
-                                        @if ($brand->status == 1)
-                                            <span class="badge badge-soft-info">Published</span>
-                                        @else
-                                            <span class="badge bg-danger">Draft</span>
-                                        @endif
+                                        <div class="avatar-sm bg-light rounded p-1 me-2">
+                                            @if ($user->image)
+                                                <img src="{{$user->image}}" class="img-fluid d-block">
+                                            @else
+                                                <img src="{{URL::asset('fa-bt/notfound.png')}}" class="img-fluid d-block">
+                                            @endif
+
+                                        </div>
                                     </td>
-                                    <td>
-                                        @if ($brand->visibility == 1)
-                                            <span class="badge badge-soft-info">Public</span>
-                                        @else
-                                            <span class="badge bg-danger">Hidden</span>
-                                        @endif
-                                    </td>
+                                    <td>{{ $user->firstname }}</td>
+                                    <td>{{ $user->lastname }}</td>
+                                    <td>{{ $user->username }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->mobile }}</td>
+                                    <td>{{ $user->role }}</td>
                                     <td>
                                         <ul class="list-inline hstack gap-2 mb-0">
                                             <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                <a href="{{ route('brand.edit', $brand->id) }}" class="text-primary d-inline-block edit-item-btn">
+                                                <a href="{{ route('users.edit', $user->id) }}" class="text-primary d-inline-block edit-item-btn">
                                                     <i class="ri-pencil-fill fs-16"></i>
                                                 </a>
                                             </li>
                                             <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
 
-                                            <form action="{{ route('brand.destroy', $brand->id) }}" method="POST">
+                                            <form action="{{ route('users.destroy', $user->id) }}" method="POST">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                                 <button type="submit" class="text-danger d-inline-block remove-item-btn datatable-btn">
@@ -95,7 +96,7 @@
                                         </ul>
                                     </td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

@@ -180,6 +180,9 @@
                                     <li class="nav-item">
                                         <a href="{{ route('currency.index') }}" class="nav-link" data-key="t-brand"> Currency </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link" data-key="t-company">Company</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>

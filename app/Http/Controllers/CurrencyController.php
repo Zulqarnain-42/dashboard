@@ -44,11 +44,13 @@ class CurrencyController extends Controller
 
         $currency->name = $request->currencyname;
         $currency->symbol = $request->currencysymbol;
+
         if ($request->isfeatured != null) {
             $currency->default = $request->isfeatured;
         } else {
             $currency->default = false;
         }
+
         $currency->save();
 
         return redirect()->route('currency.index');

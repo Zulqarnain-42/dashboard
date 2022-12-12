@@ -59,7 +59,7 @@
                                     <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label class="form-label" for="manufacturer-name-input">MFR</label>
-                                            <input type="text" class="form-control" style="text-transform:uppercase" name="mfr" value="{{ isset($product) ? $product->mfr : old('mfr') }}" id="mfr" placeholder="model">
+                                            <input type="text" class="form-control" style="text-transform:uppercase" name="mfrmodel" value="{{ isset($product) ? $product->mfr : old('mfrmodel') }}" id="mfrmodel" placeholder="model">
                                             <div id="model-suggestions"></div>
                                         </div>
                                     </div>
@@ -103,38 +103,6 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="stocks-input">Lens Mount Type</label>
-                                            <input type="text" class="form-control" name="lensmount" value="{{ isset($product) ? $product->lensmounttype : old('lensmount') }}" id="lensmount" placeholder="Lens Mount">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="orders-input">Display Size</label>
-                                            <input type="text" class="form-control" name="displaysize" value="{{ isset($product) ? $product->displaysize : old('displaysize') }}" id="displaysize" placeholder="Display Size">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="orders-input">Video Resolution</label>
-                                            <input type="text" class="form-control" name="videoresolution" value="{{ isset($product) ? $product->videoresolution : old('videoresolution') }}" id="videoresolution" placeholder="Video Resolution">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="orders-input">Card Type</label>
-                                            <input type="text" class="form-control" name="cardtype" value="{{ isset($product) ? $product->cardtype : old('cardtype') }}" id="cardtype" placeholder="Card Type">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="orders-input">Digital Interface</label>
-                                            <input type="text" class="form-control" name="digitalinterface" value="{{ isset($product) ? $product->digitalinterface : old('digitalinterface') }}" id="digitalinterface" placeholder="Digital Interface">
-                                        </div>
-                                    </div>
                                      <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="retail-price">Retail Price</label>
@@ -275,22 +243,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Related Products</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="text-muted mb-2">Select Related Products</p>
-                        <select class="js-example-basic-multiple1" name="relatedproducts[]" multiple="multiple">
-                            @foreach ($collectionproducts as $product)
-                                <option
-                                    @if (isset($relatedproducts)) @foreach ($relatedproducts as $relprod) {{ $relprod->relatedproductsid == $product->id ? 'selected' : '' }} @endforeach @endif
-                                    value="{{ $product->id }}">{{ $product->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Availability</h5>
+                        <h5 class="card-title mb-0">Stock Options</h5>
                     </div>
                     <div class="card-body">
                         <p class="text-muted mb-2">Select Availability</p>
@@ -305,7 +258,35 @@
                         </select>
                     </div>
                 </div>
-
+                @if (count($selectedproducttags)>0)
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Product Tags</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="hstack gap-3 align-items-start">
+                            <div class="flex-grow-1">
+                                @foreach ($selectedproducttags as $producttags)
+                                <input class="form-control" data-choices data-choices-multiple-remove="true" name="producttages" placeholder="Enter tags" type="text" value="{{$producttags->tags}}" />
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @else
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Product Tags</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="hstack gap-3 align-items-start">
+                            <div class="flex-grow-1">
+                                <input class="form-control" data-choices data-choices-multiple-remove="true" name="producttages" placeholder="Enter tags" type="text" value="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
     </form>
