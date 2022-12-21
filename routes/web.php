@@ -19,6 +19,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\BrandCategoriesController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RolesController;
@@ -36,7 +37,7 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::resource('slider', SliderController::class)->middleware(['auth','verified']);
+Route::resource('slider', SliderController::class)->middleware(['auth','verified','role:admin']);
 
 Route::resource('categories', CategoriesController::class)->middleware(['auth','verified']);
 Route::post('uploadcategoryimage',[CategoriesController::class,'uploadcategoryimage'])->middleware(['auth','verified'])->name('uploadcategoryimage');
@@ -51,20 +52,21 @@ Route::get('productmedia',[ProductController::class,'productmedia'])->middleware
 Route::resource('brand', BrandController::class)->middleware(['auth','verified']);
 Route::post('uploadbrand',[BrandController::class,'uploadbrand'])->middleware(['auth','verified'])->name('uploadbrand');
 
-Route::resource('customer', CustomerController::class)->middleware(['auth','verified']);
-Route::resource('currency', CurrencyController::class)->middleware(['auth','verified']);
+Route::resource('customer', CustomerController::class)->middleware(['auth','verified','role:admin']);
+Route::resource('currency', CurrencyController::class)->middleware(['auth','verified','role:admin']);
 Route::resource('services', ServicesController::class)->middleware(['auth','verified']);
 Route::resource('profile', ProfileController::class)->middleware(['auth','verified']);
-Route::resource('availability', AvailabilityController::class)->middleware(['auth','verified']);
+Route::resource('availability', AvailabilityController::class)->middleware(['auth','verified','role:admin']);
 Route::resource('sales', SalesController::class)->middleware(['auth','verified']);
 Route::resource('purchase', PurchaseController::class)->middleware(['auth','verified']);
-Route::resource('warehouse', WarehouseController::class)->middleware(['auth','verified']);
+Route::resource('warehouse', WarehouseController::class)->middleware(['auth','verified','role:admin']);
 Route::resource('supplier', SupplierController::class)->middleware(['auth','verified']);
 Route::resource('booking', BookingController::class)->middleware(['auth','verified']);
-Route::resource('users',UserController::class)->middleware(['auth','verified']);
-Route::resource('permissions',PermissionController::class)->middleware(['auth','verified']);
-Route::resource('roles',RolesController::class)->middleware(['auth','verified']);
-Route::resource('company',CompanyController::class)->middleware(['auth','verified']);
+Route::resource('users',UserController::class)->middleware(['auth','verified','role:admin']);
+Route::resource('permissions',PermissionController::class)->middleware(['auth','verified','role:admin']);
+Route::resource('roles',RolesController::class)->middleware(['auth','verified','role:admin']);
+Route::resource('company',CompanyController::class)->middleware(['auth','verified','role:admin']);
+Route::resource('brandcategory',BrandCategoriesController::class)->middleware(['auth','verified']);
 
 Route::post('updatework',[ServicesController::class,'updateworkstatus'])->middleware(['auth','verified'])->name('service.updateworkhistory');
 Route::get('servicesdetails/{id}',[ServicesController::class,'servicesdetails'])->middleware(['auth','verified'])->name('servicesdetails');
@@ -81,15 +83,15 @@ Route::post('storeinventory',[InventoryController::class,'store'])->middleware([
 
 Route::post('uploadslider',[SliderController::class,'uploadslider'])->middleware(['auth','verified'])->name('uploadslider');
 
+Route::post('uploadprofile',[UserController::class,'uploadprofile'])->middleware(['auth','verified'])->name('user.profileupload');
 
 
 
 
+Route::get('orders',[OrderController::class,'orders'])->middleware(['auth','verified','role:admin'])->name('orders');
+Route::get('orderdetails',[OrderController::class,'orderdetails'])->middleware(['auth','verified','role:admin'])->name('orderdetails');
 
-Route::get('orders',[OrderController::class,'orders'])->middleware(['auth','verified'])->name('orders');
-Route::get('orderdetails',[OrderController::class,'orderdetails'])->middleware(['auth','verified'])->name('orderdetails');
-
-Route::get('invoice/{id}',[InvoiceController::class,'invoice'])->middleware(['auth','verified'])->name('invoice');
+Route::get('invoice/{id}',[InvoiceController::class,'invoice'])->middleware(['auth','verified','role:admin'])->name('invoice');
 
 Route::get('/', [HomeController::class,'home'])->middleware(['auth','verified'])->name('dashboard');
 

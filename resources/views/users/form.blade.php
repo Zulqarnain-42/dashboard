@@ -49,6 +49,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Assign Permissions</h5>
+                    </div>
+                    <div class="card-body">
+                        @foreach ($permissions as $permission)
+                            <div class="form-check form-switch mb-3 mt-3 form-check-inline">
+                                <input class="form-check-input" type="checkbox" role="switch" name="userpermissions[]" id="SwitchCheck1" value="{{$permission->id}}">
+                                <label class="form-check-label" for="SwitchCheck1">{{$permission->name}}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
                 <div class="text-end mb-3">
                     <button type="submit" class="btn btn-success w-sm">Submit</button>
                 </div>
@@ -90,6 +103,14 @@
                         </select>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Profile Picture</h5>
+                    </div>
+                    <div class="card-body">
+                        <input type="file" name="ProfileFilePond" id="ProfileFilePond" accept="image/*">
+                    </div>
+                </div>
             </div>
         </div>
     </form>
@@ -101,6 +122,19 @@
         <script src="{{ URL::asset('assets/js/pages/select2.init.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-        <script src="{{ URL::asset('assets/js/pages/ecommerce-product-create.init.js') }}"></script>
+        <script>
+            FilePond.registerPlugin(FilePondPluginImagePreview);
+            FilePond.registerPlugin(FilePondPluginFileValidateType);
+            const inputElement = document.querySelector('#ProfileFilePond');
+            const pond = FilePond.create(inputElement, {
+                server: {
+                    url: '/uploadprofile',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                }
+            });
+
+        </script>
     @endsection
 </x-app-layout>

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('symbol');
             $table->boolean('default');
+            $table->boolean('selecteddefault')->default(0);
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

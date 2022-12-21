@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Roles;
+namespace App\Http\Requests\BrandCategory;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRoleRequest extends FormRequest
+class StoreBrandCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

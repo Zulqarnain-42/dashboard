@@ -16,7 +16,7 @@
                             <h6 class="mb-3 fs-14 text-muted">Assign Permissions</h6>
                         </div>
                         @foreach ($permissions as $permission)
-                            <div class="form-check form-switch mb-3 mt-3">
+                            <div class="form-check form-switch mb-3 mt-3 form-check-inline">
                                 <input class="form-check-input" type="checkbox" role="switch" name="rolepermission[]" id="SwitchCheck1" value="{{$permission->id}}">
                                 <label class="form-check-label" for="SwitchCheck1">{{$permission->name}}</label>
                             </div>

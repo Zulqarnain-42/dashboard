@@ -67,9 +67,13 @@
                                 <td><img src="{{ $slider->image }}" height="50px"></td>
                                 <td>
                                     @if ($slider->status == 1)
-                                        <span class="badge badge-soft-info">Published</span>
+                                        <div class="form-check form-switch form-switch-md ml-2">
+                                            <input type="checkbox" class="form-check-input" id="" checked>
+                                        </div>
                                     @else
-                                        <span class="badge bg-danger">Draft</span>
+                                        <div class="form-check form-switch form-switch-md ml-2">
+                                            <input type="checkbox" class="form-check-input" id="">
+                                        </div>
                                     @endif
                                 </td>
                                 <td>

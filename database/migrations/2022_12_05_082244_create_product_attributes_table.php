@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('product_attributes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('productid');
             $table->string('attributename')->nullable();
             $table->string('attributevalue')->nullable();
             $table->bigInteger('addedby')->nullable();

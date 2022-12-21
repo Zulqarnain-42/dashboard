@@ -9,6 +9,9 @@ use Spatie\Permission\Models\Permission;
 use App\Models\Status;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Requests\Profile\ChangePasswordRequest;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -51,16 +54,26 @@ class UserController extends Controller
         $user->status = $request->status;
         $user->assignRole($request->role);
 
-        if($request->has('permissions')){
-            $user->givePermissionTo($request->permissions);
+        if($request->ProfileFilePond){
+            $newfilename = Str::after($request->ProfileFilePond,'tmp/');
+            Storage::disk('public')->move($request->ProfileFilePond,"images/user/$newfilename");
+            $user->image = "storage/images/user/$newfilename";
+        }
+
+        if($request->has('userpermissions')){
+            $user->givePermissionTo($request->userpermissions);
         }
 
         $user->save();
+        return redirect()->route('users.index')->with('Success');
     }
 
     public function edit(User $user)
     {
-        return view('users.form')->with(compact('user'));
+        $roles = Role::all();
+        $permissions = Permission::all();
+        $collectionstatus = Status::get();
+        return view('users.form')->with(compact('user','roles','permissions','collectionstatus'));
     }
 
     public function update(UpdateUserRequest $request,User $user)
@@ -79,18 +92,52 @@ class UserController extends Controller
         $user->password = bcrypt($request->password);
         $user->designation = $request->designation;
         $user->status = $request->status;
-        $user->assignRole($request->role);
+        if($request->has('role')){
+            $userRole = $user->getRoleNames();
+            foreach($userRole as $role){
+                $user->removeRole($role);
+            }
 
-        if($request->has('permissions')){
-            $user->givePermissionTo($request->permissions);
+            $user->assignRole($request->role);
+        }
+
+        if($request->has('userpermissions')){
+            $userPermission = $user->getPermissionNames();
+            foreach($userPermission as $permission){
+                $user->revokePermissionTo($permission);
+            }
+            $user->givePermissionTo($request->userpermissions);
         }
 
         $user->update();
+        return redirect()->route('users.index')->with('success');
     }
 
     public function destroy(User $user)
     {
         User::where('id',$user->id)->delete();
         return back();
+    }
+
+    public function uploadprofile(Request $request)
+    {
+        if($request->ProfileFilePond){
+            $path = $request->file('ProfileFilePond')->store('tmp','public');
+        }
+        return $path;
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        $request->validate([
+            'newpassword'=>'required|min:6|max:30|confirmed'
+        ]);
+
+        $user = auth()->user();
+
+        $user->password = $request->newpassword;
+        $user->update();
+
+        return redirect()->back()->with('success');
     }
 }

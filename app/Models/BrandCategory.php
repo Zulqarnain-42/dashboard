@@ -4,42 +4,31 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Product;
-use App\Models\ServicesDetails;
+use Kalnoy\Nestedset\NodeTrait;
 use Illuminate\Support\Str;
-use App\Models\BrandCategory;
 
-class Brand extends Model
+class BrandCategory extends Model
 {
     use HasFactory;
+    use NodeTrait;
     protected $guarded = [];
-    protected $fillable = ['title'];
-    protected $table = 'brands';
+    protected $table = 'brand_categories';
+    protected $fillable = ['title','brandid'];
 
-    public function product()
+    public function brand()
     {
-        return $this->hasMany(Product::class,'brandid','id');
-    }
-
-    public function brandcategory()
-    {
-        return $this->hasMany(BrandCategory::class,'brandid','id');
-    }
-
-    public function servicesdetails()
-    {
-        return $this->hasMany(ServicesDetails::class,'brandid','id');
+        return $this->belongsTo(Brand::class,'brandid','id');
     }
 
     protected static function boot()
     {
         parent::boot();
 
-        static::created(function ($brand) {
+        static::created(function ($brandcategory) {
 
-            $brand->slug = $brand->createSlug($brand->title);
+            $brandcategory->slug = $brandcategory->createSlug($brandcategory->title);
 
-            $brand->save();
+            $brandcategory->save();
         });
     }
 

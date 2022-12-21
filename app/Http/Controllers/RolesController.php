@@ -49,12 +49,30 @@ class RolesController extends Controller
 
     public function edit(Role $role)
     {
-        return view('roles.form')->with(compact('role'));
+        $permissions = Permission::all();
+        $selectedpermission = $role->getAllPermissions();
+        return view('roles.form')->with(compact('role','permissions'));
     }
 
     public function update(UpdateRoleRequest $request,Role $role)
     {
-        dd($request);
+        $request->validate([
+            'rolepermission' => 'required'
+        ]);
+
+        $role = $request->name;
+
+        if($request->has('rolepermission')){
+            $rolesPermission = $role->getPermissionNames();
+            foreach($rolesPermission as $permission){
+                $role->revokePermissionTo($permission);
+            }
+            $role->givePermissionTo($request->rolepermission);
+        }
+
+        $role->update();
+
+        return redirect()->route('roles.index')->with('success');
     }
     public function destroy(Role $role)
     {
