@@ -119,7 +119,7 @@ class BrandController extends Controller
 
         $code = '';
 
-        while (strlen($code) < 8) {
+        while (strlen($code) < $codeLength) {
             $position = rand(0, $charactersNumber - 1);
             $character = $characters[$position];
             $code = $code.$character;

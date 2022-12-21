@@ -115,9 +115,11 @@ class BrandCategoriesController extends Controller
         $brandCategory->visibility = $request->visibility;
 
         if($request->CategorySliderUploadFilePond){
+
             $newfilename = Str::after($request->CategorySliderUploadFilePond,'tmp/');
             Storage::disk('public')->move($request->CategorySliderUploadFilePond,"images/categories/banners/$newfilename");
             $brandCategory->slider = "storage/images/categories/banners/$newfilename";
+
         }
 
         if ($request->maincategory && $request->maincategory != 'none') {
@@ -158,7 +160,7 @@ class BrandCategoriesController extends Controller
 
         $code = '';
 
-        while (strlen($code) < 8) {
+        while (strlen($code) < $codeLength) {
             $position = rand(0, $charactersNumber - 1);
             $character = $characters[$position];
             $code = $code.$character;

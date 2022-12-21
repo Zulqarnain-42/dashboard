@@ -37,6 +37,7 @@ return new class extends Migration
             $table->foreignId('availabilityid')->unsigned();
             $table->longText('inthebox')->nullable();
             $table->longText('specifications')->nullable();
+            $table->boolean('isfeatured')->default(0);
             $table->string('metatitle')->nullable();
             $table->string('metakeywords')->nullable();
             $table->string('metadescription')->nullable();
