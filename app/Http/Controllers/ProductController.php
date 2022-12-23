@@ -22,10 +22,12 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $collectionproduct = Product::get();
-        return view('products.index')->with(compact('collectionproduct'));
+        if($request->ajax()){
+            return datatables()->of(Product::all())->tojson();
+        }
+        return view('products.index');
     }
 
     public function create()

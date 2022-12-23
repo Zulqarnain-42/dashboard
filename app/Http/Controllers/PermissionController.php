@@ -17,10 +17,12 @@ class PermissionController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $permissions = $this->permission::all();
-        return view('permissions.index')->with(compact('permissions'));
+        if($request->ajax()){
+            return datatables()->of($this->permission::all())->tojson();
+        }
+        return view('permissions.index');
     }
 
     public function create()

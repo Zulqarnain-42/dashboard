@@ -20,6 +20,7 @@ class WarehouseController extends Controller
 
     public function store(StoreWarehouseRequest $request)
     {
+
         $dbcheck = Warehouse::where([['title', '=', $request->warehouse],
                                     ['address', '=', $request->address],
                                     ['city', '=', $request->city],

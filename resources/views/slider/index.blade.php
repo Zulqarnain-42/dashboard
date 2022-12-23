@@ -42,7 +42,7 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle" style="width:100%">
+                    <table id="slider-datatable" class="table table-bordered nowrap table-striped align-middle" style="width:100%">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -52,12 +52,11 @@
                                 <th>Slug</th>
                                 <th>Slider</th>
                                 <th>Status</th>
-                                <th>Visibility</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($collectionslider as $slider)
+                            {{-- @foreach ($collectionslider as $slider)
                             <tr>
                                 <td>0{{ $loop->iteration }}</td>
                                 <td>{{ strtoupper($slider->slidercode) }}</td>
@@ -67,20 +66,13 @@
                                 <td><img src="{{ $slider->image }}" height="50px"></td>
                                 <td>
                                     @if ($slider->status == 1)
-                                        <div class="form-check form-switch form-switch-md ml-2">
+                                        <div class="form-check form-switch form-switch-md ml-2" style="text-align: center;">
                                             <input type="checkbox" class="form-check-input" id="" checked>
                                         </div>
                                     @else
-                                        <div class="form-check form-switch form-switch-md ml-2">
+                                        <div class="form-check form-switch form-switch-md ml-2" style="text-align: center;">
                                             <input type="checkbox" class="form-check-input" id="">
                                         </div>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($slider->visibility == 1)
-                                        <span class="badge badge-soft-info">Public</span>
-                                    @else
-                                        <span class="badge bg-danger">Hidden</span>
                                     @endif
                                 </td>
                                 <td>
@@ -108,7 +100,7 @@
                                     </ul>
                                 </td>
                             </tr>
-                            @endforeach
+                            @endforeach --}}
                         </tbody>
                     </table>
                 </div>
@@ -123,9 +115,64 @@
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script>
+<script>
+    $(function(){
+        var table = $('#slider-datatable').DataTable({
+            processing:true,
+            serverSide: true,
+            order: [0, 'asc'],
+            ajax : "{{ route('slider.index')}}",
+            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                $("td:first", nRow).html(iDisplayIndex + 1);
+                return nRow;
+            },
+
+            columns:[
+                {data:'id',name:'id'},
+                {data:'slidercode',name:'slidercode'},
+                {data:'heading',name:'heading'},
+                {data:'text',name:'text'},
+                {data:'slug',name:'slug'},
+                {
+                    "render": function (data, type, full_row, meta) {
+                        return '<img src="' + full_row.image + '" class="avatar" height="50px">';
+                    }
+                },
+                {
+                    "data": "status", render: function (data, type, full_row, meta) {
+                        if (full_row.status == true) {
+                            return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id="" checked></div>';
+                        } else {
+                            return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id=""></div>';
+                        }
+                    }
+                },
+            ],
+            'columnDefs': [
+            {
+                'targets': 7,
+                'defaultContent': '-',
+                'searchable': false,
+                'orderable': false,
+                'width': '10%',
+                'className': 'dt-body-center',
+                'render': function (data, type, full_row, meta) {
+                    return '<ul class="list-inline hstack gap-2 mb-0">' +
+                        '<li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">' +
+                            '<a href="{{route('slider.edit','+full_row.id+')}}" class="text-primary d-inline-block edit-item-btn"><i class="ri-pencil-fill fs-16"></i></a>' +
+                        '</li>'+
+                        '<li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title data-bs-original-title="Remove">'+
+                            '<a onclick="DelSlider()" class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" href="#">'+
+                                '<i class="ri-delete-bin-5-fill fs-16"></i>'+
+                                '</a>'+
+                                '</li>'+
+                        '</ul>';
+                    }
+                }
+            ],
+        });
+    });
+
+</script>
 @endsection
 </x-app-layout>

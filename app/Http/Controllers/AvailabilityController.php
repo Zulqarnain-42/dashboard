@@ -11,11 +11,13 @@ use App\Http\Requests\Availability\UpdateAvailabilityRequest;
 
 class AvailabilityController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $collectionavailability = Availability::get();
+        if($request->ajax()){
+            return datatables()->of(Availability::get())->tojson();
+        }
         $collectionstatus = Status::get();
-        return view('availability.index')->with(compact('collectionavailability','collectionstatus'));
+        return view('availability.index')->with(compact('collectionstatus'));
     }
 
     public function store(StoreAvailabilityRequest $request)

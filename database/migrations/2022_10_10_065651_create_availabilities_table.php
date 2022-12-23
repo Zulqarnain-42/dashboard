@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('availabilities', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->string('availcode')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
         });

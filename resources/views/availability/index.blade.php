@@ -40,19 +40,18 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle" style="width:100%">
+                    <table id="availability-datatable" class="table table-bordered nowrap table-striped align-middle" style="width:100%">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Code</th>
                                 <th>Name</th>
                                 <th>Status</th>
-                                <th>Visibility</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($collectionavailability as $availability)
+                            {{-- @foreach ($collectionavailability as $availability)
                                 <tr>
                                     <td>0{{ $loop->iteration }}</td>
                                     <td>{{ strtoupper($availability->availabilitycode) }}</td>
@@ -90,7 +89,7 @@
                                         </ul>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @endforeach --}}
                         </tbody>
                     </table>
                 </div>
@@ -146,7 +145,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-        <script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script>
+        {{-- <script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script> --}}
         <script>
         jQuery(document).ready(function(){
             jQuery('#ajaxSubmit').click(function(e){
@@ -169,6 +168,57 @@
                     }});
                 });
             });
+
+
+             $(function(){
+                var table = $('#availability-datatable').DataTable({
+                    processing:true,
+                    serverSide: true,
+                    order: [0, 'asc'],
+                    ajax : "{{ route('availability.index')}}",
+                    "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                        $("td:first", nRow).html(iDisplayIndex + 1);
+                        return nRow;
+                    },
+
+                    columns:[
+                        {data:'id',name:'id'},
+                        {data:'availcode',name:'availcode'},
+                        {data:'name',name:'name'},
+                        {
+                            "data": "status", render: function (data, type, full_row, meta) {
+                                if (full_row.status == true) {
+                                    return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id="" checked></div>';
+                                } else {
+                                    return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id=""></div>';
+                                }
+                            }
+                        },
+                    ],
+                    'columnDefs': [
+                        {
+                            'targets': 4,
+                            'defaultContent': '-',
+                            'searchable': false,
+                            'orderable': false,
+                            'width': '10%',
+                            'className': 'dt-body-center',
+                            'render': function (data, type, full_row, meta) {
+                                return '<ul class="list-inline hstack gap-2 mb-0">' +
+                                    '<li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">' +
+                                    '<a href="{{route('brand.edit',"'full_row.id'")}}" class="text-primary d-inline-block edit-item-btn"><i class="ri-pencil-fill fs-16"></i></a>' +
+                                    '</li>'+
+                                    '<li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title data-bs-original-title="Remove">'+
+                                        '<a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" href="">'+
+                                            '<i class="ri-delete-bin-5-fill fs-16"></i>'+
+                                            '</a>'+
+                                '</li>'+
+                                    '</ul>';
+                                }
+                            }
+                        ],
+                    });
+                });
         </script>
     @endsection
 </x-app-layout>

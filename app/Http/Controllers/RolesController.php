@@ -17,10 +17,12 @@ class RolesController extends Controller
         $this->role = $role;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $roles = $this->role::all();
-        return view('roles.index')->with(compact('roles'));
+        if($request->ajax()){
+            return datatables()->of($this->role::all())->tojson();
+        }
+        return view('roles.index');
     }
 
     public function create()

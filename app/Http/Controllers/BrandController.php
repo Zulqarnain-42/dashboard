@@ -14,10 +14,12 @@ use Illuminate\Support\Facades\Storage;
 
 class BrandController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $collectionbrand = Brand::get();
-        return view('brands.index')->with(compact('collectionbrand'));
+        if($request->ajax()){
+            return datatables()->of(Brand::all())->tojson();
+        }
+        return view('brands.index');
     }
 
     public function create()

@@ -14,10 +14,13 @@ use Illuminate\Support\Facades\Storage;
 
 class SliderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $collectionslider = Slider::get();
-        return view('slider.index')->with(compact('collectionslider'));
+
+        if($request->ajax()){
+            return datatables()->of(Slider::all())->tojson();
+        }
+        return view('slider.index');
     }
 
     public function create()
@@ -130,5 +133,11 @@ class SliderController extends Controller
     {
         Slider::where('id',$slider->id)->delete();
         return back();
+    }
+
+    public function gettabledata(Request $request)
+    {
+        dd($request);
+
     }
 }

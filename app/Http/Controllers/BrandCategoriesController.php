@@ -14,10 +14,12 @@ use Illuminate\Support\Str;
 
 class BrandCategoriesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $collectionbrandcategories = BrandCategory::with('brand')->get();
-        return view('brandcategory.index')->with(compact('collectionbrandcategories'));
+        if($request->ajax()){
+            return datatables()->of(BrandCategory::with('brand')->get())->tojson();
+        }
+        return view('brandcategory.index');
     }
 
     public function create()

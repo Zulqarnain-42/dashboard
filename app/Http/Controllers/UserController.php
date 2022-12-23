@@ -15,14 +15,16 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('roles')->get();
-        $users->transform(function($user){
-            $user->role = $user->getRoleNames()->first();
-            return $user;
-        });
-        return view('users.index')->with(compact('users'));
+        if($request->ajax()){
+            // $users = User::with('roles')->get();
+            // $users->transform(function($user){
+            //     $user->role = $user->getRoleNames()->first();
+            // });
+            return datatables()->of(User::with('roles')->get())->tojson();
+        }
+        return view('users.index');
     }
 
     public function create()
@@ -115,8 +117,13 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        User::where('id',$user->id)->delete();
-        return back();
+        if($user->status === 1){
+            User::where('id',$user->id)->update(['status'=> 0]);
+            return back();
+        }else{
+            User::where('id',$user->id)->update(['status'=> 1]);
+            return back();
+        }
     }
 
     public function uploadprofile(Request $request)

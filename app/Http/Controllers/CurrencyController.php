@@ -9,10 +9,12 @@ use App\Models\SupportedCurrency;
 
 class CurrencyController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $collectionsupportedcurreny = SupportedCurrency::get();
-        return view('currency.index')->with(compact('collectionsupportedcurreny'));
+        if($request->ajax()){
+            return datatables()->of(SupportedCurrency::get())->tojson();
+        }
+        return view('currency.index');
     }
 
     public function store(StoreCurrencyRequest $request)

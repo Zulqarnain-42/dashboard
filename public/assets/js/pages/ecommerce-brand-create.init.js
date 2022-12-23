@@ -29,7 +29,7 @@ const pond = FilePond.create(inputElement, {
     server: {
         url: '/uploadbrand',
         headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     }
 });

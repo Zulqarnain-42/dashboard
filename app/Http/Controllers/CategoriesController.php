@@ -14,10 +14,12 @@ use Illuminate\Support\Facades\Storage;
 
 class CategoriesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $collectioncategories = Category::get();
-        return view('categories.index')->with(compact('collectioncategories'));
+        if($request->ajax()){
+            return datatables()->of(Category::all())->tojson();
+        }
+        return view('categories.index');
     }
 
     public function create()
