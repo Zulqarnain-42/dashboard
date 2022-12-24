@@ -138,6 +138,8 @@ class BrandController extends Controller
     public function destroy(Brand $brand)
     {
         Brand::where('id',$brand->id)->delete();
-        return back();
+        return response()->json([
+            'success' => 'Record deleted successfully!'
+        ]);
     }
 }

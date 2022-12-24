@@ -179,6 +179,8 @@ class CategoriesController extends Controller
             $child->update();
         }
         Category::where('id',$category->id)->delete();
-        return back();
+        return response()->json([
+            'success' => 'Record deleted successfully!'
+        ]);
     }
 }

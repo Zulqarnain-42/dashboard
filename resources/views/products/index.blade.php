@@ -112,59 +112,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-{{-- <script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script> --}}
-<script>
-     $(function(){
-            var table = $('#product-datatable').DataTable({
-                processing:true,
-                serverSide: true,
-                order: [0, 'asc'],
-                ajax : "{{ route('product.index')}}",
-
-                columns:[
-                    {
-                        "render": function (data, type, full_row, meta) {
-                            return '<img src="' + full_row.thumbnail + '" class="avatar" height="35px">';
-                        }
-                    },
-                    {data:'productcode',name:'productcode'},
-                    {data:'title',name:'title'},
-                    {data:'mfr',name:'mfr'},
-                    {data:'price',name:'price'},
-                    {
-                        "data": "status", render: function (data, type, full_row, meta) {
-                            if (full_row.status == true) {
-                                return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id="" checked></div>';
-                            } else {
-                                return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id=""></div>';
-                            }
-                        }
-                    },
-                ],
-                'columnDefs': [
-                    {
-                        'targets': 6,
-                        'defaultContent': '-',
-                        'searchable': false,
-                        'orderable': false,
-                        'width': '10%',
-                        'className': 'dt-body-center',
-                        'render': function (data, type, full_row, meta) {
-                            return '<ul class="list-inline hstack gap-2 mb-0">' +
-                                '<li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">' +
-                                    '<a href="{{route('slider.edit',"'full_row.id'")}}" class="text-primary d-inline-block edit-item-btn"><i class="ri-pencil-fill fs-16"></i></a>' +
-                                    '</li>'+
-                                                            '<li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title data-bs-original-title="Remove">'+
-                            '<a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" href="">'+
-                                '<i class="ri-delete-bin-5-fill fs-16"></i>'+
-                                '</a>'+
-                                '</li>'+
-                                    '</ul>';
-                                }
-                            }
-                        ],
-                    });
-                });
-</script>
+<script src="{{ URL::asset('assets/js/pages/datatables/productdatatable.js')}}"></script>
 @endsection
 </x-app-layout>

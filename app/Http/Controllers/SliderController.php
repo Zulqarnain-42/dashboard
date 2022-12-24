@@ -16,7 +16,6 @@ class SliderController extends Controller
 {
     public function index(Request $request)
     {
-
         if($request->ajax()){
             return datatables()->of(Slider::all())->tojson();
         }
@@ -132,12 +131,8 @@ class SliderController extends Controller
     public function destroy(Slider $slider)
     {
         Slider::where('id',$slider->id)->delete();
-        return back();
-    }
-
-    public function gettabledata(Request $request)
-    {
-        dd($request);
-
+        return response()->json([
+            'success' => 'Record deleted successfully!'
+        ]);
     }
 }

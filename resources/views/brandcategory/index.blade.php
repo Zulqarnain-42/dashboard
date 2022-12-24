@@ -165,7 +165,7 @@
                         'render': function (data, type, full_row, meta) {
                             return '<ul class="list-inline hstack gap-2 mb-0">' +
                                 '<li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">' +
-                                    '<a href="{{route('slider.edit',"'full_row.id'")}}" class="text-primary d-inline-block edit-item-btn"><i class="ri-pencil-fill fs-16"></i></a>' +
+                                    '<a href="brandcategory/'+full_row.id+'/edit" class="text-primary d-inline-block edit-item-btn"><i class="ri-pencil-fill fs-16"></i></a>' +
                                     '</li>'+
                                                             '<li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title data-bs-original-title="Remove">'+
                             '<a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" href="">'+
