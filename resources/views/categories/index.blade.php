@@ -57,45 +57,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($collectioncategories as $category)
-                                <tr>
-                                    <td>0{{ $loop->iteration }}</td>
-                                    <td>{{ strtoupper($category->categorycode) }}</td>
-                                    <td>{{ $category->title }}</td>
-                                    <td><img src="{{ $category->image }}" height="50px"></td>
-                                    <td><img src="{{ $category->slider }}" height="35px"></td>
-                                    <td>
-                                        @if ($category->status == 1)
-                                            <div class="form-check form-switch form-switch-md ml-2" style="text-align: center;">
-                                                <input type="checkbox" class="form-check-input" id="" checked>
-                                            </div>
-                                        @else
-                                            <div class="form-check form-switch form-switch-md ml-2" style="text-align: center;">
-                                                <input type="checkbox" class="form-check-input" id="">
-                                            </div>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <ul class="list-inline hstack gap-2 mb-0">
-                                            <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                <a href="{{ route('categories.edit', $category->id) }}" class="text-primary d-inline-block edit-item-btn">
-                                                    <i class="ri-pencil-fill fs-16"></i>
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
 
-                                                <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
-                                                    {{ csrf_field() }}
-                                                    {{ method_field('DELETE') }}
-                                                    <button type="submit" class="text-danger d-inline-block remove-item-btn datatable-btn">
-                                                        <i class="ri-delete-bin-5-fill fs-16"></i>
-                                                    </button>
-                                                </form>
-                                            </li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                            @endforeach --}}
                         </tbody>
                     </table>
                 </div>
@@ -103,7 +65,7 @@
         </div>
     </div>
 
-            <div class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">

@@ -22,9 +22,9 @@ $(function () {
             {
                 "data": "status", render: function (data, type, full_row, meta) {
                     if (full_row.status == true) {
-                        return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id="" checked></div>';
+                        return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" onclick="ChangeBrandStatus('+full_row.id+');" id="" value="true" checked></div>';
                     } else {
-                        return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id=""></div>';
+                        return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" onclick="ChangeBrandStatus('+full_row.id+');" id="" value="false"></div>';
                     }
                 }
             },
@@ -73,6 +73,22 @@ function delbrandajax() {
         success: function () {
             branddatatable.ajax.reload();
             $('#deleteRecordModal').modal('hide');
+        }
+    });
+}
+
+
+function ChangeBrandStatus(brandid) {
+    var token = $("meta[name='csrf-token']").attr("content");
+    $.ajax({
+        url: "/changebrandstatus/" + brandid,
+        type: 'POST',
+        data: {
+            "brandid": brandid,
+            "_token": token,
+        },
+        success: function () {
+            branddatatable.ajax.reload();
         }
     });
 }

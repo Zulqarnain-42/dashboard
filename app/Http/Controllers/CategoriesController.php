@@ -173,14 +173,32 @@ class CategoriesController extends Controller
     public function destroy(Category $category)
     {
 
-        $childcategory = Category::where('parent_id',$category->id)->get();
-        foreach($childcategory as $child){
-            $child->visibility = false;
-            $child->update();
-        }
+        // $childcategory = Category::where('parent_id',$category->id)->get();
+        // dd($childcategory);
+        // foreach($childcategory as $child){
+        //     $child->visibility = false;
+        //     $child->status = false;
+        //     $child->update();
+        // }
         Category::where('id',$category->id)->delete();
         return response()->json([
             'success' => 'Record deleted successfully!'
+        ]);
+    }
+
+    public function çhangecategoriesstatus(Request $request)
+    {
+        if($request !== null){
+            $categorydata = Category::where('id',$request->categoryid)->first();
+            if($categorydata->status == true){
+                Category::where('id',$request->categoryid)->update(['status'=>false]);
+            }else{
+                Category::where('id',$request->categoryid)->update(['status'=>true]);
+            }
+        }
+
+        return response()->json([
+            'success' => 'Record Updated Successfully!'
         ]);
     }
 }

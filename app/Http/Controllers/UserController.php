@@ -117,13 +117,18 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        if($user->status === 1){
-            User::where('id',$user->id)->update(['status'=> 0]);
-            return back();
-        }else{
-            User::where('id',$user->id)->update(['status'=> 1]);
-            return back();
-        }
+        // if($user->status === 1){
+        //     User::where('id',$user->id)->update(['status'=> 0]);
+        //     return back();
+        // }else{
+        //     User::where('id',$user->id)->update(['status'=> 1]);
+        //     return back();
+        // }
+
+        User::where('id',$user->id)->delete();
+        return response()->json([
+            'success' => 'Record deleted successfully!'
+        ]);
     }
 
     public function uploadprofile(Request $request)
@@ -146,5 +151,21 @@ class UserController extends Controller
         $user->update();
 
         return redirect()->back()->with('success');
+    }
+
+    public function changeuserstatus(Request $request)
+    {
+         if($request !== null){
+            $userdata = User::where('id',$request->userid)->first();
+            if($userdata->status == true){
+                User::where('id',$request->userid)->update(['status'=>false]);
+            }else{
+                User::where('id',$request->userid)->update(['status'=>true]);
+            }
+        }
+
+        return response()->json([
+            'success' => 'Record Updated Successfully!'
+        ]);
     }
 }

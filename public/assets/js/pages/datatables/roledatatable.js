@@ -30,7 +30,7 @@ $(function () {
                         '<a href="roles/' + full_row.id + '/edit" class="text-primary d-inline-block edit-item-btn"><i class="ri-pencil-fill fs-16"></i></a>' +
                         '</li>' +
                         '<li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title data-bs-original-title="Remove">' +
-                        '<a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" href="">' +
+                        '<a class="text-danger d-inline-block remove-item-btn" onclick="DelRole(' + full_row.id + ');" data-bs-toggle="modal" href="">' +
                         '<i class="ri-delete-bin-5-fill fs-16"></i>' +
                         '</a>' +
                         '</li>' +
@@ -40,3 +40,26 @@ $(function () {
         ],
     });
 });
+
+
+function DelRole(roleid) {
+    $('#roleid').val(roleid);
+    $('#deleteRecordModal').modal('show');
+}
+
+function delroleajax() {
+    var id = $('#roleid').val();
+    var token = $("meta[name='csrf-token']").attr("content");
+    $.ajax({
+        url: "/roles/" + id,
+        type: 'DELETE',
+        data: {
+            "id": id,
+            "_token": token,
+        },
+        success: function () {
+            roledatatable.ajax.reload();
+            $('#deleteRecordModal').modal('hide');
+        }
+    });
+}

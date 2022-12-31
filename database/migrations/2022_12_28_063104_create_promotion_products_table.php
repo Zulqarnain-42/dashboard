@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('availabilities', function (Blueprint $table) {
+        Schema::create('promotion_products', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('status')->nullable();
+            $table->foreignId('promotionid')->unsigned();
+            $table->foreignId('productid')->unsigned();
+            $table->decimal('newprice',10,2)->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('availabilities');
+        Schema::dropIfExists('promotion_products');
     }
 };

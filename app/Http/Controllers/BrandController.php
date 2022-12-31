@@ -142,4 +142,20 @@ class BrandController extends Controller
             'success' => 'Record deleted successfully!'
         ]);
     }
+
+    public function changebrandstatus(Request $request)
+    {
+        if($request !== null){
+            $branddata = Brand::where('id',$request->brandid)->first();
+            if($branddata->status == true){
+                Brand::where('id',$request->brandid)->update(['status'=>false]);
+            }else{
+                Brand::where('id',$request->brandid)->update(['status'=>true]);
+            }
+        }
+
+        return response()->json([
+            'success' => 'Record Updated Successfully!'
+        ]);
+    }
 }

@@ -34,6 +34,7 @@ return new class extends Migration
             $table->boolean('status')->default(0);
             $table->boolean('visibility')->default(0);
             $table->foreignId('brandid')->unsigned();
+            $table->foreignId('brandcategoryid')->unsigned();
             $table->foreignId('availabilityid')->unsigned();
             $table->longText('inthebox')->nullable();
             $table->longText('specifications')->nullable();

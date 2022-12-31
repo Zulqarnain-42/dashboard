@@ -13,10 +13,11 @@ use App\Models\Brand;
 use App\Models\Warehouse;
 use Illuminate\Support\Str;
 use App\Models\Availability;
+use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory,Searchable;
 
     protected $table = 'products';
     protected $guarded = [];

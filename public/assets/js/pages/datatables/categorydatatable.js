@@ -27,9 +27,9 @@ $(function () {
             {
                 "data": "status", render: function (data, type, full_row, meta) {
                     if (full_row.status == true) {
-                        return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id="" checked></div>';
+                        return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" onclick="ChangeCategoryStatus('+full_row.id+');" id="" value="true" checked></div>';
                     } else {
-                        return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id=""></div>';
+                        return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" onclick="ChangeCategoryStatus('+full_row.id+');" id="" value="false"></div>';
                     }
                 }
             },
@@ -76,8 +76,24 @@ function delcategoryajax() {
             "_token": token,
         },
         success: function () {
-            sliderdatatable.ajax.reload();
+            categorydatatable.ajax.reload();
             $('#deleteRecordModal').modal('hide');
+        }
+    });
+}
+
+
+function ChangeCategoryStatus(categoryid) {
+    var token = $("meta[name='csrf-token']").attr("content");
+    $.ajax({
+        url: "/changecategoriesstatus/" + categoryid,
+        type: 'POST',
+        data: {
+            "categoryid": categoryid,
+            "_token": token,
+        },
+        success: function () {
+            categorydatatable.ajax.reload();
         }
     });
 }

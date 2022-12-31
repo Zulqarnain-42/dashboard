@@ -34,7 +34,16 @@ class CurrencyController extends Controller
         }
 
         $supportedcurreny->save();
-        return redirect()->route('currency.index');
+        return response()->json([
+            'success' => 'Record Added Successfully!'
+        ]);
+    }
+
+    public function edit(SupportedCurrency $currency)
+    {
+        return response()->json([
+            'data' => $currency
+        ]);
     }
 
     public function update(UpdateCurrencyRequest $request,SupportedCurrency $currency)
@@ -53,15 +62,34 @@ class CurrencyController extends Controller
             $currency->default = false;
         }
 
-        $currency->save();
-
-        return redirect()->route('currency.index');
+        $currency->update();
+        return response()->json([
+            'success' => 'Record Updated Successfully!'
+        ]);
     }
 
     public function destroy(SupportedCurrency $currency)
     {
         SupportedCurrency::where('id', $currency->id)->delete();
-        return back();
+        return response()->json([
+            'success' => 'Record Deleted Successfully!'
+        ]);
+    }
+
+    public function changecurrencystatus(Request $request)
+    {
+        if($request !== null){
+            $currencydata = SupportedCurrency::where('id',$request->currencyid)->first();
+            if($currencydata->status == true){
+                SupportedCurrency::where('id',$request->currencyid)->update(['status'=>false]);
+            }else{
+                SupportedCurrency::where('id',$request->currencyid)->update(['status'=>true]);
+            }
+        }
+
+        return response()->json([
+            'success' => 'Record Updated Successfully!'
+        ]);
     }
 
 }

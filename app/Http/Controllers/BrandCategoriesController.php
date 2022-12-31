@@ -179,12 +179,30 @@ class BrandCategoriesController extends Controller
     public function destroy(BrandCategory $brandcategory)
     {
 
-        $childcategory = BrandCategory::where('parent_id',$brandcategory->id)->get();
-        foreach($childcategory as $child){
-            $child->visibility = false;
-            $child->update();
-        }
+        // $childcategory = BrandCategory::where('parent_id',$brandcategory->id)->get();
+        // foreach($childcategory as $child){
+        //     $child->visibility = false;
+        //     $child->update();
+        // }
         BrandCategory::where('id',$brandcategory->id)->delete();
-        return back();
+        return response()->json([
+            'success'=>'Record Deleted Successfully!'
+        ]);
+    }
+
+    public function changebrandcategorystatus(Request $request)
+    {
+        if($request !== null){
+            $brandcategorydata = BrandCategory::where('id',$request->brandcategoryid)->first();
+            if($brandcategorydata->status == true){
+                BrandCategory::where('id',$request->brandcategoryid)->update(['status'=>false]);
+            }else{
+                BrandCategory::where('id',$request->brandcategoryid)->update(['status'=>true]);
+            }
+        }
+
+        return response()->json([
+            'success' => 'Record Updated Successfully!'
+        ]);
     }
 }

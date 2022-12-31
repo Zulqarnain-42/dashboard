@@ -12,7 +12,7 @@
                 <form action="javascript:void(0);">
                     <div class="row g-3 mb-0 align-items-center">
                         <div class="col-auto">
-                            <button type="button" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal" class="btn btn-soft-success shadow-none">
+                            <button type="button" id="create-currency" class="btn btn-soft-success shadow-none">
                                 <i class="ri-add-circle-line align-middle me-1"></i>
                                 Add Currency
                             </button>
@@ -54,45 +54,76 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($collectionsupportedcurreny as $currency)
-                            <tr>
-                                <td>0{{ $loop->iteration }}</td>
-                                <td>{{ $currency->name }}</td>
-                                <td>{{ $currency->symbol }}</td>
-                                <td>
-                                    @if ($currency->status == 1)
-                                        <span class="badge badge-soft-info">Default</span>
-                                    @else
-                                        <span class="badge bg-danger">InActive</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    <ul class="list-inline hstack gap-2 mb-0">
-                                        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                            <a href="{{ route('currency.edit', $currency->id) }}" class="text-primary d-inline-block edit-item-btn">
-                                                <i class="ri-pencil-fill fs-16"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
 
-                                        <form action="{{ route('currency.destroy', $currency->id) }}" method="POST">
-                                            {{ csrf_field() }}
-                                            {{ method_field('DELETE') }}
-                                            <button type="submit" class="text-danger d-inline-block remove-item-btn">
-                                                <i class="ri-delete-bin-5-fill fs-16"></i>
-                                            </button>
-                                        </form>
-                                    </li>
-                                    </ul>
-                                </td>
-                            </tr>
-                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mt-2 text-center">
+                    <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+                    <input type="hidden" id="currencyid">
+                    <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                        <h4>Are you sure ?</h4>
+                        <p class="text-muted mx-4 mb-0">Are you sure you want to remove this record ?</p>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                    <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn w-sm btn-danger" onclick="delcurrencyajax()" id="delete-record">Yes, Delete It!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="modal fade" id="AddEditModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-light p-3">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                </div>
+                <form action="#">
+                    <div class="modal-body">
+                        <input type="hidden" id="id-field" />
+
+                        <div class="mb-3" id="modal-id" style="display: none;">
+                            <label for="currency-id" class="form-label">ID</label>
+                            <input type="text" id="currencyid" name="currencyid" class="form-control" placeholder="ID" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="currency-name" class="form-label">Currency Name</label>
+                            <input type="text" id="currencyname" name="currencyname" class="form-control" placeholder="Enter name" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="currency-symbol" class="form-label">Symbol</label>
+                            <input type="text" id="currencysymbol" name="currencysymbol" class="form-control" placeholder="Enter Symbol" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="hstack gap-2 justify-content-end">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" id="add-btn">Add Currency</button>
+                            <button type="button" class="btn btn-success" id="edit-btn">Update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -106,56 +137,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script>
- $(function(){
-                var table = $('#currency-datatable').DataTable({
-                    processing:true,
-                    serverSide: true,
-                    order: [0, 'asc'],
-                    ajax : "{{ route('currency.index')}}",
-                    "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                        $("td:first", nRow).html(iDisplayIndex + 1);
-                        return nRow;
-                    },
-
-                    columns:[
-                        {data:'id',name:'id'},
-                        {data:'name',name:'name'},
-                        {data:'symbol',name:'symbol'},
-                        {
-                            "data": "status", render: function (data, type, full_row, meta) {
-                                if (full_row.status == true) {
-                                    return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id="" checked></div>';
-                                } else {
-                                    return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id=""></div>';
-                                }
-                            }
-                        },
-                    ],
-                    'columnDefs': [
-                        {
-                            'targets': 4,
-                            'defaultContent': '-',
-                            'searchable': false,
-                            'orderable': false,
-                            'width': '10%',
-                            'className': 'dt-body-center',
-                            'render': function (data, type, full_row, meta) {
-                                return '<ul class="list-inline hstack gap-2 mb-0">' +
-                                    '<li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">' +
-                                    '<a href="{{route('brand.edit',"'full_row.id'")}}" class="text-primary d-inline-block edit-item-btn"><i class="ri-pencil-fill fs-16"></i></a>' +
-                                    '</li>'+
-                                    '<li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title data-bs-original-title="Remove">'+
-                                        '<a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" href="">'+
-                                            '<i class="ri-delete-bin-5-fill fs-16"></i>'+
-                                            '</a>'+
-                                '</li>'+
-                                    '</ul>';
-                                }
-                            }
-                        ],
-                    });
-                });
-    </script>
+    <script src="{{ URL::asset('assets/js/pages/datatables/currencydatatable.js')}}"></script>
 @endsection
 </x-app-layout>

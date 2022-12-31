@@ -135,4 +135,21 @@ class SliderController extends Controller
             'success' => 'Record deleted successfully!'
         ]);
     }
+
+    public function changesliderstatus(Request $request)
+    {
+        if($request !== null){
+            $sliderdata = Slider::where('id',$request->sliderid)->first();
+            if($sliderdata->status == true){
+                Slider::where('id',$request->sliderid)->update(['status'=>false]);
+            }else{
+                Slider::where('id',$request->sliderid)->update(['status'=>true]);
+            }
+        }
+
+        return response()->json([
+            'success' => 'Record Updated Successfully!'
+        ]);
+
+    }
 }

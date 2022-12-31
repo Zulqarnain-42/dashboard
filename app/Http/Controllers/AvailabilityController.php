@@ -22,22 +22,30 @@ class AvailabilityController extends Controller
 
     public function store(StoreAvailabilityRequest $request)
     {
-        $dbcheck = Availability::where([['name', '=', $request->availabilitytitle]])->first();
+        $dbcheck = Availability::where([['name', '=', $request->availabilityname]])->first();
         if($dbcheck === null){
             $request->validate([
-                'availabilitytitle' => 'required'
+                'availabilityname' => 'required'
             ]);
 
             $newavailability = new Availability();
-            $newavailability->availabilitycode = $this->generateUniqueCode();
-            $newavailability->name = $request->availabilitytitle;
-            $newavailability->status = $request->status;
+            $newavailability->name = $request->availabilityname;
+            $newavailability->status = true;
 
             $newavailability->save();
         }else{
             return redirect()->route('availability.index')->with('alert','Availability Already Exist!');
         }
-        return redirect()->route('availability.index')->with('success','Availability Added Successfully!');
+        return response()->json([
+            'success'=>'Record Inserted Successfully!'
+        ]);
+    }
+
+    public function edit(Availability $availability)
+    {
+        return response()->json([
+            'data'=>$availability
+        ]);
     }
 
     public function update(UpdateAvailabilityRequest $request, Availability $availability)
@@ -64,27 +72,24 @@ class AvailabilityController extends Controller
     public function destroy(Availability $availability)
     {
         Availability::where('id',$availability->id)->delete();
-        return back();
+        return response()->json([
+            'success'=>'Record Deleted Successfully!'
+        ]);
     }
 
-    public function generateUniqueCode()
+    public function changeavailabilitystatus(Request $request)
     {
-        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersNumber = strlen($characters);
-        $codeLength = 8;
-        $code = '';
-
-        while (strlen($code) < $codeLength) {
-            $position = rand(0, $charactersNumber - 1);
-            $character = $characters[$position];
-            $code = $code.$character;
+        if($request !== null){
+            $availabilitydata = Availability::where('id',$request->availabilityid)->first();
+            if($availabilitydata->status == true){
+                Availability::where('id',$request->availabilityid)->update(['status'=>false]);
+            }else{
+                Availability::where('id',$request->availabilityid)->update(['status'=>true]);
+            }
         }
 
-        if (Availability::where('availabilitycode', $code)->exists()) {
-            $this->generateUniqueCode();
-        }
-
-        return $code;
-
+        return response()->json([
+            'success' => 'Record Updated Successfully!'
+        ]);
     }
 }

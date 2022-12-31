@@ -46,59 +46,46 @@
                             <thead>
                                 <tr>
                                     <th>Image</th>
-                                    <th>Code</th>
                                     <th>Name</th>
                                     <th>MFR</th>
                                     <th>Price</th>
+                                    <th>Featured</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($collectionproduct as $product)
-                                <tr>
-                                    <td><img src="{{ $product->thumbnail }}" height="35px"></td>
-                                    <td>{{ strtoupper($product->productcode) }}</td>
-                                    <td>{{ $product->title }}</td>
-                                    <td>{{ $product->mfr }}</td>
-                                    <td>{{ $product->price }}</td>
-                                    <td>
-                                        @if ($product->status == 1)
-                                            <div class="form-check form-switch form-switch-md ml-2" style="text-align: center;">
-                                                <input type="checkbox" class="form-check-input" id="" checked>
-                                            </div>
-                                        @else
-                                            <div class="form-check form-switch form-switch-md ml-2" style="text-align: center;">
-                                                <input type="checkbox" class="form-check-input" id="">
-                                            </div>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <div class="dropdown d-inline-block">
-                                            <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ri-more-fill align-middle"></i>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a href="{{ route('product.show',$product->id) }}" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a></li>
-                                                <li><a href="{{ route('product.edit',$product->id) }}" class="dropdown-item edit-item-btn"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                                <li>
-                                                    <form action="{{ route('product.destroy',$product->id) }}" method="POST">
-                                                        {{ csrf_field() }}
-                                                        {{ method_field('DELETE') }}
-                                                        <button class="dropdown-item remove-item-btn" type="submit"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</button>
-                                                    </form>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach --}}
+
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mt-2 text-center">
+                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+                        <input type="hidden" id="productid">
+                        <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                            <h4>Are you sure ?</h4>
+                            <p class="text-muted mx-4 mb-0">Are you sure you want to remove this record ?</p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                        <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn w-sm btn-danger" onclick="delproductjax()" id="delete-record">Yes, Delete It!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 

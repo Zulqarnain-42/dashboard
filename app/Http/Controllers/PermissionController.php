@@ -43,12 +43,16 @@ class PermissionController extends Controller
             'userid' => Auth()->user()->id
         ]);
 
-        return redirect()->route('permissions.index')->with('Success');
+        return response()->json([
+            'success'=>'Record Added Successfully!'
+        ]);
     }
 
     public function edit(Permission $permission)
     {
-        return view('permissions.form')->with(compact('permission'));
+        return response()->json([
+            'data' => $permission
+        ]);
     }
 
     public function update(UpdatePermissionRequest $request,Permission $permission)
@@ -59,6 +63,8 @@ class PermissionController extends Controller
     public function destroy(Permission $permission)
     {
         Permission::where('id',$permission->id)->delete();
-        return back();
+        return response()->json([
+            'success' => 'Record deleted successfully!'
+        ]);
     }
 }

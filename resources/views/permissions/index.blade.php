@@ -12,10 +12,10 @@
                     <form action="javascript:void(0);">
                         <div class="row g-3 mb-0 align-items-center">
                             <div class="col-auto">
-                                <a href="{{ route('permissions.create') }}" type="button" class="btn btn-soft-success shadow-none">
+                                <button type="button" id="create-permission" class="btn btn-soft-success shadow-none">
                                     <i class="ri-add-circle-line align-middle me-1"></i>
-                                    Add Permissions
-                                </a>
+                                    Add Permission
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -54,35 +54,71 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($permissions as $permission)
-                                <tr>
-                                    <td>0{{ $loop->iteration }}</td>
-                                    <td>{{ $permission->name }}</td>
-                                    <td>{{ $permission->url }}</td>
-                                    <td></td>
-                                    <td>
-                                        <ul class="list-inline hstack gap-2 mb-0">
-                                            <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                <a href="{{ route('permissions.edit', $permission->id) }}" class="text-primary d-inline-block edit-item-btn">
-                                                    <i class="ri-pencil-fill fs-16"></i>
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
 
-                                            <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST">
-                                                {{ csrf_field() }}
-                                                {{ method_field('DELETE') }}
-                                                <button type="submit" class="text-danger d-inline-block remove-item-btn datatable-btn">
-                                                    <i class="ri-delete-bin-5-fill fs-16"></i>
-                                                </button>
-                                            </form>
-                                        </li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                            @endforeach --}}
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="AddEditModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-light p-3">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                </div>
+                <form id="permissionform" name="permissionform">
+                    <div class="modal-body">
+                        <input type="hidden" id="id-field" />
+
+                        <div class="mb-3" id="modal-id" style="display: none;">
+                            <label for="permission-id" class="form-label">ID</label>
+                            <input type="text" id="permissionid" name="permissionid" class="form-control" placeholder="ID" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="permission-name" class="form-label">Permission Name</label>
+                            <input type="text" id="permissionname" name="permissionname" class="form-control" placeholder="Enter name" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="permission-url" class="form-label">URL</label>
+                            <input type="text" id="permissionurl" name="permissionurl" class="form-control" placeholder="Enter URL" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="hstack gap-2 justify-content-end">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" id="add-btn">Add Permission</button>
+                            <button type="button" class="btn btn-success" id="edit-btn">Update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mt-2 text-center">
+                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+                        <input type="hidden" id="permissionid">
+                        <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                            <h4>Are you sure ?</h4>
+                            <p class="text-muted mx-4 mb-0">Are you sure you want to remove this record ?</p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                        <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn w-sm btn-danger" onclick="delpermissionajax()" id="delete-record">Yes, Delete It!</button>
+                    </div>
                 </div>
             </div>
         </div>

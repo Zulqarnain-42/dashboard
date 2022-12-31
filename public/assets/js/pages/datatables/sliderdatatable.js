@@ -24,9 +24,9 @@ $(function () {
             {
                 "data": "status", render: function (data, type, full_row, meta) {
                     if (full_row.status == true) {
-                        return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id="" checked></div>';
+                        return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id="slidercheckbox" onclick="ChangeSliderStatus('+full_row.id+');" name="slidercheckbox" value="true" checked></div>';
                     } else {
-                        return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id=""></div>';
+                        return '<div class="form-check form-switch form-switch-md ml-2" style="text-align: center;"><input type="checkbox" class="form-check-input" id="slidercheckbox" onclick="ChangeSliderStatus('+full_row.id+');" name="slidercheckbox" value="false"></div>';
                     }
                 }
             },
@@ -74,6 +74,22 @@ function delsliderajax() {
         success: function () {
             sliderdatatable.ajax.reload();
             $('#deleteRecordModal').modal('hide');
+        }
+    });
+}
+
+
+function ChangeSliderStatus(sliderid) {
+    var token = $("meta[name='csrf-token']").attr("content");
+    $.ajax({
+        url: "/changesliderstatus/" + sliderid,
+        type: 'POST',
+        data: {
+            "sliderid": sliderid,
+            "_token": token,
+        },
+        success: function () {
+            sliderdatatable.ajax.reload();
         }
     });
 }

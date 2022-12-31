@@ -368,7 +368,9 @@ class ProductController extends Controller
         CategoryProduct::where('product_id',$product->id)->delete();
         ProductImages::where('productid',$product->id)->delete();
         ProductTags::where('productid',$product->id)->delete();
-        return back();
+        return response()->json([
+            'success' => 'Record deleted successfully!'
+        ]);
     }
 
     public function show(Product $product)
@@ -391,5 +393,37 @@ class ProductController extends Controller
             $output = null;
         }
         echo $output;
+    }
+
+    public function changeproductstatus(Request $request)
+    {
+        if($request !== null){
+            $productdata = Product::where('id',$request->productid)->first();
+            if($productdata->status == true){
+                Product::where('id',$request->productid)->update(['status'=>false]);
+            }else{
+                Product::where('id',$request->productid)->update(['status'=>true]);
+            }
+        }
+
+        return response()->json([
+            'success' => 'Record Updated Successfully!'
+        ]);
+    }
+
+    public function makefeatured(Request $request)
+    {
+        if($request !== null){
+            $productdata = Product::where('id',$request->productid)->first();
+            if($productdata->isfeatured == true){
+                Product::where('id',$request->productid)->update(['isfeatured'=>false]);
+            }else{
+                Product::where('id',$request->productid)->update(['isfeatured'=>true]);
+            }
+        }
+
+        return response()->json([
+            'success' => 'Record Updated Successfully!'
+        ]);
     }
 }

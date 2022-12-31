@@ -90,6 +90,12 @@
                 @endrole
                 @role('admin')
                 <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{route('promotions.index')}}">
+                        <i class="mdi mdi-bullhorn-variant"></i>
+                        <span data-key="t-promotions">Promotions</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarorders" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
                         <i class="mdi mdi-bank-plus"></i>
                         <span data-key="t-catalogs">Orders</span>
