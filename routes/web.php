@@ -26,6 +26,7 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +54,7 @@ Route::post('uploadthumbnail',[ProductController::class,'uploadthumbnail'])->mid
 Route::get('productmedia',[ProductController::class,'productmedia'])->middleware(['auth'],['verified'])->name('getmedia');
 Route::post('changeproductstatus/{productid}',[ProductController::class,'changeproductstatus'])->middleware('auth','verified');
 Route::post('makefeatured/{productid}',[ProductController::class,'makefeatured'])->middleware('auth','verified');
-
+Route::resource('setting',SettingController::class)->middleware(['auth','verified']);
 Route::resource('brand', BrandController::class)->middleware(['auth','verified']);
 Route::post('changebrandstatus/{brandid}',[BrandController::class,'changebrandstatus'])->middleware(['auth','verified']);
 Route::post('uploadbrand',[BrandController::class,'uploadbrand'])->middleware(['auth','verified'])->name('uploadbrand');

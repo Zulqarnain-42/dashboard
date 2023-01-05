@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('service_work_histories', function (Blueprint $table) {
+        Schema::create('payment_gateways', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('serviceid');
-            $table->bigInteger('servicestatusid');
-            $table->string('comments')->nullable();
+            $table->string('gateway_name')->nullable();
+            $table->string('public_key')->nullable();
+            $table->string('secret_key')->nullable();
+            $table->string('client_id')->nullable();
+            $table->string('client_secret')->nullable();
+            $table->string('processing_channel')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_work_histories');
+        Schema::dropIfExists('payment_gateways');
     }
 };

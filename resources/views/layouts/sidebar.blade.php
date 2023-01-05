@@ -45,6 +45,9 @@
                             <li class="nav-item">
                                 <a href="{{ route('slider.index') }}" class="nav-link" data-key="t-slider"> Slider </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link" data-key="t-slider"> Two Column Banner </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -59,6 +62,9 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="{{ route('brand.index') }}" class="nav-link" data-key="t-brand"> Brands </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('availability.index') }}" class="nav-link" data-key="t-brand"> Stock Status </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('categories.index') }}" class="nav-link" data-key="t-categories"> Main Categories </a>
@@ -96,22 +102,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarorders" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
+                    <a class="nav-link menu-link" href="{{ route('orders') }}">
                         <i class="mdi mdi-bank-plus"></i>
                         <span data-key="t-catalogs">Orders</span>
                     </a>
-                    <div class="collapse menu-dropdown" id="sidebarorders">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="{{ route('orders') }}" class="nav-link" data-key="t-brand"> Orders </a>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
                 @endrole
 
                 @role('admin')
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarinventory" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
                         <i class="mdi mdi-store"></i>
                         <span data-key="t-catalogs">Inventory</span>
@@ -141,11 +140,11 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
                 @endrole
 
                 @role('admin')
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarservices" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
                         <i class="mdi mdi-wrench-clock"></i>
                         <span data-key="t-catalogs">Services</span>
@@ -157,7 +156,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
                 @endrole
                         {{-- <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarwebsite" data-bs-toggle="collapse" role="button"
@@ -176,7 +175,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarusers" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
                         <i class="mdi mdi-shield-account-outline"></i>
-                        <span data-key="t-catalogs">User</span>
+                        <span data-key="t-catalogs">System User</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarusers">
                         <ul class="nav nav-sm flex-column">
@@ -193,13 +192,19 @@
                     </div>
                 </li>
                 @endrole
-                        {{-- <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('customer.index') }}">
                                 <i class="mdi mdi-face-man-profile"></i> <span data-key="t-customer">Customer</span>
                             </a>
-                        </li> --}}
+                        </li>
                 @role('admin')
                 <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{route('setting.index')}}">
+                        <i class="mdi mdi-cog-outline"></i>
+                        <span data-key="t-dashboards">Setting</span>
+                    </a>
+                </li>
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarsetting" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
                         <i class="mdi mdi-cog-outline"></i>
                         <span data-key="t-catalogs">Setting</span>
@@ -220,7 +225,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
                 @endrole
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

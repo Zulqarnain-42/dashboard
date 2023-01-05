@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Currency;
+namespace App\Http\Requests\Promotion;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCurrencyRequest extends FormRequest
+class UpdatePromotionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

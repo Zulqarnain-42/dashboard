@@ -13,14 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('services_details', function (Blueprint $table) {
+        Schema::create('shipping_methods', function (Blueprint $table) {
             $table->id();
-            $table->string('Item')->nullable();
-            $table->string('model')->nullable();
-            $table->bigInteger('brandid')->nullable();
-            $table->string('serialno')->nullable();
-            $table->longText('comments')->nullable();
-            $table->bigInteger('servicesid')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('services_details');
+        Schema::dropIfExists('shipping_methods');
     }
 };

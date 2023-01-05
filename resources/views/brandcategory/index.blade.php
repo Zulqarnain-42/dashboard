@@ -5,6 +5,20 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
     @endsection
 
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0">Create Slider</h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
+                        <li class="breadcrumb-item active">Create Slider</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row mb-3 pb-1">
         <div class="col-12">
             <div class="d-flex align-items-lg-center flex-lg-row flex-column">
@@ -57,47 +71,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($collectionbrandcategories as $category)
 
-                                <tr>
-                                    <td>0{{ $loop->iteration }}</td>
-                                    <td>{{ strtoupper($category->categorycode) }}</td>
-                                    <td>{{ $category->title }}</td>
-                                    <td> {{$category->brand->title}} </td>
-                                    <td><img src="{{ $category->image }}" height="50px"></td>
-                                    <td><img src="{{ $category->slider }}" height="35px"></td>
-                                    <td>
-                                        @if ($category->status == 1)
-                                            <div class="form-check form-switch form-switch-md ml-2" style="text-align: center;">
-                                                <input type="checkbox" class="form-check-input" id="" checked>
-                                            </div>
-                                        @else
-                                            <div class="form-check form-switch form-switch-md ml-2" style="text-align: center;">
-                                                <input type="checkbox" class="form-check-input" id="">
-                                            </div>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <ul class="list-inline hstack gap-2 mb-0">
-                                            <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                <a href="{{ route('brandcategory.edit', $category->id) }}" class="text-primary d-inline-block edit-item-btn">
-                                                    <i class="ri-pencil-fill fs-16"></i>
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
-
-                                                <form action="{{ route('brandcategory.destroy', $category->id) }}" method="POST">
-                                                    {{ csrf_field() }}
-                                                    {{ method_field('DELETE') }}
-                                                    <button type="submit" class="text-danger d-inline-block remove-item-btn datatable-btn">
-                                                        <i class="ri-delete-bin-5-fill fs-16"></i>
-                                                    </button>
-                                                </form>
-                                            </li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                            @endforeach --}}
                         </tbody>
                     </table>
                 </div>
@@ -129,11 +103,10 @@
             </div>
         </div>
     </div>
+
     @section('scripts')
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-        <!--datatable js-->
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
         <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>

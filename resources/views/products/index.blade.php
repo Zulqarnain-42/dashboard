@@ -4,36 +4,52 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
     @endsection
-        <div class="row mb-3 pb-1">
-            <div class="col-12">
-                <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                    <div class="flex-grow-1">
-                    </div>
-                    <div class="mt-3 mt-lg-0">
-                        <form action="javascript:void(0);">
-                            <div class="row g-3 mb-0 align-items-center">
-                                <div class="col-auto">
-                                    <a href="{{ route('product.create') }}" type="button" class="btn btn-soft-success shadow-none"><i
-                                            class="ri-add-circle-line align-middle me-1"></i>
-                                        Add Product</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0">Create Slider</h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
+                        <li class="breadcrumb-item active">Create Slider</li>
+                    </ol>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-header">
-                        @if (session('alert'))
+    </div>
+
+    <div class="row mb-3 pb-1">
+        <div class="col-12">
+            <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                <div class="flex-grow-1"></div>
+                <div class="mt-3 mt-lg-0">
+                    <form action="javascript:void(0);">
+                        <div class="row g-3 mb-0 align-items-center">
+                            <div class="col-auto">
+                                <a href="{{ route('product.create') }}" type="button" class="btn btn-soft-success shadow-none"><i
+                                    class="ri-add-circle-line align-middle me-1"></i>
+                                    Add Product
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    @if (session('alert'))
                     <div class="alert alert-warning alert-dismissible shadow fade show" role="alert">
                         {{ session('alert') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
 
                     @endif
+
                     @if (session('success'))
                     <div class="alert alert-success alert-dismissible shadow fade show" role="alert">
                         {{ session('success') }}

@@ -2,6 +2,21 @@
     @section('styles')
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @endsection
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0">Create Slider</h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
+                        <li class="breadcrumb-item active">Create Slider</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <form method="POST" name="productform" action="{{ isset($product) ? route('product.update', $product->id) : route('product.store') }}" id="createproduct-form" autocomplete="off" enctype="multipart/form-data" class="needs-validation" novalidate>
         @csrf
         @if (isset($product))
@@ -59,7 +74,7 @@
                                     <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label class="form-label" for="manufacturer-name-input">MFR</label>
-                                            <input type="text" class="form-control" style="text-transform:uppercase" name="mfrmodel" value="{{ isset($product) ? $product->mfr : old('mfrmodel') }}" id="mfrmodel" placeholder="model">
+                                            <input type="text" class="form-control" style="text-transform:uppercase" name="mfrmodel" value="{{ isset($product) ? $product->mfr : old('mfrmodel') }}" id="mfrmodelvalue" placeholder="model">
                                             <div id="model-suggestions"></div>
                                         </div>
                                     </div>
@@ -103,21 +118,29 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                     <div class="col-lg-3 col-sm-6">
+                                    <div class="col-lg-4 col-sm-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="retail-price">Retail Price</label>
+                                            <label class="form-label" for="retail-price">EAN</label>
                                             <div class="input-group has-validation mb-3">
-                                                <span class="input-group-text" id="retail-price">$</span>
-                                                <input type="text" class="form-control" name="retailprice" id="retailprice" placeholder="Retail price" value="{{ isset($product) ? $product->retailprice : old('retailprice') }}" aria-label="Retail Price" aria-describedby="retailprice-addon">
+                                                <input type="text" class="form-control" name="productean" id="productean" placeholder="000000000" value="{{ isset($product) ? $product->ean : old('productean') }}" aria-label="EAN" aria-describedby="productean-addon">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-sm-6">
+                                     <div class="col-lg-4 col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="retail-price">Cost Price</label>
+                                            <div class="input-group has-validation mb-3">
+                                                <span class="input-group-text" id="retail-price">AED</span>
+                                                <input type="text" class="form-control" name="retailprice" id="retailprice" placeholder="Retail price" value="{{ isset($product) ? $product->retailprice : old('retailprice') }}" aria-label="Retail Price" aria-describedby="retailprice-addon" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="product-price-input">Sale Price</label>
                                             <div class="input-group has-validation mb-3">
-                                                <span class="input-group-text" id="product-price-addon">$</span>
-                                                <input type="text" class="form-control" name="saleprice" id="saleprice" placeholder="Enter price" value="{{ isset($product) ? $product->price : old('saleprice') }}" aria-label="Price" aria-describedby="product-price-addon">
+                                                <span class="input-group-text" id="product-price-addon">AED</span>
+                                                <input type="text" class="form-control" name="saleprice" id="saleprice" placeholder="Enter price" value="{{ isset($product) ? $product->price : old('saleprice') }}" aria-label="Price" aria-describedby="product-price-addon" required>
                                             </div>
                                         </div>
                                     </div>
@@ -247,8 +270,8 @@
                     </div>
                     <div class="card-body">
                         <p class="text-muted mb-2">Select Availability</p>
-                        <select class="js-example-basic-single" name="availability">
-                            <option>Select a Availability</option>
+                        <select class="js-example-basic-single" name="availability" required>
+                            <option value="">Select a Availability</option>
                             @foreach ($collectionavailability as $availability)
                                 <option value="{{ $availability->id }}"
                                     {{ isset($product) && $product->availabilityid == $availability->id ? 'selected' : '' }}

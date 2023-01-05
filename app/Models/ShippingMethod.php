@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SupportedCurrency extends Model
+class ShippingMethod extends Model
 {
     use HasFactory;
 }

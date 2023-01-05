@@ -38,8 +38,8 @@ $(document).ready(function () {
     });
 
 
-    $("#mfrmodel").keyup(function () {
-        var productmodel = $("#mfrmodel").val();
+    $("#mfrmodelvalue").keyup(function () {
+        var productmodel = $("#mfrmodelvalue").val();
         if (productmodel == "") {
             $('#model-suggestions').html("");
         } else {
@@ -88,6 +88,9 @@ $(document).ready(function () {
             },
             brand: {
                 required: true
+            },
+            availability: {
+                required:true
             }
         },
     });

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('promotionid')->unsigned();
             $table->foreignId('productid')->unsigned();
             $table->decimal('newprice',10,2)->nullable();
+            $table->integer('quantity')->nullable();
             $table->timestamps();
         });
     }
