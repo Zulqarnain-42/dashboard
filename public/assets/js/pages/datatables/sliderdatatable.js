@@ -14,7 +14,6 @@ $(function () {
             { data: 'id', name: 'id' },
             { data: 'slidercode', name: 'slidercode' },
             { data: 'heading', name: 'heading' },
-            { data: 'text', name: 'text' },
             { data: 'slug', name: 'slug' },
             {
                 "render": function (data, type, full_row, meta) {
@@ -32,7 +31,7 @@ $(function () {
             },
         ],
         'columnDefs': [{
-            'targets': 7,
+            'targets': 6,
             'defaultContent': '-',
             'searchable': false,
             'orderable': false,

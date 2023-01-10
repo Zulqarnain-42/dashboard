@@ -67,6 +67,7 @@
                                 <th>Name</th>
                                 <th>Image</th>
                                 <th>Slider</th>
+                                <th>Featured</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>

@@ -8,7 +8,6 @@ use App\Models\ProductImages;
 use App\Models\ProductTags;
 use App\Models\RelatedProducts;
 use App\Models\ProductCategories;
-use App\Models\Inventory;
 use App\Models\Brand;
 use App\Models\Warehouse;
 use Illuminate\Support\Str;
@@ -50,16 +49,6 @@ class Product extends Model
     public function relatedproducts()
     {
         return $this->hasMany(RelatedProducts::class,'productid','id');
-    }
-
-    public function inventories()
-    {
-        return $this->hasMany(Inventory::class,'product_id','id');
-    }
-
-    public function warehouse()
-    {
-        return $this->belongsTo(Warehouse::class);
     }
 
     public function availability()

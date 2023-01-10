@@ -31,6 +31,9 @@
                                     class="ri-add-circle-line align-middle me-1"></i>
                                     Add Product
                                 </a>
+                                <button type="button" class="btn btn-info">
+                                    <i class="ri-file-download-line align-bottom me-1"></i>Import
+                                </button>
                             </div>
                         </div>
                     </form>

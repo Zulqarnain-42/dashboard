@@ -118,7 +118,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-4 col-sm-6">
+                                    <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="retail-price">EAN</label>
                                             <div class="input-group has-validation mb-3">
@@ -126,7 +126,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                     <div class="col-lg-4 col-sm-6">
+                                     <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="retail-price">Cost Price</label>
                                             <div class="input-group has-validation mb-3">
@@ -135,7 +135,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-sm-6">
+                                    <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="product-price-input">Sale Price</label>
                                             <div class="input-group has-validation mb-3">

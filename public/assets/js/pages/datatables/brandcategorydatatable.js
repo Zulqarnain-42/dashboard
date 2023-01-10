@@ -12,16 +12,16 @@ $(function () {
             { data: 'title', name: 'title' },
             {
                 "render": function (data, type, full_row, meta) {
-                    if (full_row.image) {
+                    // if (full_row.image) {
                         return '<img src="' + full_row.image + '" class="avatar" height="50px">';
-                    }
+                    // }
                 }
             },
             {
                 "render": function (data, type, full_row, meta) {
-                    if (full_row.slider) {
+                    // if (full_row.slider) {
                         return '<img src="' + full_row.slider + '" class="avatar" height="35px">';
-                    }
+                    // }
                 }
             },
             {

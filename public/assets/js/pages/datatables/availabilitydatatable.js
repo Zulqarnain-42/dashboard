@@ -50,6 +50,7 @@ $(function () {
 
 $('#create-availability').click(function () {
     $('#edit-btn').hide();
+    $('#add-btn').show();
     $('#exampleModalLabel').html("Add Availability");
     $('#availabilityform').trigger("reset");
     $('#AddEditModal').modal("show");
@@ -123,6 +124,30 @@ $('body').on('click', '#edit-availability', function () {
         $('#exampleModalLabel').html("Edit Availability");
         $('#availabilityid').val(data.data.id);
         $('#availabilityname').val(data.data.name);
+        $('#edit-btn').show();
         $('#AddEditModal').modal("show");
     })
+})
+
+
+$('#edit-btn').click(function () {
+    var availabilityid = $("#availabilityid").val();
+    var availabilityname = $("#availabilityname").val();
+    var token = $("meta[name='csrf-token']").attr("content");
+
+    $.ajax({
+        url: "availability/"+availabilityid,
+        type: 'PUT',
+        dataType: 'json',
+        data: {
+            "availabilityid" : availabilityid,
+            "availabilityname": availabilityname,
+            "_token": token,
+        },
+        success: function () {
+            AvailabilityDatatable.ajax.reload();
+            $('#AddEditModal').modal('hide');
+        }
+    });
+
 })

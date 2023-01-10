@@ -88,7 +88,7 @@ xhttp.onload=function(){
     var e=JSON.parse(this.responseText);
     Array.from(e).forEach(function(e){
         orderList.add({
-            id:'<a href="apps-ecommerce-order-details.html" class="fw-medium link-primary">#VZ'+e.id+"</a>",
+            id:'<a href="{{route("orderdetails")}}" class="fw-medium link-primary">#VZ'+e.id+"</a>",
             customer_name:e.customer_name,
             product_name:e.product_name,
             date:str_dt(e.date),
@@ -100,7 +100,7 @@ xhttp.onload=function(){
         refreshCallbacks()
     }),
     orderList.remove(
-        "id",'<a href="apps-ecommerce-order-details.html" class="fw-medium link-primary">#VZ2101</a>'
+        "id",'<a href="{{route("orderdetails")}}" class="fw-medium link-primary">#VZ2101</a>'
         )
     },
     xhttp.open(
@@ -201,7 +201,7 @@ xhttp.onload=function(){
         addBtn.addEventListener("click",function(e){
             ""!==customerNameField.value&&""!==productNameField.value&&""!==dateField.value&&""!==amountField.value&&""!==paymentField.value&&(
                 orderList.add({
-                    id:'<a href="apps-ecommerce-order-details.html" class="fw-medium link-primary">#VZ'+count+"</a>",
+                    id:'<a href="{{route("orderdetails")}}" class="fw-medium link-primary">#VZ'+count+"</a>",
                     customer_name:customerNameField.value,
                     product_name:productNameField.value,
                     date:dateField.value,
@@ -364,7 +364,7 @@ xhttp.onload=function(){
                         }).then(
                             function(e){
                                 if(e.value){
-                                    for(i=0;i<ids_array.length;i++)orderList.remove("id",'<a href="apps-ecommerce-order-details.html" class="fw-medium link-primary">'+ids_array[i]+"</a>");
+                                    for(i=0;i<ids_array.length;i++)orderList.remove("id",'<a href="{{route("orderdetails")}}" class="fw-medium link-primary">'+ids_array[i]+"</a>");
                                     document.getElementById("checkAll").checked=!1,
                                     Swal.fire({
                                         title:"Deleted!",

@@ -201,4 +201,20 @@ class CategoriesController extends Controller
             'success' => 'Record Updated Successfully!'
         ]);
     }
+
+    public function changecategoriesfeatured(Request $request)
+    {
+        if($request!=null){
+            $categorydata = Category::where('id',$request->categoryid)->first();
+            if($categorydata->isfeatured){
+                Category::where('id',$request->categoryid)->update(['isfeatured'=>false]);
+            }else{
+                Category::where('id',$request->categoryid)->update(['isfeatured'=>true]);
+            }
+        }
+
+        return response()->json([
+            'success' => 'Record Updated Successfully!'
+        ]);
+    }
 }

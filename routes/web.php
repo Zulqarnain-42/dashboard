@@ -44,6 +44,7 @@ Route::post('changesliderstatus/{sliderid}',[SliderController::class,'changeslid
 
 Route::resource('categories', CategoriesController::class)->middleware(['auth','verified']);
 Route::post('changecategoriesstatus/{categoryid}',[CategoriesController::class,'çhangecategoriesstatus'])->middleware(['auth','verified']);
+Route::post('changecategoriesfeatured/{categoryid}',[CategoriesController::class,'changecategoriesfeatured'])->middleware(['auth','verified']);
 Route::post('uploadcategoryimage',[CategoriesController::class,'uploadcategoryimage'])->middleware(['auth','verified'])->name('uploadcategoryimage');
 Route::post('uploadcategoryslider',[CategoriesController::class,'uploadcategoryslider'])->middleware(['auth','verified'])->name('uploadcategoryslider');
 
@@ -102,8 +103,8 @@ Route::post('uploadprofile',[UserController::class,'uploadprofile'])->middleware
 
 Route::get('orders',[OrderController::class,'orders'])->middleware(['auth','verified','role:admin'])->name('orders');
 Route::get('orderdetails',[OrderController::class,'orderdetails'])->middleware(['auth','verified','role:admin'])->name('orderdetails');
-
-Route::get('invoice/{id}',[InvoiceController::class,'invoice'])->middleware(['auth','verified','role:admin'])->name('invoice');
+Route::get('invoice',[OrderController::class,'invoice'])->middleware(['auth','verified'])->name('invoice');
+// Route::get('invoice/{id}',[InvoiceController::class,'invoice'])->middleware(['auth','verified','role:admin'])->name('invoice');
 
 Route::get('/', [HomeController::class,'home'])->middleware(['auth','verified'])->name('dashboard');
 

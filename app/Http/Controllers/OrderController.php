@@ -15,4 +15,9 @@ class OrderController extends Controller
     {
         return view('orders.orderdetails');
     }
+
+    public function invoice()
+    {
+        return view('orders.invoice');
+    }
 }

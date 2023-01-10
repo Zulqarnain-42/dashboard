@@ -51,22 +51,16 @@ class AvailabilityController extends Controller
     public function update(UpdateAvailabilityRequest $request, Availability $availability)
     {
         $request->validate([
-            'name' => 'required',
-            'quantity' => 'required'
+            'availabilityname' => 'required',
         ]);
 
-        if($availability->availabilitycode === null){
-            $availability->availabilitycode = $this->generateUniqueCode();
-        }
-
-        $availability->name = $request->title;
-        $availability->quantity = $request->description;
-        $availability->status = $request->status;
-        $availability->visibility = $request->visibility;
-
+        $availability->name = $request->availabilityname;
+        $availability->status = true;
         $availability->update();
 
-        return redirect()->route('availability.index')->with('success','Availability Updated Successfully!');
+        return response()->json([
+            'success'=>'Record Updated Successfully!'
+        ]);
     }
 
     public function destroy(Availability $availability)

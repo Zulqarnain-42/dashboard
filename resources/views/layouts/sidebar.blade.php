@@ -45,9 +45,9 @@
                             <li class="nav-item">
                                 <a href="{{ route('slider.index') }}" class="nav-link" data-key="t-slider"> Slider </a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="#" class="nav-link" data-key="t-slider"> Two Column Banner </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </li>
@@ -95,12 +95,12 @@
                 </li>
                 @endrole
                 @role('admin')
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link" href="{{route('promotions.index')}}">
                         <i class="mdi mdi-bullhorn-variant"></i>
                         <span data-key="t-promotions">Promotions</span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('orders') }}">
                         <i class="mdi mdi-bank-plus"></i>
@@ -192,18 +192,18 @@
                     </div>
                 </li>
                 @endrole
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link menu-link" href="{{ route('customer.index') }}">
                                 <i class="mdi mdi-face-man-profile"></i> <span data-key="t-customer">Customer</span>
                             </a>
-                        </li>
+                        </li> --}}
                 @role('admin')
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link" href="{{route('setting.index')}}">
                         <i class="mdi mdi-cog-outline"></i>
                         <span data-key="t-dashboards">Setting</span>
                     </a>
-                </li>
+                </li> --}}
                 {{-- <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarsetting" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
                         <i class="mdi mdi-cog-outline"></i>

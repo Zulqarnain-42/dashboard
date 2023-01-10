@@ -809,7 +809,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <a href="apps-ecommerce-order-details.html"
+                                                    <a href="{{route('orderdetails')}}"
                                                         class="fw-medium link-primary">#VZ2112</a>
                                                 </td>
                                                 <td>
@@ -837,7 +837,7 @@
                                             </tr><!-- end tr -->
                                             <tr>
                                                 <td>
-                                                    <a href="apps-ecommerce-order-details.html"
+                                                    <a href="{{route('orderdetails')}}"
                                                         class="fw-medium link-primary">#VZ2111</a>
                                                 </td>
                                                 <td>
@@ -865,7 +865,7 @@
                                             </tr><!-- end tr -->
                                             <tr>
                                                 <td>
-                                                    <a href="apps-ecommerce-order-details.html"
+                                                    <a href="{{route('orderdetails')}}"
                                                         class="fw-medium link-primary">#VZ2109</a>
                                                 </td>
                                                 <td>
@@ -893,7 +893,7 @@
                                             </tr><!-- end tr -->
                                             <tr>
                                                 <td>
-                                                    <a href="apps-ecommerce-order-details.html"
+                                                    <a href="{{route('orderdetails')}}"
                                                         class="fw-medium link-primary">#VZ2108</a>
                                                 </td>
                                                 <td>
@@ -921,7 +921,7 @@
                                             </tr><!-- end tr -->
                                             <tr>
                                                 <td>
-                                                    <a href="apps-ecommerce-order-details.html"
+                                                    <a href="{{route('orderdetails')}}"
                                                         class="fw-medium link-primary">#VZ2107</a>
                                                 </td>
                                                 <td>

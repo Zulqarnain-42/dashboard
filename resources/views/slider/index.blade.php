@@ -63,7 +63,6 @@
                                 <th>#</th>
                                 <th>Code</th>
                                 <th>Title</th>
-                                <th>Text</th>
                                 <th>Slug</th>
                                 <th>Slider</th>
                                 <th>Status</th>

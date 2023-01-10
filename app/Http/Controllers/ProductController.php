@@ -113,15 +113,6 @@ class ProductController extends Controller
                 }
             }
 
-            $product->inventories()->create([
-                'sharjahquantity' => 0,
-                'officequantity' => 0,
-                'addedat' => Carbon::now(),
-                'product_id' => $product->id,
-                'userid' => Auth::user()->id,
-                'addedat' => Carbon::now(),
-            ]);
-
             $product->history()->create([
                 'product_id' => $product->id,
                 'description' => "product created",

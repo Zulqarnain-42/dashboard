@@ -80,56 +80,54 @@ class BrandCategoriesController extends Controller
         return redirect()->route('brandcategory.index')->with('success','Category Added Successfully!');
     }
 
-    public function edit(BrandCategory $brandCategory)
+    public function edit(BrandCategory $brandcategory)
     {
         $collectionmainbrandcategory = BrandCategory::with('ancestors')->where([['status', true], ['visibility', true]])->get();
         $collectionstatus = Status::get();
         $collectionvisibility = Visibilty::get();
-        return view('brandcategory.form')->with(compact('brandCategory', 'collectionmainbrandcategory','collectionstatus','collectionvisibility'));
+        $collectionbrand = Brand::where([['status',true],['visibility',true]])->get();
+        return view('brandcategory.form')->with(compact('brandcategory', 'collectionbrand','collectionmainbrandcategory','collectionstatus','collectionvisibility'));
     }
 
-    public function update(UpdateBrandCategoryRequest $request, BrandCategory $brandCategory)
+    public function update(UpdateBrandCategoryRequest $request, BrandCategory $brandcategory)
     {
-
         $request->validate([
             'title' => 'required',
-            'status' => 'required',
-            'visibility' => 'required',
         ]);
 
         if($request->CategoryImageUploadFilePond){
             $newfilename = Str::after($request->CategoryImageUploadFilePond,'tmp/');
             Storage::disk('public')->move($request->CategoryImageUploadFilePond,"images/categories/$newfilename");
-            $brandCategory->image = "storage/images/categories/$newfilename";
+            $brandcategory->image = "storage/images/categories/$newfilename";
         }
 
-        if($brandCategory->categorycode === null){
-            $brandCategory->categorycode = $this->generateUniqueCode();
+        if($brandcategory->categorycode === null){
+            $brandcategory->categorycode = $this->generateUniqueCode();
         }
 
-        $brandCategory->title = $request->title;
-        $brandCategory->description = $request->description;
-        $brandCategory->metatitle = $request->metatitle;
-        $brandCategory->brandid = $request->brandid;
-        $brandCategory->metakeywords = $request->metakeywords;
-        $brandCategory->metadescription = $request->metadescription;
-        $brandCategory->status = $request->status;
-        $brandCategory->visibility = $request->visibility;
+        $brandcategory->title = $request->title;
+        $brandcategory->description = $request->description;
+        $brandcategory->metatitle = $request->metatitle;
+        $brandcategory->brandid = $request->brandid;
+        $brandcategory->metakeywords = $request->metakeywords;
+        $brandcategory->metadescription = $request->metadescription;
+        $brandcategory->status = $request->status;
+        $brandcategory->visibility = $request->visibility;
 
         if($request->CategorySliderUploadFilePond){
 
             $newfilename = Str::after($request->CategorySliderUploadFilePond,'tmp/');
             Storage::disk('public')->move($request->CategorySliderUploadFilePond,"images/categories/banners/$newfilename");
-            $brandCategory->slider = "storage/images/categories/banners/$newfilename";
+            $brandcategory->slider = "storage/images/categories/banners/$newfilename";
 
         }
 
         if ($request->maincategory && $request->maincategory != 'none') {
             $node = BrandCategory::find($request->maincategory);
-            $node->appendNode($brandCategory);
+            $node->appendNode($brandcategory);
         }
 
-        $brandCategory->update();
+        $brandcategory->update();
 
         return redirect()->route('brandcategory.index')->with('success','Çategory Updated Successfully!');
     }

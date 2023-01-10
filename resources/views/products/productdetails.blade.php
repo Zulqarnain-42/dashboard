@@ -165,22 +165,29 @@
                                     <h5 class="fs-14 mb-3">Product Description :</h5>
                                     <nav>
                                         <ul class="nav nav-tabs nav-tabs-custom nav-success" id="nav-tab" role="tablist">
+                                            @if ($product->specifications)
                                             <li class="nav-item">
                                                 <a class="nav-link active" id="nav-speci-tab" data-bs-toggle="tab" href="#nav-speci" role="tab" aria-controls="nav-speci" aria-selected="true">Specification</a>
                                             </li>
+                                            @endif
+                                            @if ($product->inthebox)
                                             <li class="nav-item">
                                                 <a class="nav-link" id="nav-inbox-tab" data-bs-toggle="tab" href="#nav-box" role="tab" aria-controls="nav-box" aria-selected="false">In The Box</a>
                                             </li>
+                                            @endif
+                                            @if ($product->longdescription)
                                             <li class="nav-item">
                                                 <a class="nav-link" id="nav-detail-tab" data-bs-toggle="tab" href="#nav-detail" role="tab" aria-controls="nav-detail" aria-selected="false">Details</a>
                                             </li>
+                                            @endif
+
                                         </ul>
                                     </nav>
 
                                     <div class="tab-content border border-top-0 p-4" id="nav-tabContent">
                                         <div class="tab-pane fade show active" id="nav-speci" role="tabpanel" aria-labelledby="nav-speci-tab">
                                             <div class="table-responsive">
-                                                <table class="table mb-0">
+                                                {{-- <table class="table mb-0">
                                                     <tbody>
                                                         <tr>
                                                             <th scope="row" style="width: 200px;">Category</th>
@@ -203,7 +210,8 @@
                                                             <td>140 Gram</td>
                                                         </tr>
                                                     </tbody>
-                                                </table>
+                                                </table> --}}
+                                                {!! $product->specifications !!}
                                             </div>
                                         </div>
 

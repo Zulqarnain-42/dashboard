@@ -125,4 +125,9 @@
         </div>
     </form>
 
+    @section('scripts')
+        <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+        <script src="{{ asset('assets/js/algolia.js') }}"></script>
+    @endsection
 </x-app-layout>
