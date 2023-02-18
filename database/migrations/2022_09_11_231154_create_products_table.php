@@ -32,10 +32,10 @@ return new class extends Migration
             $table->decimal('retailprice', 10, 2);
             $table->decimal('price', 10, 2);
             $table->boolean('status')->default(0);
-            $table->boolean('visibility')->default(0);
+            $table->boolean('visibility')->default(0)->nullable();
             $table->foreignId('brandid')->unsigned();
-            $table->foreignId('brandcategoryid')->unsigned();
-            $table->foreignId('availabilityid')->unsigned();
+            $table->foreignId('brandcategoryid')->unsigned()->nullable();
+            $table->foreignId('availabilityid')->unsigned()->nullable();
             $table->longText('inthebox')->nullable();
             $table->longText('specifications')->nullable();
             $table->boolean('isfeatured')->default(0);

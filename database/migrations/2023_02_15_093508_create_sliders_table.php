@@ -15,14 +15,15 @@ return new class extends Migration
     {
         Schema::create('sliders', function (Blueprint $table) {
             $table->id();
-            $table->string('slidercode')->nullable();
-            $table->string('heading')->nullable();
-            $table->string('text')->nullable();
-            $table->string('text2')->nullable();
+            $table->string('imageone')->nullable();
+            $table->string('imagetwo')->nullable();
+            $table->string('paragraphone')->nullable();
+            $table->string('paragraphtwo')->nullable();
+            $table->string('paragraphthree')->nullable();
             $table->string('slug')->nullable();
-            $table->string('image')->nullable();
+            $table->string('buttontext')->nullable();
             $table->boolean('status')->default(0);
-            $table->boolean('visibility')->default(0);
+            $table->foreignId('addedby')->unsigned()->nullable();
             $table->timestamps();
         });
     }

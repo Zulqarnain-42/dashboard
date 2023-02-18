@@ -37,7 +37,6 @@ class BrandController extends Controller
             $request->validate([
                 'title' => 'required',
                 'status' => 'required',
-                'visibility' => 'required',
             ]);
 
             $brand = new Brand();
@@ -77,7 +76,6 @@ class BrandController extends Controller
         $request->validate([
             'title' => 'required',
             'status' => 'required',
-            'visibility' => 'required',
         ]);
 
         if($brand->brandcode === null){
@@ -151,6 +149,23 @@ class BrandController extends Controller
                 Brand::where('id',$request->brandid)->update(['status'=>false]);
             }else{
                 Brand::where('id',$request->brandid)->update(['status'=>true]);
+            }
+        }
+
+        return response()->json([
+            'success' => 'Record Updated Successfully!'
+        ]);
+    }
+
+
+    public function makebrandfeatured(Request $request)
+    {
+        if($request !== null){
+            $branddata = Brand::where('id',$request->brandid)->first();
+            if($branddata->isfeatured == true){
+                Brand::where('id',$request->brandid)->update(['isfeatured'=>false]);
+            }else{
+                Brand::where('id',$request->brandid)->update(['isfeatured'=>true]);
             }
         }
 

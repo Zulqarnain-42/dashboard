@@ -39,7 +39,6 @@ class CategoriesController extends Controller
             $request->validate([
                 'title' => 'required',
                 'status' => 'required',
-                'visibility' => 'required',
             ]);
             $category = new Category();
 
@@ -91,7 +90,6 @@ class CategoriesController extends Controller
         $request->validate([
             'title' => 'required',
             'status' => 'required',
-            'visibility' => 'required',
         ]);
 
         if($request->CategoryImageUploadFilePond){

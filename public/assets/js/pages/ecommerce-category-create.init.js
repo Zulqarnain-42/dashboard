@@ -34,7 +34,7 @@ const pond = FilePond.create(inputElement, {
     server: {
         url: '/uploadcategoryslider',
         headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     }
 });
@@ -43,7 +43,7 @@ const secondpond = FilePond.create(secondinputElement, {
     server: {
         url: '/uploadcategoryimage',
         headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     }
 });

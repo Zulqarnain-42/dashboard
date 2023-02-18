@@ -20,7 +20,7 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->string('image')->nullable();
             $table->boolean('status')->default(0);
-            $table->boolean('visibility')->default(0);
+            $table->boolean('visibility')->default(0)->nullable();
             $table->string('metatitle')->nullable();
             $table->string('metakeywords')->nullable();
             $table->string('metadescription')->nullable();

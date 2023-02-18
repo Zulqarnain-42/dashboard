@@ -21,12 +21,6 @@ return new class extends Migration
             $table->string('mobile')->nullable();
             $table->string('image')->nullable();
             $table->string('email')->unique();
-            $table->string('designation')->nullable();
-            $table->string('city')->nullable();
-            $table->bigInteger('countryid')->nullable();
-            $table->string('zipcode')->nullable();
-            $table->string('description')->nullable();
-            $table->string('coverphoto')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->tinyInteger('status')->default(0);

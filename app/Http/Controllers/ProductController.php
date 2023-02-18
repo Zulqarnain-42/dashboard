@@ -33,10 +33,10 @@ class ProductController extends Controller
     public function create()
     {
         $collectioncategory[] = array();
-        $collectionbrand = Brand::where([['status', true], ['visibility', true]])->get();
-        $collectioncategory = Category::where([['status', true], ['visibility', true]])->get();
-        $categorytree =  Category::where([['status',true],['visibility',true]])->get()->toTree();
-        $collectionproducts = Product::where([['status', true], ['visibility', true]])->get();
+        $collectionbrand = Brand::where([['status', true]])->get();
+        $collectioncategory = Category::where([['status', true]])->get();
+        $categorytree =  Category::where([['status',true]])->get()->toTree();
+        $collectionproducts = Product::where([['status', true]])->get();
         $collectionstatus = Status::get();
         $collectionvisibility = Visibilty::get();
         $collectionavailability = Availability::where([['status', true]])->get();
@@ -63,7 +63,6 @@ class ProductController extends Controller
                 'mfrmodel' => 'required',
                 'saleprice' => 'required',
                 'status' => 'required',
-                'visibility' => 'required',
                 'productcategories' => 'required',
             ]);
 
@@ -96,7 +95,6 @@ class ProductController extends Controller
             $product->metakeywords = $request->metakeywords;
             $product->metadescription = $request->metadescription;
             $product->brandid = $brand->id;
-            $product->slug = $request->producttitle;
             $product->retailprice = $request->retailprice;
             $product->availabilityid = $request->availability;
             $product->addedby = Auth()->user()->id;
@@ -150,9 +148,9 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $collectionbrand = Brand::where([['status', true], ['visibility', true]])->get();
-        $collectioncategory = Category::where([['status', true], ['visibility', true]])->get();
-        $collectionproducts = Product::where([['status', true], ['visibility', true]])->get();
+        $collectionbrand = Brand::where([['status', true]])->get();
+        $collectioncategory = Category::where([['status', true]])->get();
+        $collectionproducts = Product::where([['status', true]])->get();
         $selectedproducttags = $product::find($product->id)->producttags;
         $selectedproductcategories = CategoryProduct::where('product_id', $product->id)->get();
         $productimages = $product::find($product->id)->productimages;
@@ -182,7 +180,6 @@ class ProductController extends Controller
             'mfrmodel' => 'required',
             'saleprice' => 'required',
             'status' => 'required',
-            'visibility' => 'required',
         ]);
 
         if($request->ProductsThumbnailFilePond){
@@ -229,7 +226,6 @@ class ProductController extends Controller
         $product->metakeywords = $request->metakeywords;
         $product->metadescription = $request->metadescription;
         $product->brandid = $request->brand;
-        $product->slug = $request->producttitle;
         $product->retailprice = $request->retailprice;
         $product->availabilityid = $request->availability;
 

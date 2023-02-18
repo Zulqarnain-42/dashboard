@@ -1,17 +1,10 @@
 <x-app-layout>
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Create Slider</h4>
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                        <li class="breadcrumb-item active">Create Slider</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    @if (isset($brand))
+
+    @else
+        {{ Breadcrumbs::render('createbrand') }}
+    @endif
 
     <form method="POST" action="{{ isset($brand) ? route('brand.update', $brand->id) : route('brand.store') }}" id="brand-form" autocomplete="off" class="needs-validation" enctype="multipart/form-data" novalidate>
         @csrf
@@ -67,18 +60,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-end mb-3">
+                <div class="mb-3 text-end">
                     <button type="submit" class="btn btn-success w-sm">Submit</button>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Publish</h5>
+                        <h5 class="mb-0 card-title">Publish</h5>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="choices-publish-status-input" class="form-label">Status</label>
+                            <label for="choices-publish-status-input" class="form-label">Visibility Status</label>
                             <select class="form-select" name="status" id="status" data-choices data-choices-search-false>
                                 @foreach ($collectionstatus as $status)
                                 <option value="{{ $status->id }}" {{ (isset($brand) && $brand->status == $status->id) ? 'selected' : '' }}
@@ -86,20 +79,11 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div>
-                            <label for="choices-publish-visibility-input" class="form-label">Visibility</label>
-                            <select class="form-select" name="visibility" id="visibility" data-choices data-choices-search-false>
-                                @foreach ($collectionvisibility as $visibilty)
-                                    <option value="{{ $visibilty->id }}" {{ (isset($brand) && $brand->visibility == $visibilty->id) ? 'selected' : '' }}
-                                        {{ (old("visibility") == $visibilty->id ? "selected":"") }}>{{ $visibilty->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Brand Gallery</h5>
+                        <h5 class="mb-0 card-title">Brand Gallery</h5>
                     </div>
                     <div class="card-body">
                         <input type="file" name="BrandUploadFilePond" id="BrandUploadFilePond" accept="image/*">

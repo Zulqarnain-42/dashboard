@@ -2,19 +2,12 @@
     @section('styles')
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @endsection
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Create Slider</h4>
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                        <li class="breadcrumb-item active">Create Slider</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    @if (isset($category))
+
+    @else
+        {{ Breadcrumbs::render('createcategories') }}
+    @endif
 
     <form method="POST" action="{{ isset($category) ? route('categories.update', $category->id) : route('categories.store') }}" id="category-form" autocomplete="off" enctype="multipart/form-data" class="needs-validation" novalidate>
         @csrf
@@ -37,7 +30,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Categories Slider</h5>
+                        <h5 class="mb-0 card-title">Categories Slider</h5>
                     </div>
                     <div class="card-body">
                         <input type="file" name="CategorySliderUploadFilePond" id="CategorySliderUploadFilePond" accept="image/*">
@@ -78,18 +71,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-end mb-3">
+                <div class="mb-3 text-end">
                     <button type="submit" class="btn btn-success w-sm">Submit</button>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Publish</h5>
+                        <h5 class="mb-0 card-title">Publish</h5>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="choices-publish-status-input" class="form-label">Status</label>
+                            <label for="choices-publish-status-input" class="form-label">Visibility Status</label>
                             <select class="form-select" name="status" id="status" data-choices data-choices-search-false>
                                 @foreach ($collectionstatus as $status)
                                     <option value="{{ $status->id }}" {{ (isset($category) && $category->status == $status->id) ? 'selected' : '' }}
@@ -97,20 +90,11 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div>
-                            <label for="choices-publish-visibility-input" class="form-label">Visibility</label>
-                            <select class="form-select" name="visibility" id="visibility" data-choices data-choices-search-false>
-                                @foreach ($collectionvisibility as $visibilty)
-                                    <option value="{{ $visibilty->id }}" {{ (isset($category) && $category->visibility == $visibilty->id) ? 'selected' : '' }}
-                                        {{ (old("visibility") == $visibilty->id ? "selected":"") }}>{{ $visibilty->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Category Image</h5>
+                        <h5 class="mb-0 card-title">Category Image</h5>
                     </div>
                     <div class="card-body">
                         <input type="file" name="CategoryImageUploadFilePond" id="CategoryImageUploadFilePond" accept="image/*">
@@ -118,10 +102,10 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Sub Categories</h5>
+                        <h5 class="mb-0 card-title">Sub Categories</h5>
                     </div>
                     <div class="card-body">
-                        <p class="text-muted mb-2"> Select Sub category</p>
+                        <p class="mb-2 text-muted"> Select Sub category</p>
                         <select class="js-example-basic-single" id="maincategory" name="maincategory">
                             <option value="none">Select a Sub Category</option>
                             @foreach ($collectionmaincategory as $maincategory)

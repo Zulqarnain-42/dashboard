@@ -26,11 +26,9 @@ class StoreProductRequest extends FormRequest
         return [
             'producttitle' => 'required',
             'mfrmodel' => 'required',
-            'retailprice' => 'required',
             'saleprice' => 'required',
             'productcategories' => 'required',
             'brand' => 'required',
-            'availability' => 'required'
         ];
     }
 }

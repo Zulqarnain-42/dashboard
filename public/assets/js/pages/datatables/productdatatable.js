@@ -3,6 +3,7 @@ $(function () {
     productdatatable = $('#product-datatable').DataTable({
         processing: true,
         serverSide: true,
+        scrollY : true,
         order: [0, 'asc'],
         ajax: "product",
 
@@ -14,7 +15,8 @@ $(function () {
             },
             { data: 'title', name: 'title' },
             { data: 'mfr', name: 'mfr' },
-            { data: 'price', name: 'price' },
+            { data: 'price', name: 'price',className: 'editable' },
+            { data: 'weight', name: 'weight',className: 'editable' },
             {
                 "data": "status", render: function (data, type, full_row, meta) {
                     if (full_row.isfeatured == true) {
@@ -36,7 +38,7 @@ $(function () {
         ],
         'columnDefs': [
             {
-                'targets': 6,
+                'targets': 7,
                 'defaultContent': '-',
                 'searchable': false,
                 'orderable': false,
@@ -115,3 +117,45 @@ function ChangeFeaturedStatus(productid) {
         }
     });
 }
+
+
+$(document).ready(function () {
+    var oldValue = null;
+    $(document).on('dblclick', '.editable', function () {
+        oldValue = $(this).html();
+        $(this).removeClass('editable');	// to stop from making repeated request
+        $(this).html('<input type="text" style="width:100px;" class="update" value="' + oldValue + '" />');
+        $(this).find('.update').focus();
+    });
+
+    var newValue = null;
+    $(document).on('blur', '.update', function () {
+        var elem = $(this);
+        newValue = $(this).val();
+        var rowid = $(this).attr('id');
+
+        alert(rowid);
+        if (newValue != oldValue)
+        {
+            $.ajax({
+                url: '',
+                method: 'post',
+                data:
+                {
+                    rowid: rowid,
+                    newValue: newValue,
+                },
+                success: function (respone)
+                {
+                    $(elem).parent().addClass('editable');
+                    $(elem).parent().html(newValue);
+                }
+            });
+        }
+        else
+        {
+            $(elem).parent().addClass('editable');
+            $(this).parent().html(newValue);
+        }
+    });
+})

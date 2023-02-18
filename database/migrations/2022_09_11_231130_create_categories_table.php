@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('metakeywords')->nullable();
             $table->string('metadescription')->nullable();
             $table->boolean('status')->default(0);
-            $table->boolean('visibility')->default(0);
+            $table->boolean('visibility')->default(0)->nullable();
             $table->timestamps();
         });
     }

@@ -2,20 +2,12 @@
     @section('styles')
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @endsection
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Create Slider</h4>
 
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                        <li class="breadcrumb-item active">Create Slider</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
+    @if (isset($product))
+
+    @else
+        {{ Breadcrumbs::render('createproduct') }}
+    @endif
 
     <form method="POST" name="productform" action="{{ isset($product) ? route('product.update', $product->id) : route('product.store') }}" id="createproduct-form" autocomplete="off" enctype="multipart/form-data" class="needs-validation" novalidate>
         @csrf
@@ -42,7 +34,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Product Gallery</h5>
+                        <h5 class="mb-0 card-title">Product Gallery</h5>
                     </div>
                     <div class="card-body">
                         <div>
@@ -121,7 +113,7 @@
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="retail-price">EAN</label>
-                                            <div class="input-group has-validation mb-3">
+                                            <div class="mb-3 input-group has-validation">
                                                 <input type="text" class="form-control" name="productean" id="productean" placeholder="000000000" value="{{ isset($product) ? $product->ean : old('productean') }}" aria-label="EAN" aria-describedby="productean-addon">
                                             </div>
                                         </div>
@@ -129,16 +121,16 @@
                                      <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="retail-price">Cost Price</label>
-                                            <div class="input-group has-validation mb-3">
+                                            <div class="mb-3 input-group has-validation">
                                                 <span class="input-group-text" id="retail-price">AED</span>
-                                                <input type="text" class="form-control" name="retailprice" id="retailprice" placeholder="Retail price" value="{{ isset($product) ? $product->retailprice : old('retailprice') }}" aria-label="Retail Price" aria-describedby="retailprice-addon" required>
+                                                <input type="text" class="form-control" name="retailprice" id="retailprice" placeholder="Retail price" value="{{ isset($product) ? $product->retailprice : old('retailprice') }}" aria-label="Retail Price" aria-describedby="retailprice-addon">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="product-price-input">Sale Price</label>
-                                            <div class="input-group has-validation mb-3">
+                                            <div class="mb-3 input-group has-validation">
                                                 <span class="input-group-text" id="product-price-addon">AED</span>
                                                 <input type="text" class="form-control" name="saleprice" id="saleprice" placeholder="Enter price" value="{{ isset($product) ? $product->price : old('saleprice') }}" aria-label="Price" aria-describedby="product-price-addon" required>
                                             </div>
@@ -181,7 +173,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-end mb-3">
+                <div class="mb-3 text-end">
                     <button type="submit" class="btn btn-success w-sm">Submit</button>
                 </div>
             </div>
@@ -190,11 +182,11 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Publish</h5>
+                        <h5 class="mb-0 card-title">Publish</h5>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="choices-publish-status-input" class="form-label">Status</label>
+                            <label for="choices-publish-status-input" class="form-label">Visibility Status</label>
                             <select class="form-select" name="status" id="status" data-choices data-choices-search-false>
                                 @foreach ($collectionstatus as $status)
                                     <option value="{{ $status->id }}"
@@ -204,25 +196,14 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div>
-                            <label for="choices-publish-visibility-input" class="form-label">Visibility</label>
-                            <select class="form-select" name="visibility" id="visibility" data-choices data-choices-search-false>
-                                @foreach ($collectionvisibility as $visibilty)
-                                    <option value="{{ $visibilty->id }}"
-                                        {{ isset($product) && $product->visibility == $visibilty->id ? 'selected' : '' }}
-                                        {{ (old("visibility") == $visibilty->id ? "selected":"") }}>
-                                        {{ $visibilty->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Product Categories</h5>
+                        <h5 class="mb-0 card-title">Product Categories</h5>
                     </div>
                     <div class="card-body">
-                        <p class="text-muted mb-2">
+                        <p class="mb-2 text-muted">
                             <a href="{{ route('categories.create') }}" class="float-end text-decoration-underline">Add New</a>
                             Select product category
                         </p>
@@ -237,10 +218,10 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Brand</h5>
+                        <h5 class="mb-0 card-title">Brand</h5>
                     </div>
                     <div class="card-body">
-                        <p class="text-muted mb-2">
+                        <p class="mb-2 text-muted">
                             <a href="{{ route('brand.create') }}" class="float-end text-decoration-underline">Add
                                 New</a>
                             Select product Brand
@@ -258,18 +239,18 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Product Thumbnail</h5>
+                        <h5 class="mb-0 card-title">Product Thumbnail</h5>
                     </div>
                     <div class="card-body">
                         <input type="file" name="ProductsThumbnailFilePond" id="ProductsThumbnailFilePond" accept="image/*">
                     </div>
                 </div>
-                <div class="card">
+                {{-- <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Stock Options</h5>
+                        <h5 class="mb-0 card-title">Stock Options</h5>
                     </div>
                     <div class="card-body">
-                        <p class="text-muted mb-2">Select Availability</p>
+                        <p class="mb-2 text-muted">Select Availability</p>
                         <select class="js-example-basic-single" name="availability" required>
                             <option value="">Select a Availability</option>
                             @foreach ($collectionavailability as $availability)
@@ -280,14 +261,14 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
+                </div> --}}
                 @if (count($selectedproducttags)>0)
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Product Tags</h5>
+                        <h5 class="mb-0 card-title">Product Tags</h5>
                     </div>
                     <div class="card-body">
-                        <div class="hstack gap-3 align-items-start">
+                        <div class="gap-3 hstack align-items-start">
                             <div class="flex-grow-1">
                                 @foreach ($selectedproducttags as $producttags)
                                 <input class="form-control" data-choices data-choices-multiple-remove="true" name="producttages" placeholder="Enter tags" type="text" value="{{$producttags->tags}}" />
@@ -299,10 +280,10 @@
                 @else
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Product Tags</h5>
+                        <h5 class="mb-0 card-title">Product Tags</h5>
                     </div>
                     <div class="card-body">
-                        <div class="hstack gap-3 align-items-start">
+                        <div class="gap-3 hstack align-items-start">
                             <div class="flex-grow-1">
                                 <input class="form-control" data-choices data-choices-multiple-remove="true" name="producttages" placeholder="Enter tags" type="text" value="" />
                             </div>

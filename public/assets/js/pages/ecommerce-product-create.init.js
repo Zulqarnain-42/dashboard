@@ -77,9 +77,6 @@ $(document).ready(function () {
             mfr: {
                 required: true
             },
-            retailprice: {
-                required: true
-            },
             saleprice: {
                 required: true
             },
@@ -88,9 +85,6 @@ $(document).ready(function () {
             },
             brand: {
                 required: true
-            },
-            availability: {
-                required:true
             }
         },
     });

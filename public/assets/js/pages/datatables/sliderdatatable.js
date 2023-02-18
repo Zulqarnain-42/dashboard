@@ -12,12 +12,17 @@ $(function () {
 
         columns: [
             { data: 'id', name: 'id' },
-            { data: 'slidercode', name: 'slidercode' },
-            { data: 'heading', name: 'heading' },
+            { data: 'paragraphone', name: 'paragraphone' },
+            { data: 'paragraphtwo', name: 'paragraphtwo' },
             { data: 'slug', name: 'slug' },
             {
                 "render": function (data, type, full_row, meta) {
-                    return '<img src="' + full_row.image + '" class="avatar" height="50px">';
+                    return '<img src="' + full_row.imageone + '" class="avatar" height="50px">';
+                }
+            },
+            {
+                "render": function (data, type, full_row, meta) {
+                    return '<img src="' + full_row.imagetwo + '" class="avatar" height="50px">';
                 }
             },
             {
@@ -31,7 +36,7 @@ $(function () {
             },
         ],
         'columnDefs': [{
-            'targets': 6,
+            'targets': 7,
             'defaultContent': '-',
             'searchable': false,
             'orderable': false,

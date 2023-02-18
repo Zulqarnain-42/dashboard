@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\File;
 use App\Models\Slider;
 use App\Models\Status;
 use App\Models\Visibilty;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,13 +26,16 @@ class SliderController extends Controller
     public function create()
     {
         $collectionstatus = Status::get();
-        $collectionvisibility = Visibilty::get();
-        return view('slider.form')->with(compact('collectionstatus','collectionvisibility'));
+        return view('slider.form')->with(compact('collectionstatus'));
     }
 
     public function store(StoreSliderRequest $request)
     {
-        $dbcheck = Slider::where([['heading', '=', $request->sliderheading],['text','=',$request->slidertext],['text2','=',$request->slidertext2],['slug','=',$request->sliderslug]])->first();
+        $dbcheck = Slider::where([['paragraphone', '=', $request->paragraphone],
+                                ['paragraphtwo','=',$request->paragraphtwo],
+                                ['paragraphthree','=',$request->paragraphthree],
+                                ['paragraphfour','=',$request->paragrapfour],
+                                ['slug','=',$request->sliderslug]])->first();
 
         if($dbcheck === null){
             $request->validate([
@@ -39,18 +43,25 @@ class SliderController extends Controller
             ]);
 
             $slider = new Slider();
-            $slider->slidercode = $this->generateUniqueCode();
-            $slider->heading = $request->sliderheading;
-            $slider->text = $request->slidertext;
-            $slider->text2 = $request->slidertext2;
+            $slider->paragraphone = $request->paragraphone;
+            $slider->paragraphtwo = $request->paragraphtwo;
+            $slider->paragraphthree = $request->paragraphthree;
+            $slider->paragraphfour = $request->paragrapfour;
             $slider->slug = $request->sliderslug;
             $slider->status = $request->status;
-            $slider->visibility = $request->visibility;
+            $slider->buttontext = $request->buttontext;
+            $slider->addedby = Auth::user()->id;
 
-            if($request->sliderUploadFilePond){
-                $newfilename = Str::after($request->sliderUploadFilePond,'tmp/');
-                Storage::disk('public')->move($request->sliderUploadFilePond,"images/slider/$newfilename");
-                $slider->image = "storage/images/slider/$newfilename";
+            if($request->sliderUploadFilePondOne){
+                $newfilename = Str::after($request->sliderUploadFilePondOne,'tmp/');
+                Storage::disk('public')->move($request->sliderUploadFilePondOne,"images/slider/$newfilename");
+                $slider->imageone = "storage/images/slider/$newfilename";
+            }
+
+            if($request->sliderUploadFilePondTwo){
+                $newfilename = Str::after($request->sliderUploadFilePondTwo,'tmp/');
+                Storage::disk('public')->move($request->sliderUploadFilePondTwo,"images/slider/$newfilename");
+                $slider->imagetwo = "storage/images/slider/$newfilename";
             }
 
             $slider->save();
@@ -64,8 +75,7 @@ class SliderController extends Controller
     public function edit(Slider $slider)
     {
         $collectionstatus = Status::get();
-        $collectionvisibility = Visibilty::get();
-        return view('slider.form')->with(compact('slider','collectionstatus','collectionvisibility'));
+        return view('slider.form')->with(compact('slider','collectionstatus'));
     }
 
     public function update(UpdateSliderRequest $request,Slider $slider)
@@ -74,21 +84,24 @@ class SliderController extends Controller
             'sliderslug' => 'required',
         ]);
 
-        if($slider->slidercode === null){
-            $slider->slidercode = $this->generateUniqueCode();
-        }
-
-        $slider->heading = $request->sliderheading;
-        $slider->text = $request->slidertext;
-        $slider->text2 = $request->slidertext2;
+        $slider->paragraphone = $request->paragraphone;
+        $slider->paragraphtwo = $request->paragraphtwo;
+        $slider->paragraphthree = $request->paragraphthree;
         $slider->slug = $request->sliderslug;
         $slider->status = $request->status;
-        $slider->visibility = $request->visibility;
+        $slider->buttontext = $request->buttontext;
+        $slider->addedby = Auth::user()->id;
 
-        if($request->sliderUploadFilePond){
-            $newfilename = Str::after($request->sliderUploadFilePond,'tmp/');
-            Storage::disk('public')->move($request->sliderUploadFilePond,"images/slider/$newfilename");
-            $slider->image = "storage/images/slider/$newfilename";
+        if($request->sliderUploadFilePondOne){
+            $newfilename = Str::after($request->sliderUploadFilePondOne,'tmp/');
+            Storage::disk('public')->move($request->sliderUploadFilePondOne,"images/slider/$newfilename");
+            $slider->imageone = "storage/images/slider/$newfilename";
+        }
+
+        if($request->sliderUploadFilePondTwo){
+            $newfilename = Str::after($request->sliderUploadFilePondTwo,'tmp/');
+            Storage::disk('public')->move($request->sliderUploadFilePondTwo,"images/slider/$newfilename");
+            $slider->imagetwo = "storage/images/slider/$newfilename";
         }
 
         $slider->update();
@@ -96,37 +109,24 @@ class SliderController extends Controller
         return redirect()->route('slider.index');
     }
 
-    public function uploadslider(Request $request)
+    public function uploadsliderone(Request $request)
     {
-        if($request->sliderUploadFilePond){
-            $path = $request->file('sliderUploadFilePond')->store('tmp','public');
+        if($request->sliderUploadFilePondOne){
+            $path = $request->file('sliderUploadFilePondOne')->store('tmp','public');
         }
 
         return $path;
     }
 
-    public function generateUniqueCode()
+    public function uploadslidertwo(Request $request)
     {
-
-        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersNumber = strlen($characters);
-        $codeLength = 8;
-
-        $code = '';
-
-        while (strlen($code) < $codeLength) {
-            $position = rand(0, $charactersNumber - 1);
-            $character = $characters[$position];
-            $code = $code.$character;
+        if($request->sliderUploadFilePondTwo){
+            $path = $request->file('sliderUploadFilePondTwo')->store('tmp','public');
         }
 
-        if (Slider::where('slidercode', $code)->exists()) {
-            $this->generateUniqueCode();
-        }
-
-        return $code;
-
+        return $path;
     }
+
 
     public function destroy(Slider $slider)
     {

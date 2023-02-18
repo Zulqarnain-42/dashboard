@@ -4,32 +4,20 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
     @endsection
-    <div class="row">
-    <div class="col-12">
-        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0">Create Slider</h4>
 
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                    <li class="breadcrumb-item active">Create Slider</li>
-                </ol>
-            </div>
+    {{ Breadcrumbs::render('slider') }}
 
-        </div>
-    </div>
-</div>
-    <div class="row mb-3 pb-1">
+    <div class="pb-1 mb-3 row">
         <div class="col-12">
             <div class="d-flex align-items-lg-center flex-lg-row flex-column">
                 <div class="flex-grow-1">
                 </div>
                 <div class="mt-3 mt-lg-0">
                     <form action="javascript:void(0);">
-                        <div class="row g-3 mb-0 align-items-center">
+                        <div class="mb-0 row g-3 align-items-center">
                             <div class="col-auto">
-                                <a href="{{ route('slider.create') }}" type="button" class="btn btn-soft-success shadow-none"><i
-                                        class="ri-add-circle-line align-middle me-1"></i>
+                                <a href="{{ route('slider.create') }}" type="button" class="shadow-none btn btn-soft-success"><i
+                                        class="align-middle ri-add-circle-line me-1"></i>
                                     Add Slider</a>
                             </div>
                         </div>
@@ -43,28 +31,29 @@
             <div class="card">
                 <div class="card-header">
                     @if (session('alert'))
-                    <div class="alert alert-warning alert-dismissible shadow fade show" role="alert">
+                    <div class="shadow alert alert-warning alert-dismissible fade show" role="alert">
                         {{ session('alert') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
 
                     @endif
                     @if (session('success'))
-                    <div class="alert alert-success alert-dismissible shadow fade show" role="alert">
+                    <div class="shadow alert alert-success alert-dismissible fade show" role="alert">
                         {{ session('success') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
                 </div>
                 <div class="card-body">
-                    <table id="slider-datatable" class="table table-bordered nowrap table-striped align-middle" style="width:100%">
+                    <table id="slider-datatable" class="table align-middle table-bordered nowrap table-striped" style="width:100%">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Code</th>
-                                <th>Title</th>
+                                <th>Paragraph One</th>
+                                <th>Paragraph Two</th>
                                 <th>Slug</th>
-                                <th>Slider</th>
+                                <th>Image One</th>
+                                <th>Image Two</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -88,12 +77,12 @@
                     <div class="mt-2 text-center">
                         <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
                         <input type="hidden" id="sliderid">
-                        <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                        <div class="pt-2 mx-4 mt-4 fs-15 mx-sm-5">
                             <h4>Are you sure ?</h4>
-                            <p class="text-muted mx-4 mb-0">Are you sure you want to remove this record ?</p>
+                            <p class="mx-4 mb-0 text-muted">Are you sure you want to remove this record ?</p>
                         </div>
                     </div>
-                    <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                    <div class="gap-2 mt-4 mb-2 d-flex justify-content-center">
                         <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn w-sm btn-danger" onclick="delsliderajax()" id="delete-record">Yes, Delete It!</button>
                     </div>
