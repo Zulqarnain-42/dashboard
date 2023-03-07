@@ -1,7 +1,7 @@
 <x-app-layout>
 
     {{ Breadcrumbs::render('home') }}
-    {{-- <div class="row">
+    <div class="row">
         <div class="col">
             <div class="h-100">
                 <div class="pb-1 mb-3 row">
@@ -1447,7 +1447,7 @@
             </div> <!-- end .rightbar-->
 
         </div> <!-- end col -->
-    </div> --}}
+    </div>
 
 
     <!--start back-to-top-->
@@ -1457,10 +1457,10 @@
     <!--end back-to-top-->
 
     @section('scripts')
-    <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/libs/jsvectormap/maps/world-merc.js') }}"></script>
-    <script src="{{ URL::asset('assets/libs/swiper/swiper-bundle.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/pages/dashboard-ecommerce.init.js') }}"></script>
+        <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/libs/jsvectormap/maps/world-merc.js') }}"></script>
+        <script src="{{ URL::asset('assets/libs/swiper/swiper-bundle.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/js/pages/dashboard-ecommerce.init.js') }}"></script>
     @endsection
 </x-app-layout>

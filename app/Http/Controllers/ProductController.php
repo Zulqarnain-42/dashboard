@@ -174,7 +174,6 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, Product $product)
     {
-
         $request->validate([
             'producttitle' => 'required',
             'mfrmodel' => 'required',
@@ -412,5 +411,31 @@ class ProductController extends Controller
         return response()->json([
             'success' => 'Record Updated Successfully!'
         ]);
+    }
+
+    public function editprice(Request $request)
+    {
+        if($request->rowid > 0){
+            $productdata = Product::where('id',$request->rowid)->first();
+            $productdata->price = $request->price;
+            $productdata->update();
+
+            return response()->json([
+                'success' => 'Record Updated Successfully!'
+            ]);
+        }
+    }
+
+    public function editweight(Request $request)
+    {
+        if($request->rowid > 0){
+            $productdata = Product::where('id',$request->rowid)->first();
+            $productdata->weight = $request->weight;
+            $productdata->update();
+
+            return response()->json([
+                'success' => 'Record Updated Successfully!'
+            ]);
+        }
     }
 }

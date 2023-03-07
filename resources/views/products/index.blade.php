@@ -47,31 +47,31 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
-                    </div>
-                    <div class="card-body">
-                        <table id="product-datatable" class="table align-middle table-bordered nowrap table-striped" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Image</th>
-                                    <th>Name</th>
-                                    <th>MFR</th>
-                                    <th>Price</th>
-                                    <th>Weight</th>
-                                    <th>Featured</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                </div>
+                <div class="card-body">
+                    <table id="product-datatable" class="table align-middle table-bordered nowrap table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>MFR</th>
+                                <th>Price</th>
+                                <th>Weight</th>
+                                <th>Featured</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">

@@ -36,6 +36,7 @@ return new class extends Migration
             $table->foreignId('brandid')->unsigned();
             $table->foreignId('brandcategoryid')->unsigned()->nullable();
             $table->foreignId('availabilityid')->unsigned()->nullable();
+            $table->bigInteger('quantity')->nullable();
             $table->longText('inthebox')->nullable();
             $table->longText('specifications')->nullable();
             $table->boolean('isfeatured')->default(0);

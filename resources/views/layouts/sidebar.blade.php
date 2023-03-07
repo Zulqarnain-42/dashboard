@@ -16,7 +16,7 @@
                 <img src="{{ URL::asset('fa-bt/logo/FABT-Logo.png') }}" alt="" height="60">
             </span>
         </a>
-        <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+        <button type="button" class="p-0 btn btn-sm fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
             <i class="ri-record-circle-line"></i>
         </button>
     </div>
@@ -63,14 +63,9 @@
                             <li class="nav-item">
                                 <a href="{{ route('brand.index') }}" class="nav-link" data-key="t-brand"> Brands </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{ route('availability.index') }}" class="nav-link" data-key="t-brand"> Stock Status </a>
-                            </li>
+
                             <li class="nav-item">
                                 <a href="{{ route('categories.index') }}" class="nav-link" data-key="t-categories"> Main Categories </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{route('brandcategory.index')}}" class="nav-link" data-key="t-brandcategories"> Brand Categories </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('product.index') }}" class="nav-link" data-key="t-product"> Products </a>
@@ -95,12 +90,12 @@
                 </li>
                 @endrole
                 @role('admin')
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link menu-link" href="{{route('promotions.index')}}">
                         <i class="mdi mdi-bullhorn-variant"></i>
                         <span data-key="t-promotions">Promotions</span>
                     </a>
-                </li> --}}
+                </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('orders') }}">
                         <i class="mdi mdi-bank-plus"></i>
@@ -110,7 +105,7 @@
                 @endrole
 
                 @role('admin')
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarinventory" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
                         <i class="mdi mdi-store"></i>
                         <span data-key="t-catalogs">Inventory</span>
@@ -118,9 +113,12 @@
                     <div class="collapse menu-dropdown" id="sidebarinventory">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('stock.opening') }}" class="nav-link" data-key="t-brand"> Opening Stock </a>
+                                <a href="{{ route('availability.index') }}" class="nav-link" data-key="t-brand"> Stock Status </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('stock.opening') }}" class="nav-link" data-key="t-brand"> Opening Stock </a>
+                            </li>
+                            {{-- <li class="nav-item">
                                 <a href="{{ route('inventory.stock_adjustment') }}" class="nav-link" data-key="t-brand"> Stock Adjustment </a>
                             </li>
                             <li class="nav-item">
@@ -137,10 +135,10 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('warehouse.index') }}" class="nav-link" data-key="t-brand"> Warehouse </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
-                </li> --}}
+                </li>
                 @endrole
 
                 @role('admin')

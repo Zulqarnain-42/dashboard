@@ -56,3 +56,18 @@ Breadcrumbs::for('createproduct', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Create Products', route('product.create'));
 });
+
+Breadcrumbs::for('opening', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Opening Stock', route('stock.opening'));
+});
+
+Breadcrumbs::for('createpromotion', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Creat Promotion', route('promotions.create'));
+});
+
+Breadcrumbs::for('promotions', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Promotions', route('promotions.index'));
+});

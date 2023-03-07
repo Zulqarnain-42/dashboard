@@ -27,32 +27,33 @@ class PromotionController extends Controller
 
     public function store(StorePromotionRequest $request)
     {
-        dd($request);
-
         $request->validate([
-            'title'=>'required',
+            'promotiontitle'=>'required',
             'startdate'=>'required',
             'enddate'=>'required'
         ]);
 
         $newpromotion = new Promotion();
         $newpromotion->promotioncode = $this->generateUniqueCode();
-        $newpromotion->title = $request->title;
-        $newpromotion->start_date = $request->start_date;
-        $newpromotion->end_date = $request->end_date;
+        $newpromotion->title = $request->promotiontitle;
+        $newpromotion->start_date = $request->startdate;
+        $newpromotion->end_date = $request->enddate;
+        $newpromotion->status = $request->status;
         $newpromotion->save();
 
-        if($request->promotionproducts){
-            $newpromotionproducts = new PromotionProducts();
-            foreach($request->promotionproducts as $promproducts){
+        $newpromotionproducts = new PromotionProducts();
+        if($request->productid){
+            for($i = 0 ; ($request->productid) < $i; $i++){
+                dd($request->productid[$i],$request->newprice[$i],$request->quantity[$i]);
                 $newpromotionproducts->promotionid = $newpromotion->id;
-                $newpromotionproducts->productid = $promproducts->productid;
-                $newpromotionproducts->newprice = $promproducts->newprice;
+                $newpromotionproducts->productid = $request->productid[$i];
+                $newpromotionproducts->newprice = $request->newprice[$i];
+                $newpromotionproducts->quantity = $request->quantity[$i];
                 $newpromotionproducts->save();
             }
         }
 
-        return redirect()->view('promotions.index');
+        return view('promotions.index');
     }
 
     public function edit(Promotion $promotion)
@@ -87,7 +88,7 @@ class PromotionController extends Controller
     {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersNumber = strlen($characters);
-        $codeLength = 4;
+        $codeLength = 8;
         $code = '';
         while (strlen($code) < $codeLength) {
             $position = rand(0, $charactersNumber - 1);

@@ -15,8 +15,8 @@ $(function () {
             },
             { data: 'title', name: 'title' },
             { data: 'mfr', name: 'mfr' },
-            { data: 'price', name: 'price',className: 'editable' },
-            { data: 'weight', name: 'weight',className: 'editable' },
+            { data: 'price', name: 'price', className: 'editableprice' },
+            { data: 'weight', name: 'weight', className: 'editableweight' },
             {
                 "data": "status", render: function (data, type, full_row, meta) {
                     if (full_row.isfeatured == true) {
@@ -121,41 +121,89 @@ function ChangeFeaturedStatus(productid) {
 
 $(document).ready(function () {
     var oldValue = null;
-    $(document).on('dblclick', '.editable', function () {
+    var token = $("meta[name='csrf-token']").attr("content");
+    $(document).on('dblclick', '.editableprice', function () {
         oldValue = $(this).html();
-        $(this).removeClass('editable');	// to stop from making repeated request
-        $(this).html('<input type="text" style="width:100px;" class="update" value="' + oldValue + '" />');
-        $(this).find('.update').focus();
+        $(this).removeClass('editableprice');	// to stop from making repeated request
+        $(this).html('<input type="text" style="width:100px;" class="updateprice" value="' + oldValue + '" />');
+        $(this).find('.updateprice').focus();
     });
 
     var newValue = null;
-    $(document).on('blur', '.update', function () {
+    $(document).on('blur', '.updateprice', function () {
         var elem = $(this);
         newValue = $(this).val();
-        var rowid = $(this).attr('id');
+        var currentRow = $(this).closest("tr");
+        var rowdata = $('#product-datatable').DataTable().row(currentRow).data();
+        var rowid = rowdata['id'];
 
-        alert(rowid);
-        if (newValue != oldValue)
+        if ((newValue != oldValue) && (newValue != "") && (newValue > 0))
         {
             $.ajax({
-                url: '',
+                url: 'editprice',
                 method: 'post',
                 data:
                 {
-                    rowid: rowid,
-                    newValue: newValue,
+                    "rowid" : rowid,
+                    "price" : newValue,
+                    "_token": token
                 },
                 success: function (respone)
                 {
-                    $(elem).parent().addClass('editable');
+                    $(elem).parent().addClass('editableprice');
                     $(elem).parent().html(newValue);
                 }
             });
         }
         else
         {
-            $(elem).parent().addClass('editable');
-            $(this).parent().html(newValue);
+            $(elem).parent().addClass('editableprice');
+            $(this).parent().html(oldValue);
+        }
+    });
+})
+
+
+$(document).ready(function () {
+    var oldValue = null;
+    var token = $("meta[name='csrf-token']").attr("content");
+    $(document).on('dblclick', '.editableweight', function () {
+        oldValue = $(this).html();
+        $(this).removeClass('editableweight');	// to stop from making repeated request
+        $(this).html('<input type="text" style="width:100px;" class="updateweight" value="' + oldValue + '" />');
+        $(this).find('.updateweight').focus();
+    });
+
+    var newValue = null;
+    $(document).on('blur', '.updateweight', function () {
+        var elem = $(this);
+        newValue = $(this).val();
+        var currentRow = $(this).closest("tr");
+        var rowdata = $('#product-datatable').DataTable().row(currentRow).data();
+        var rowid = rowdata['id'];
+
+        if ((newValue != oldValue) && (newValue != "") && (newValue > 0))
+        {
+            $.ajax({
+                url: 'editweight',
+                method: 'post',
+                data:
+                {
+                    "rowid" : rowid,
+                    "weight" : newValue,
+                    "_token": token
+                },
+                success: function (respone)
+                {
+                    $(elem).parent().addClass('editableweight');
+                    $(elem).parent().html(newValue);
+                }
+            });
+        }
+        else
+        {
+            $(elem).parent().addClass('editableweight');
+            $(this).parent().html(oldValue);
         }
     });
 })

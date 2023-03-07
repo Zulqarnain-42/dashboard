@@ -50,6 +50,8 @@ Route::post('uploadcategoryslider',[CategoriesController::class,'uploadcategorys
 
 Route::resource('product', ProductController::class)->middleware(['auth','verified']);
 Route::get('check-model',[ProductController::class,'checkmodel'])->middleware(['auth','verified'])->name('product.check-model');
+Route::post('editprice',[ProductController::class,'editprice'])->middleware(['auth','verified'])->name('product.editprice');
+Route::post('editweight',[ProductController::class,'editweight'])->middleware(['auth','verified'])->name('product.editweight');
 Route::post('uploadproducts',[ProductController::class,'uploadproducts'])->middleware(['auth','verified'])->name('uploadproducts');
 Route::post('uploadthumbnail',[ProductController::class,'uploadthumbnail'])->middleware(['auth','verified'])->name('uploadthumbnail');
 Route::get('productmedia',[ProductController::class,'productmedia'])->middleware(['auth'],['verified'])->name('getmedia');
@@ -78,22 +80,14 @@ Route::post('changeuserstatus/{userid}',[UserController::class,'changeuserstatus
 Route::resource('permissions',PermissionController::class)->middleware(['auth','verified','role:admin']);
 Route::resource('roles',RolesController::class)->middleware(['auth','verified','role:admin']);
 Route::resource('company',CompanyController::class)->middleware(['auth','verified','role:admin']);
-Route::resource('brandcategory',BrandCategoriesController::class)->middleware(['auth','verified']);
 Route::post('changebrandcategorystatus/{brandcategoryid}',[BrandCategoriesController::class,'changebrandcategorystatus'])->middleware(['auth','verified']);
 Route::post('makebrandfeatured/{brandid}',[BrandController::class,'makebrandfeatured'])->middleware(['auth','verified']);
 
 Route::post('updatework',[ServicesController::class,'updateworkstatus'])->middleware(['auth','verified'])->name('service.updateworkhistory');
 Route::get('servicesdetails/{id}',[ServicesController::class,'servicesdetails'])->middleware(['auth','verified'])->name('servicesdetails');
 
-Route::get('inventory-manage',[InventoryController::class,'warehouse'])->middleware(['auth','verified'])->name('inventory.warehouse');
-Route::post('add-shipment',[InventoryController::class,'quantity'])->middleware(['auth','verified'])->name('inventory.shipment');
-Route::get('stock_adjustment',[InventoryController::class,'adjustment'])->middleware(['auth','verified'])->name('inventory.stock_adjustment');
-Route::get('add_adjustment',[InventoryController::class,'storeadjustment'])->middleware(['auth','verified'])->name('inventory.storeadjustment');
-Route::get('sales',[InventoryController::class,'salesinventory'])->middleware(['auth','verified'])->name('inventory.salesinventory');
-Route::get('purchases',[InventoryController::class,'purchases'])->middleware(['auth','verified'])->name('inventory.purchaseinventory');
+Route::post('updateproductavailability/{id}',[InventoryController::class,'updateproductavailability'])->middleware(['auth','verified'])->name('stock.updateproductavailability');
 Route::get('opening',[InventoryController::class,'opening'])->middleware(['auth','verified'])->name('stock.opening');
-Route::get('opening_stock_brand/{id}',[InventoryController::class,'brandopening'])->middleware(['auth','verified'])->name('stock.brandopening');
-Route::post('storeinventory',[InventoryController::class,'store'])->middleware(['auth','verified'])->name('inventory.store');
 
 Route::post('uploadsliderone',[SliderController::class,'uploadsliderone'])->middleware(['auth','verified'])->name('uploadsliderone');
 Route::post('uploadslidertwo',[SliderController::class,'uploadslidertwo'])->middleware(['auth','verified'])->name('uploadslidertwo');
