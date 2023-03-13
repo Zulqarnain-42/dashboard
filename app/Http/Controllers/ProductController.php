@@ -438,4 +438,43 @@ class ProductController extends Controller
             ]);
         }
     }
+
+    public function editlength(Request $request)
+    {
+        if($request->rowid > 0){
+            $productdata = Product::where('id',$request->rowid)->first();
+            $productdata->length = $request->length;
+            $productdata->update();
+
+            return response()->json([
+                'success' => 'Record Updated Successfully!'
+            ]);
+        }
+    }
+
+    public function editwidth(Request $request)
+    {
+        if($request->rowid > 0){
+            $productdata = Product::where('id',$request->rowid)->first();
+            $productdata->width = $request->width;
+            $productdata->update();
+
+            return response()->json([
+                'success' => 'Record Updated Successfully!'
+            ]);
+        }
+    }
+
+    public function editheight(Request $request)
+    {
+        if($request->rowid > 0){
+            $productdata = Product::where('id',$request->rowid)->first();
+            $productdata->height = $request->height;
+            $productdata->update();
+
+            return response()->json([
+                'success' => 'Record Updated Successfully!'
+            ]);
+        }
+    }
 }

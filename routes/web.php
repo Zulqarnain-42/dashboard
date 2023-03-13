@@ -51,6 +51,9 @@ Route::post('uploadcategoryslider',[CategoriesController::class,'uploadcategorys
 Route::resource('product', ProductController::class)->middleware(['auth','verified']);
 Route::get('check-model',[ProductController::class,'checkmodel'])->middleware(['auth','verified'])->name('product.check-model');
 Route::post('editprice',[ProductController::class,'editprice'])->middleware(['auth','verified'])->name('product.editprice');
+Route::post('editlength',[ProductController::class,'editlength'])->middleware(['auth','verified'])->name('product.editlength');
+Route::post('editwidth',[ProductController::class,'editwidth'])->middleware(['auth','verified'])->name('product.editwidth');
+Route::post('editheight',[ProductController::class,'editheight'])->middleware(['auth','verified'])->name('product.editheight');
 Route::post('editweight',[ProductController::class,'editweight'])->middleware(['auth','verified'])->name('product.editweight');
 Route::post('uploadproducts',[ProductController::class,'uploadproducts'])->middleware(['auth','verified'])->name('uploadproducts');
 Route::post('uploadthumbnail',[ProductController::class,'uploadthumbnail'])->middleware(['auth','verified'])->name('uploadthumbnail');
@@ -98,8 +101,8 @@ Route::post('uploadprofile',[UserController::class,'uploadprofile'])->middleware
 
 
 Route::get('orders',[OrderController::class,'orders'])->middleware(['auth','verified','role:admin'])->name('orders');
-Route::get('orderdetails',[OrderController::class,'orderdetails'])->middleware(['auth','verified','role:admin'])->name('orderdetails');
-Route::get('invoice',[OrderController::class,'invoice'])->middleware(['auth','verified'])->name('invoice');
+Route::get('orderdetails/{id}',[OrderController::class,'orderdetails'])->middleware(['auth','verified','role:admin'])->name('orders.orderdetails');
+Route::get('invoice/{id}',[OrderController::class,'invoice'])->middleware(['auth','verified'])->name('invoice');
 // Route::get('invoice/{id}',[InvoiceController::class,'invoice'])->middleware(['auth','verified','role:admin'])->name('invoice');
 
 Route::get('/', [HomeController::class,'home'])->middleware(['auth','verified'])->name('dashboard');

@@ -795,7 +795,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
+                                            {{-- <tr>
                                                 <td>
                                                     <a href="{{route('orderdetails')}}"
                                                         class="fw-medium link-primary">#VZ2112</a>
@@ -934,7 +934,7 @@
                                                             class="text-muted fs-11 ms-1">(161
                                                             votes)</span></h5>
                                                 </td>
-                                            </tr><!-- end tr -->
+                                            </tr><!-- end tr --> --}}
                                         </tbody><!-- end tbody -->
                                     </table><!-- end table -->
                                 </div>

@@ -56,6 +56,9 @@
                                 <th>Name</th>
                                 <th>MFR</th>
                                 <th>Price</th>
+                                <th>Length</th>
+                                <th>Width</th>
+                                <th>Height</th>
                                 <th>Weight</th>
                                 <th>Featured</th>
                                 <th>Status</th>

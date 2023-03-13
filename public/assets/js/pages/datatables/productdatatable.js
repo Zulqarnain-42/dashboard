@@ -16,6 +16,9 @@ $(function () {
             { data: 'title', name: 'title' },
             { data: 'mfr', name: 'mfr' },
             { data: 'price', name: 'price', className: 'editableprice' },
+            { data: 'length', name: 'length', className: 'editablelength' },
+            { data: 'width', name: 'width', className: 'editablewidth' },
+            { data: 'height', name: 'height', className: 'editableheight' },
             { data: 'weight', name: 'weight', className: 'editableweight' },
             {
                 "data": "status", render: function (data, type, full_row, meta) {
@@ -38,7 +41,7 @@ $(function () {
         ],
         'columnDefs': [
             {
-                'targets': 7,
+                'targets': 10,
                 'defaultContent': '-',
                 'searchable': false,
                 'orderable': false,
@@ -167,6 +170,140 @@ $(document).ready(function () {
 $(document).ready(function () {
     var oldValue = null;
     var token = $("meta[name='csrf-token']").attr("content");
+    $(document).on('dblclick', '.editablelength', function () {
+        oldValue = $(this).html();
+        $(this).removeClass('editablelength');	// to stop from making repeated request
+        $(this).html('<input type="text" style="width:100px;" class="updatelength" value="' + oldValue + '" />');
+        $(this).find('.updatelength').focus();
+    });
+
+    var newValue = null;
+    $(document).on('blur', '.updatelength', function () {
+        var elem = $(this);
+        newValue = $(this).val();
+        var currentRow = $(this).closest("tr");
+        var rowdata = $('#product-datatable').DataTable().row(currentRow).data();
+        var rowid = rowdata['id'];
+
+        if ((newValue != oldValue) && (newValue != "") && (newValue > 0))
+        {
+            $.ajax({
+                url: 'editlength',
+                method: 'post',
+                data:
+                {
+                    "rowid" : rowid,
+                    "length" : newValue,
+                    "_token": token
+                },
+                success: function (respone)
+                {
+                    $(elem).parent().addClass('editablelength');
+                    $(elem).parent().html(newValue);
+                }
+            });
+        }
+        else
+        {
+            $(elem).parent().addClass('editablelength');
+            $(this).parent().html(oldValue);
+        }
+    });
+})
+
+
+$(document).ready(function () {
+    var oldValue = null;
+    var token = $("meta[name='csrf-token']").attr("content");
+    $(document).on('dblclick', '.editablewidth', function () {
+        oldValue = $(this).html();
+        $(this).removeClass('editablewidth');	// to stop from making repeated request
+        $(this).html('<input type="text" style="width:100px;" class="updatewidth" value="' + oldValue + '" />');
+        $(this).find('.updatewidth').focus();
+    });
+
+    var newValue = null;
+    $(document).on('blur', '.updatewidth', function () {
+        var elem = $(this);
+        newValue = $(this).val();
+        var currentRow = $(this).closest("tr");
+        var rowdata = $('#product-datatable').DataTable().row(currentRow).data();
+        var rowid = rowdata['id'];
+
+        if ((newValue != oldValue) && (newValue != "") && (newValue > 0))
+        {
+            $.ajax({
+                url: 'editwidth',
+                method: 'post',
+                data:
+                {
+                    "rowid" : rowid,
+                    "width" : newValue,
+                    "_token": token
+                },
+                success: function (respone)
+                {
+                    $(elem).parent().addClass('editablewidth');
+                    $(elem).parent().html(newValue);
+                }
+            });
+        }
+        else
+        {
+            $(elem).parent().addClass('editablewidth');
+            $(this).parent().html(oldValue);
+        }
+    });
+})
+
+
+$(document).ready(function () {
+    var oldValue = null;
+    var token = $("meta[name='csrf-token']").attr("content");
+    $(document).on('dblclick', '.editableheight', function () {
+        oldValue = $(this).html();
+        $(this).removeClass('editableheight');	// to stop from making repeated request
+        $(this).html('<input type="text" style="width:100px;" class="updateheight" value="' + oldValue + '" />');
+        $(this).find('.updateheight').focus();
+    });
+
+    var newValue = null;
+    $(document).on('blur', '.updateheight', function () {
+        var elem = $(this);
+        newValue = $(this).val();
+        var currentRow = $(this).closest("tr");
+        var rowdata = $('#product-datatable').DataTable().row(currentRow).data();
+        var rowid = rowdata['id'];
+
+        if ((newValue != oldValue) && (newValue != "") && (newValue > 0))
+        {
+            $.ajax({
+                url: 'editheight',
+                method: 'post',
+                data:
+                {
+                    "rowid" : rowid,
+                    "height" : newValue,
+                    "_token": token
+                },
+                success: function (respone)
+                {
+                    $(elem).parent().addClass('editableheight');
+                    $(elem).parent().html(newValue);
+                }
+            });
+        }
+        else
+        {
+            $(elem).parent().addClass('editableheight');
+            $(this).parent().html(oldValue);
+        }
+    });
+})
+
+$(document).ready(function () {
+    var oldValue = null;
+    var token = $("meta[name='csrf-token']").attr("content");
     $(document).on('dblclick', '.editableweight', function () {
         oldValue = $(this).html();
         $(this).removeClass('editableweight');	// to stop from making repeated request
@@ -207,3 +344,6 @@ $(document).ready(function () {
         }
     });
 })
+
+
+
