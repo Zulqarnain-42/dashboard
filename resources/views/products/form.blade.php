@@ -237,6 +237,24 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0 card-title">DHL HS Codes</h5>
+                    </div>
+                    <div class="card-body">
+                        <select class="js-example-basic-single" name="hscodeshipping">
+                            <option value="">Select a HSCode</option>
+                            @foreach ($collectionhscodes as $hscodedhl)
+                                <option value="{{ $hscodedhl->HsCode }}"
+                                    {{ isset($product) && $product->hscode == $hscodedhl->HsCode ? 'selected' : '' }}
+                                    {{ (old("hscode") == $hscodedhl->HsCode ? "selected":"") }}>
+                                    {{ $hscodedhl->hsvalue }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
                 <div class="card">
                     <div class="card-header">
                         <h5 class="mb-0 card-title">Product Thumbnail</h5>

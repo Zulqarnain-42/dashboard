@@ -44,6 +44,7 @@ return new class extends Migration
             $table->string('metakeywords')->nullable();
             $table->string('metadescription')->nullable();
             $table->string('office_opening')->nullable();
+            $table->string('hscode')->nullable();
             $table->string('warehouse_opening')->nullable();
             $table->bigInteger('addedby')->nullable();
             $table->timestamps();

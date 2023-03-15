@@ -19,6 +19,7 @@ use App\Models\Status;
 use App\Models\Visibilty;
 use App\Models\Availability;
 use Illuminate\Support\Facades\Storage;
+use App\Models\DHLHSCodes;
 
 class ProductController extends Controller
 {
@@ -33,6 +34,7 @@ class ProductController extends Controller
     public function create()
     {
         $collectioncategory[] = array();
+        $collectionhscodes = DHLHSCodes::get();
         $collectionbrand = Brand::where([['status', true]])->get();
         $collectioncategory = Category::where([['status', true]])->get();
         $categorytree =  Category::where([['status',true]])->get()->toTree();
@@ -48,7 +50,8 @@ class ProductController extends Controller
                                                     'collectionstatus',
                                                     'collectionvisibility',
                                                     'collectionavailability',
-                                                    'selectedproducttags'));
+                                                    'selectedproducttags',
+                                                    'collectionhscodes'));
     }
 
     public function store(StoreProductRequest $request)
@@ -97,6 +100,7 @@ class ProductController extends Controller
             $product->brandid = $brand->id;
             $product->retailprice = $request->retailprice;
             $product->availabilityid = $request->availability;
+            $product->hscode = $request->hscodeshipping;
             $product->addedby = Auth()->user()->id;
             $product->save();
 
@@ -149,6 +153,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $collectionbrand = Brand::where([['status', true]])->get();
+        $collectionhscodes = DHLHSCodes::get();
         $collectioncategory = Category::where([['status', true]])->get();
         $collectionproducts = Product::where([['status', true]])->get();
         $selectedproducttags = $product::find($product->id)->producttags;
@@ -168,7 +173,8 @@ class ProductController extends Controller
             'productimages',
             'collectionstatus',
             'collectionvisibility',
-            'collectionavailability'
+            'collectionavailability',
+            'collectionhscodes'
         ));
     }
 
@@ -227,6 +233,7 @@ class ProductController extends Controller
         $product->brandid = $request->brand;
         $product->retailprice = $request->retailprice;
         $product->availabilityid = $request->availability;
+        $product->hscode = $request->hscodeshipping;
 
         $product->update();
 
