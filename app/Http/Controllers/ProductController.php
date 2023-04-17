@@ -20,6 +20,7 @@ use App\Models\Visibilty;
 use App\Models\Availability;
 use Illuminate\Support\Facades\Storage;
 use App\Models\DHLHSCodes;
+use App\Models\SearchKeyWords;
 
 class ProductController extends Controller
 {
@@ -79,6 +80,7 @@ class ProductController extends Controller
             }
 
             $product->productcode = $this->generateUniqueCode().''.$request->mfrmodel;
+            $product->searchtitle = str_replace('-', ' ', $product->title);
             $product->title = $request->producttitle;
             $product->longdescription = $request->longdescription;
             $product->shortdescription = $request->shortdes;
@@ -139,6 +141,16 @@ class ProductController extends Controller
                         'product_id' => $product->id,
                         'category_id' => $category->id,
                     ]);
+                }
+            }
+
+            if($request->searchtags){
+                $searchtags = explode(',',$request->searchtags);
+                foreach($searchtags as $searchtag){
+                    $productsearchkeywords = new SearchKeyWords();
+                    $productsearchkeywords->product_id = $product->id;
+                    $productsearchkeywords->productkeywords = $searchtag;
+                    $productsearchkeywords->save();
                 }
             }
 
@@ -211,6 +223,9 @@ class ProductController extends Controller
             $product->productcode = $this->generateUniqueCode().''.$request->mfrmodel;
         }
 
+        if($product->searchtitle === null){
+            $product->searchtitle = Str::replace('-', ' ', $product->title);
+        }
 
         $product->title = $request->producttitle;
         $product->longdescription = $request->longdescription;
@@ -265,15 +280,16 @@ class ProductController extends Controller
         if ($request->producttages) {
             $prodtags = $product->producttags()->delete();
             if ($prodtags > 1) {
-                $tagsproduct = explode(',',$request->producttages);
-                foreach ($tagsproduct as $tags) {
-                    $product->producttags()->create([
-                        'productid' => $product->id,
-                        'tags' => $tags,
-                    ]);
+                foreach($request->producttages as $tags){
+                    if($tags != null){
+                        $product->producttags()->create([
+                            'productid' => $product->id,
+                            'tags' => $tags,
+                        ]);
+                    }
                 }
             }
-            else if($request->producttages != null) {
+            else {
                 $tagsproduct = explode(',',$request->producttages);
                 foreach ($tagsproduct as $tags) {
                     $product->producttags()->create([
@@ -287,6 +303,29 @@ class ProductController extends Controller
             if($findproducttags){
                 $product->producttags()->delete();
             }
+        }
+
+        if($request->searchtags){
+            $dbsearchtags = SearchKeyWords::where('product_id',$product->id)->delete();
+            if($dbsearchtags>0){
+                $searchtags = explode(',',$request->searchtags);
+                foreach($searchtags as $searchtag){
+                    $productsearchkeywords = new SearchKeyWords();
+                    $productsearchkeywords->product_id = $product->id;
+                    $productsearchkeywords->productkeywords = $searchtag;
+                    $productsearchkeywords->save();
+                }
+            }else{
+                $searchtags = explode(',',$request->searchtags);
+                foreach($searchtags as $searchtag){
+                    $productsearchkeywords = new SearchKeyWords();
+                    $productsearchkeywords->product_id = $product->id;
+                    $productsearchkeywords->productkeywords = $searchtag;
+                    $productsearchkeywords->save();
+                }
+            }
+        }else{
+            $dbsearchtags = SearchKeyWords::where('product_id',$product->id)->delete();
         }
 
         if ($request->productcategories) {

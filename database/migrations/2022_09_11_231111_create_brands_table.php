@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
-            $table->string('brandcode')->nullable();
-            $table->string('title')->nullable();
+            $table->string('brandcode',20)->nullable();
+            $table->string('title',250)->nullable();
             $table->longText('description')->nullable();
             $table->string('image')->nullable();
             $table->boolean('status')->default(0);
             $table->boolean('visibility')->default(0)->nullable();
-            $table->string('metatitle')->nullable();
-            $table->string('metakeywords')->nullable();
-            $table->string('metadescription')->nullable();
-            $table->string('slug')->nullable();
+            $table->string('metatitle',250)->nullable();
+            $table->string('metakeywords',250)->nullable();
+            $table->string('metadescription',250)->nullable();
+            $table->string('slug',250)->nullable();
             $table->boolean('isfeatured')->default('0');
             $table->timestamps();
         });

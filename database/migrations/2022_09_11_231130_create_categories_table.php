@@ -15,18 +15,18 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('categorycode')->nullable();
-            $table->string('title')->nullable();
+            $table->string('categorycode',20)->nullable();
+            $table->string('title',250)->nullable();
             $table->string('description')->nullable();
             $table->string('image')->nullable();
             $table->string('slider')->nullable();
-            $table->string('slug')->nullable();
+            $table->string('slug',250)->nullable();
             $table->integer('order')->nullable();
             $table->boolean('isfeatured')->default('0');
             $table->nestedSet();
-            $table->string('metatitle')->nullable();
-            $table->string('metakeywords')->nullable();
-            $table->string('metadescription')->nullable();
+            $table->string('metatitle',250)->nullable();
+            $table->string('metakeywords',250)->nullable();
+            $table->string('metadescription',250)->nullable();
             $table->boolean('status')->default(0);
             $table->boolean('visibility')->default(0)->nullable();
             $table->timestamps();

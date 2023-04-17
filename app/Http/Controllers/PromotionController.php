@@ -44,7 +44,7 @@ class PromotionController extends Controller
         $newpromotionproducts = new PromotionProducts();
         if($request->productid){
             for($i = 0 ; ($request->productid) < $i; $i++){
-                dd($request->productid[$i],$request->newprice[$i],$request->quantity[$i]);
+                $newpromotionproducts = new PromotionProducts();
                 $newpromotionproducts->promotionid = $newpromotion->id;
                 $newpromotionproducts->productid = $request->productid[$i];
                 $newpromotionproducts->newprice = $request->newprice[$i];

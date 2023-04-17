@@ -139,9 +139,10 @@
                                             <td class="id">
                                                 <a href="/orderdetails/{{$order->order_code}}" class="fw-medium link-primary">#{{$order->order_code}}</a>
                                             </td>
-                                            <td class="customer_name">Frank Hook</td>
-                                            <td class="date">20 Dec, 2021, <small class="text-muted">02:21 AM</small></td>
-                                            <td class="amount">AED {{$order->total}}</td>
+                                            <td class="customer_name">{{$order->firstname." ".$order->lastname}}</td>
+<!--                                            <td class="date">20 Dec, 2021, <small class="text-muted">02:21 AM</small></td>-->
+                                        <td class="date">{{$order->created_at}}</td>
+                                            <td class="amount">AED {{number_format($order->total,2)}}</td>
                                             <td class="payment">Mastercard</td>
                                             <td class="status"><span class="badge badge-soft-warning text-uppercase">Pending</span></td>
                                             <td>

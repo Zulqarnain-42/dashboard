@@ -283,7 +283,7 @@
                 @if (count($selectedproducttags)>0)
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0 card-title">Product Tags</h5>
+                        <h5 class="mb-0 card-title">Suggetions Tags</h5>
                     </div>
                     <div class="card-body">
                         <div class="gap-3 hstack align-items-start">
@@ -298,7 +298,7 @@
                 @else
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0 card-title">Product Tags</h5>
+                        <h5 class="mb-0 card-title">Suggetions Tags</h5>
                     </div>
                     <div class="card-body">
                         <div class="gap-3 hstack align-items-start">
@@ -309,6 +309,18 @@
                     </div>
                 </div>
                 @endif
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0 card-title">Search Tags</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="gap-3 hstack align-items-start">
+                            <div class="flex-grow-1">
+                                <input class="form-control" data-choices data-choices-multiple-remove="true" name="searchtags" placeholder="Enter Search Tags" type="text" value="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
